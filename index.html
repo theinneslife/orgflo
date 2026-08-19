@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>/* flo-gate */try{var _g=JSON.parse(localStorage.getItem('flo_gate_v1')||'{}');if(!_g.token||Date.now()>_g.expires)document.documentElement.style.visibility='hidden';}catch(e){document.documentElement.style.visibility='hidden';}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrgFlo · SDR Org Design</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23a78bfa'/%3E%3Cstop offset='100%25' stop-color='%2334d399'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='7' fill='url(%23g)'/%3E%3Crect x='12' y='5' width='8' height='6' rx='2' fill='%23fff' opacity='.95'/%3E%3Crect x='4' y='21' width='8' height='6' rx='2' fill='%23fff' opacity='.85'/%3E%3Crect x='20' y='21' width='8' height='6' rx='2' fill='%23fff' opacity='.85'/%3E%3Cpath d='M16 11v5M8 21v-5h16v5' stroke='%23fff' stroke-width='1.6' fill='none' opacity='.8'/%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       OrgFlo — Design tokens (shared Flo palette)
+       ============================================ */
+    :root {
+      --bg-primary:    #0a0e1a;
+      --bg-secondary:  #1a1f2e;
+      --bg-tertiary:   #25293d;
+      --bg-card:       #161b2e;
+      --border-color:  #2a3040;
+      --border-accent: #3b4260;
+
+      --text-primary:   #e2e8f0;
+      --text-secondary: #cbd5e1;
+      --text-muted:     #94a3b8;
+
+      --accent-blue:   #60a5fa;
+      --accent-purple: #a78bfa;
+      --accent-green:  #34d399;
+      --accent-orange: #fb923c;
+      --accent-red:    #f87171;
+      --accent-pink:   #f472b6;
+      --accent-yellow: #fbbf24;
+
+      --radius-sm:  6px;
+      --radius-md:  10px;
+      --radius-lg:  14px;
+
+      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .container { display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* ============================================
+       Header
+       ============================================ */
+    .header {
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.875rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .header-left { display: flex; align-items: center; gap: 1rem; }
+
+    .version-badge {
+      background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(96,165,250,0.2));
+      border: 1px solid rgba(167,139,250,0.3);
+      color: var(--accent-purple);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+
+    .header-right { display: flex; align-items: center; gap: 0.75rem; }
+
+    .save-status {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.35rem 0.6rem;
+      white-space: nowrap;
+    }
+    .save-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--text-muted); flex-shrink: 0;
+    }
+    .save-status.ok    .save-dot { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
+    .save-status.busy  .save-dot { background: var(--accent-yellow); animation: pulse-dot 1.1s ease-in-out infinite; }
+    .save-status.error .save-dot { background: var(--accent-red); box-shadow: 0 0 6px var(--accent-red); }
+    .save-status.ok { color: var(--accent-green); border-color: rgba(52,211,153,0.35); }
+    .save-status.error { color: var(--accent-red); border-color: rgba(248,113,113,0.4); }
+
+    @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+    /* ============================================
+       Main
+       ============================================ */
+    .main { flex: 1; padding: 1.5rem; max-width: 1440px; margin: 0 auto; width: 100%; }
+
+    .section { margin-bottom: 1.75rem; }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .section-label .hint {
+      text-transform: none;
+      letter-spacing: 0.01em;
+      font-weight: 500;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      opacity: 0.85;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.125rem;
+      box-shadow: var(--shadow-card);
+      min-width: 0;
+    }
+
+    /* ============================================
+       Buttons
+       ============================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.38rem 0.7rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+    .btn:hover { border-color: var(--border-accent); color: var(--text-primary); background: #2f3448; }
+    .btn:active { transform: scale(0.97); }
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(167,139,250,0.22), rgba(96,165,250,0.22));
+      border-color: rgba(167,139,250,0.45);
+      color: var(--accent-purple);
+    }
+    .btn.primary:hover {
+      background: linear-gradient(135deg, rgba(167,139,250,0.32), rgba(96,165,250,0.32));
+      border-color: rgba(167,139,250,0.65);
+      color: #c4b5fd;
+    }
+    .btn.danger { color: var(--accent-red); border-color: rgba(248,113,113,0.35); }
+    .btn.danger:hover { background: rgba(248,113,113,0.14); border-color: rgba(248,113,113,0.6); }
+    .btn.tiny { font-size: 0.68rem; padding: 0.2rem 0.45rem; gap: 0.25rem; }
+
+    /* ============================================
+       Form controls
+
+       Base styling for every input, select and textarea on the page.
+       Declared here, ahead of the notes, roles and hiring rules, so those
+       panels can override it for their inline editing treatment.
+       ============================================ */
+    .field { display: flex; flex-direction: column; gap: 0.3rem; }
+    .field label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.01em;
+    }
+    .field .sub { font-size: 0.66rem; color: var(--text-muted); font-weight: 500; }
+
+    input[type="number"], input[type="text"], select, textarea {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.82rem;
+      padding: 0.45rem 0.6rem;
+      width: 100%;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.15);
+    }
+    textarea { resize: vertical; min-height: 62px; line-height: 1.45; }
+
+    /* ============================================
+       Org chart tree
+       ============================================ */
+    .tree-toolbar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
+    .tree-wrap { overflow-x: auto; padding-bottom: 0.5rem; }
+
+    /* ============================================
+       Toolbar extras
+       ============================================ */
+    .view-switch {
+      display: inline-flex;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 2px;
+      gap: 2px;
+    }
+    .switch-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+    .switch-btn:hover { color: var(--text-primary); }
+    .switch-btn.active {
+      background: linear-gradient(135deg, rgba(167,139,250,0.26), rgba(96,165,250,0.26));
+      color: #c4b5fd;
+    }
+
+    .toolbar-sep {
+      width: 1px;
+      align-self: stretch;
+      background: var(--border-color);
+      margin: 0 0.15rem;
+    }
+    .toolbar-label {
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      align-self: center;
+    }
+    .zoom-controls { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .zoom-level {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      min-width: 3rem;
+      text-align: center;
+    }
+
+    /* ============================================
+       Traditional top down org chart
+
+       Classic centred tree: each level is a flex row, and the connector
+       lines are drawn with borders on ::before / ::after so no SVG or
+       layout measurement is needed.
+       ============================================ */
+    .otree-wrap {
+      overflow: auto;
+      padding: 1.25rem 0.5rem 0.75rem;
+      max-height: 78vh;
+    }
+    .otree-scale { display: inline-block; min-width: 100%; }
+
+    .otree ul {
+      position: relative;
+      padding-top: 22px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      list-style: none;
+      margin: 0;
+    }
+    .otree > ul { padding-top: 0; }
+
+    .otree li {
+      position: relative;
+      padding: 22px 7px 0;
+      list-style: none;
+      text-align: center;
+    }
+
+    /* the two halves of the horizontal connector above each node */
+    .otree li::before,
+    .otree li::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 50%;
+      border-top: 1px solid var(--border-accent);
+      width: 50%;
+      height: 22px;
+    }
+    .otree li::after {
+      right: auto;
+      left: 50%;
+      border-left: 1px solid var(--border-accent);
+    }
+    /* an only child needs a straight drop, not a bracket */
+    .otree li:only-child::before,
+    .otree li:only-child::after { display: none; }
+    .otree li:only-child { padding-top: 0; }
+    /* trim the outer edges of the bracket */
+    .otree li:first-child::before,
+    .otree li:last-child::after { border: 0 none; }
+    .otree li:last-child::before {
+      border-right: 1px solid var(--border-accent);
+      border-radius: 0 6px 0 0;
+    }
+    .otree li:first-child::after { border-radius: 6px 0 0 0; }
+
+    /* the stub dropping from a parent box into its children row */
+    .otree ul ul::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      border-left: 1px solid var(--border-accent);
+      width: 0;
+      height: 22px;
+    }
+
+    .obox-wrap { position: relative; display: inline-block; }
+
+    .obox {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 1px;
+      width: 152px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-top: 3px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 0.5rem 0.5rem 0.55rem;
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 0.18s ease, background 0.18s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    }
+    .obox:hover {
+      background: #1a2036;
+      border-color: var(--border-accent);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+    }
+
+    .obox.k-exec     { border-top-color: var(--accent-purple); }
+    .obox.k-support  { border-top-color: var(--accent-blue); }
+    .obox.k-director { border-top-color: var(--accent-orange); }
+    .obox.k-manager  { border-top-color: var(--accent-yellow); }
+    .obox.k-team     { border-top-color: var(--accent-green); }
+    .obox.k-sdr      { border-top-color: var(--accent-pink); }
+    .obox.k-shared   { border-top-color: var(--accent-pink); }
+
+    .obox.existing {
+      border-style: dashed;
+      border-top-style: solid;
+      background: rgba(244,114,182,0.05);
+    }
+
+    .obox-role {
+      font-size: 0.72rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-primary);
+      word-break: break-word;
+    }
+    .obox-person {
+      font-size: 0.66rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      line-height: 1.35;
+    }
+    .obox-person.vacant { color: var(--text-muted); font-weight: 500; font-style: italic; }
+    .obox-meta {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      margin-top: 0.1rem;
+    }
+    .obox-hidden {
+      font-size: 0.58rem;
+      font-weight: 700;
+      color: var(--accent-purple);
+      letter-spacing: 0.04em;
+      margin-top: 0.15rem;
+    }
+
+    /* collapse control sitting on the connector below each parent box */
+    .obox-toggle {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 19px;
+      height: 19px;
+      border-radius: 50%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-accent);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: all 0.16s ease;
+    }
+    .obox-toggle:hover {
+      background: var(--accent-purple);
+      border-color: var(--accent-purple);
+      color: #0a0e1a;
+    }
+
+    ul.tree, ul.tree ul { list-style: none; margin: 0; padding: 0; }
+
+    ul.tree ul {
+      margin-left: 1.15rem;
+      padding-left: 1.15rem;
+      border-left: 1px solid var(--border-color);
+    }
+
+    li.tnode { position: relative; padding: 0.28rem 0; }
+
+    li.tnode > .node-row::before {
+      content: '';
+      position: absolute;
+      left: -1.15rem;
+      top: 1.45rem;
+      width: 1.05rem;
+      height: 1px;
+      background: var(--border-color);
+    }
+    ul.tree > li.tnode > .node-row::before { display: none; }
+
+    .node-row {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 0.55rem 0.7rem;
+      transition: border-color 0.18s ease, background 0.18s ease;
+      min-width: 0;
+    }
+    .node-row:hover { border-color: var(--border-accent); background: #1a2036; }
+    .node-row:hover .node-actions { opacity: 1; }
+
+    .node-row.k-exec     { border-left-color: var(--accent-purple); }
+    .node-row.k-support  { border-left-color: var(--accent-blue); }
+    .node-row.k-director { border-left-color: var(--accent-orange); }
+    .node-row.k-manager  { border-left-color: var(--accent-yellow); }
+    .node-row.k-team     { border-left-color: var(--accent-green); }
+    .node-row.k-sdr      { border-left-color: var(--accent-pink); }
+    .node-row.k-shared   { border-left-color: var(--accent-pink); }
+
+    /* Existing shared functions hang off a dotted line: they already exist on
+       the current team and are not net new hires for this org. */
+    .node-row.existing {
+      border-style: dashed;
+      background: rgba(244,114,182,0.045);
+    }
+    .node-row.existing:hover { background: rgba(244,114,182,0.08); }
+    li.tnode.existing-branch > ul { border-left-style: dashed; }
+    li.tnode.existing-branch > .node-row::before { border-top: 1px dashed var(--border-color); background: none; height: 0; }
+
+    .pill.exists {
+      color: var(--accent-pink);
+      border-color: rgba(244,114,182,0.4);
+      background: rgba(244,114,182,0.1);
+    }
+
+    /* ============================================
+       Notes
+       ============================================ */
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .note-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      transition: border-color 0.18s ease;
+    }
+    .note-card:hover { border-color: var(--border-accent); }
+    .note-card:hover .note-actions { opacity: 1; }
+    .note-card:first-child { border-color: rgba(167,139,250,0.35); }
+
+    .note-head { display: flex; align-items: center; gap: 0.5rem; }
+
+    .note-title {
+      flex: 1;
+      background: none;
+      border: none;
+      border-bottom: 1px solid transparent;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.1rem 0;
+      border-radius: 0;
+    }
+    .note-title:focus {
+      outline: none;
+      border-bottom-color: var(--accent-purple);
+      box-shadow: none;
+    }
+
+    .note-body {
+      background: none;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      font-size: 0.76rem;
+      line-height: 1.6;
+      padding: 0.2rem 0.25rem;
+      min-height: 104px;
+      resize: vertical;
+    }
+    .note-body:focus {
+      background: var(--bg-card);
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.12);
+    }
+
+    .note-actions {
+      display: flex;
+      gap: 0.2rem;
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      flex-shrink: 0;
+    }
+    @media (hover: none) { .note-actions { opacity: 1; } }
+
+    /* ============================================
+       Role definitions
+       ============================================ */
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 0.85rem;
+      align-items: start;
+    }
+
+    .role-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--accent-purple);
+      border-radius: var(--radius-md);
+      padding: 0.8rem 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: border-color 0.18s ease;
+    }
+    .role-card { position: relative; }
+    .role-card:hover { border-color: var(--border-accent); border-left-color: var(--accent-purple); }
+    .role-card:hover .role-actions { opacity: 1; pointer-events: auto; }
+
+    /* Roles that already exist elsewhere are context, not new hires. */
+    .role-card.context {
+      border-style: dashed;
+      border-left-color: var(--accent-pink);
+      background: rgba(244,114,182,0.045);
+    }
+
+    .role-head { display: flex; align-items: center; gap: 0.5rem; }
+
+    .role-title {
+      flex: 1;
+      background: none;
+      border: none;
+      border-bottom: 1px solid transparent;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: -0.005em;
+      padding: 0.1rem 0;
+      border-radius: 0;
+    }
+    .role-title:focus { outline: none; border-bottom-color: var(--accent-purple); box-shadow: none; }
+
+    /* Float the actions over the top right so they never squeeze the title
+       input, which otherwise gets crushed to a few characters. */
+    .role-actions {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.55rem;
+      display: flex;
+      gap: 0.2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.2rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+      z-index: 2;
+    }
+    /* Without hover there is nothing to reveal them, so keep them in flow
+       on their own line instead of covering the title. */
+    @media (hover: none) {
+      .role-head { flex-wrap: wrap; }
+      .role-actions {
+        position: static;
+        opacity: 1;
+        pointer-events: auto;
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+
+    .resp-list { display: flex; flex-direction: column; gap: 0.15rem; }
+
+    .resp-row { display: flex; align-items: flex-start; gap: 0.5rem; }
+    .resp-row:hover .resp-del { opacity: 1; }
+
+    .resp-dot {
+      color: var(--accent-purple);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      padding-top: 0.15rem;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .role-card.context .resp-dot { color: var(--accent-pink); }
+
+    .resp-text {
+      flex: 1;
+      background: none;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 0.76rem;
+      line-height: 1.55;
+      padding: 0.15rem 0.3rem;
+      resize: none;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .resp-text:focus {
+      background: var(--bg-card);
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.12);
+    }
+
+    .resp-del {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.72rem;
+      line-height: 1;
+      padding: 0.3rem 0.2rem;
+      opacity: 0;
+      transition: opacity 0.18s ease, color 0.15s ease;
+      flex-shrink: 0;
+    }
+    .resp-del:hover { color: var(--accent-red); }
+    @media (hover: none) { .resp-del { opacity: 1; } }
+
+    .hiring-note {
+      margin-top: 0.9rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      background: rgba(244,114,182,0.07);
+      border: 1px dashed rgba(244,114,182,0.4);
+      border-radius: var(--radius-md);
+      padding: 0.6rem 0.75rem;
+    }
+    .hiring-note .hn-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-pink);
+      white-space: nowrap;
+      padding-top: 0.25rem;
+    }
+    .hiring-note textarea {
+      background: none;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      line-height: 1.6;
+      min-height: 42px;
+      padding: 0.15rem 0.25rem;
+    }
+    .hiring-note textarea:focus {
+      background: var(--bg-card);
+      border-color: var(--accent-pink);
+      box-shadow: 0 0 0 3px rgba(244,114,182,0.12);
+    }
+
+    .check-row { display: flex; align-items: center; gap: 0.5rem; }
+    .check-row input[type="checkbox"] { width: auto; accent-color: var(--accent-purple); }
+    .check-row label { font-size: 0.76rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; }
+
+    .twist {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.7rem;
+      line-height: 1;
+      padding: 0.28rem 0.15rem;
+      width: 1.1rem;
+      flex-shrink: 0;
+      transition: color 0.15s ease, transform 0.15s ease;
+    }
+    .twist:hover { color: var(--text-primary); }
+    .twist.leaf { visibility: hidden; }
+    .twist.closed { transform: rotate(-90deg); }
+
+    .node-body { flex: 1; min-width: 0; }
+
+    .node-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.005em;
+      word-break: break-word;
+    }
+    .node-meta {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.12rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem 0.6rem;
+    }
+    .node-person { color: var(--accent-blue); font-weight: 600; }
+    .node-person.vacant { color: var(--text-muted); font-weight: 500; font-style: italic; }
+    .node-notes {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .pill {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.1rem 0.36rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      background: var(--bg-primary);
+      white-space: nowrap;
+    }
+    .pill.hc { color: var(--accent-green); border-color: rgba(52,211,153,0.35); background: rgba(52,211,153,0.08); }
+    .pill.roll { color: var(--accent-blue); border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.08); }
+
+    .node-actions {
+      display: flex;
+      gap: 0.25rem;
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      flex-shrink: 0;
+      align-self: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    @media (hover: none) { .node-actions { opacity: 1; } }
+
+    /* ============================================
+       Hiring table
+       ============================================ */
+    .table-wrap { overflow-x: auto; }
+
+    table.hiring {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 900px;
+    }
+    table.hiring th {
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: left;
+      padding: 0 0.5rem 0.6rem;
+      white-space: nowrap;
+    }
+    table.hiring td {
+      padding: 0.3rem 0.35rem;
+      vertical-align: middle;
+      border-top: 1px solid var(--border-color);
+    }
+    table.hiring tr.hrow:hover td { background: rgba(96,165,250,0.045); }
+    table.hiring tr.hrow:hover .row-actions { opacity: 1; }
+
+    .prio {
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(96,165,250,0.2));
+      border: 1px solid rgba(167,139,250,0.35);
+      color: var(--accent-purple);
+      flex-shrink: 0;
+    }
+
+    td.c-prio   { width: 3.2rem; }
+    td.c-status { width: 9rem; }
+    td.c-act    { width: 6.5rem; }
+
+    .row-actions {
+      display: flex;
+      gap: 0.2rem;
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      justify-content: flex-end;
+    }
+    @media (hover: none) { .row-actions { opacity: 1; } }
+
+    select.status-sel { font-weight: 600; font-size: 0.75rem; }
+    select.status-sel.s-open   { color: var(--text-muted); }
+    select.status-sel.s-next   { color: var(--accent-yellow);  border-color: rgba(251,191,36,0.35); }
+    select.status-sel.s-active { color: var(--accent-blue);    border-color: rgba(96,165,250,0.35); }
+    select.status-sel.s-offer  { color: var(--accent-orange);  border-color: rgba(251,146,60,0.35); }
+    select.status-sel.s-hired  { color: var(--accent-green);   border-color: rgba(52,211,153,0.4); }
+    select.status-sel.s-hold   { color: var(--accent-red);     border-color: rgba(248,113,113,0.35); }
+
+    /* ============================================
+       Modal
+       ============================================ */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(5,8,16,0.72);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      width: 100%;
+      max-width: 460px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 1.25rem;
+    }
+    .modal h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+    .modal .field { margin-bottom: 0.85rem; }
+    .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.15rem; }
+
+    /* ============================================
+       Toast
+       ============================================ */
+    #toast {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translate(-50%, 1.5rem);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.55);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      z-index: 900;
+      max-width: 90vw;
+      text-align: center;
+    }
+    #toast.show { opacity: 1; transform: translate(-50%, 0); }
+    #toast.ok    { border-color: rgba(52,211,153,0.5);  color: var(--accent-green); }
+    #toast.err   { border-color: rgba(248,113,113,0.5); color: var(--accent-red); }
+
+    .banner {
+      background: rgba(251,146,60,0.1);
+      border: 1px solid rgba(251,146,60,0.35);
+      color: var(--accent-orange);
+      border-radius: var(--radius-md);
+      padding: 0.6rem 0.85rem;
+      font-size: 0.76rem;
+      line-height: 1.55;
+      margin-bottom: 1.25rem;
+    }
+    .banner b { font-weight: 700; }
+
+    /* ============================================
+       Responsive
+       ============================================ */
+    @media (max-width: 640px) {
+      .header { padding: 0.75rem 1rem; }
+      .main { padding: 1rem; }
+      ul.tree ul { margin-left: 0.6rem; padding-left: 0.7rem; }
+      li.tnode > .node-row::before { left: -0.7rem; width: 0.6rem; }
+      .node-actions { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="header-left">
+      <svg viewBox="0 0 152 40" height="34" style="vertical-align:middle" aria-label="OrgFlo">
+        <defs>
+          <linearGradient id="of-g" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="100%" stop-color="#34d399"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="4" width="32" height="32" rx="8" fill="url(#of-g)"/>
+        <rect x="12" y="9" width="9" height="6" rx="2" fill="#fff" opacity=".95"/>
+        <rect x="4" y="25" width="9" height="6" rx="2" fill="#fff" opacity=".85"/>
+        <rect x="20" y="25" width="9" height="6" rx="2" fill="#fff" opacity=".85"/>
+        <path d="M16.5 15v4M8.5 25v-6h16v6" stroke="#fff" stroke-width="1.7" fill="none" opacity=".85" stroke-linecap="round"/>
+        <text x="40" y="28" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="20" font-weight="700" fill="#e2e8f0">Org</text>
+        <text x="80" y="28" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="20" font-weight="700" fill="url(#of-g)">Flo</text>
+        <path d="M80 33Q96 28 114 33" stroke="url(#of-g)" stroke-width="2" fill="none" opacity=".8"/>
+      </svg>
+      <span class="version-badge">v1.4</span>
+    </div>
+
+
+    <div class="header-right">
+      <button class="btn" onclick="OrgFlo.reload()" title="Reload the saved plan from the repo">Reload</button>
+      <button class="btn primary" onclick="OrgFlo.saveNow()" title="Save the plan to the repo now">Save</button>
+      <div class="save-status" id="saveStatus"><span class="save-dot"></span><span id="saveStatusText">Loading</span></div>
+    </div>
+  </header>
+
+  <!-- ═══ MAIN ═══ -->
+  <main class="main">
+
+    <div class="banner" id="readOnlyBanner" style="display:none">
+      <b>Read only mode.</b> You can explore and change things on screen, but nothing will be written back.
+      Open this page with an edit token on the address to save your edits.
+    </div>
+
+    <!-- ─── NOTES ─── -->
+    <section class="section">
+      <div class="section-label">
+        Notes
+        <span class="hint">How this org is meant to run. Click any note to edit it</span>
+      </div>
+
+      <div class="card">
+        <div class="tree-toolbar">
+          <button class="btn primary" onclick="OrgFlo.addNote()">Add note</button>
+        </div>
+        <div class="notes-grid" id="notesGrid"></div>
+      </div>
+    </section>
+
+    <!-- ─── 2. ORG CHART ─── -->
+    <section class="section">
+      <div class="section-label">
+        Org chart
+        <span class="hint">240 SDR seats covering the 234 requirement at 10 completed demos per SDR per month, with every team full at 8. One director per roughly 50 SDRs</span>
+      </div>
+
+      <div class="card">
+        <div class="tree-toolbar">
+          <div class="view-switch">
+            <button class="switch-btn" id="viewChart" onclick="OrgFlo.setView('chart')">Org chart</button>
+            <button class="switch-btn" id="viewList" onclick="OrgFlo.setView('list')">Indented list</button>
+          </div>
+          <span class="toolbar-sep"></span>
+          <span class="toolbar-label">Show to</span>
+          <button class="btn" onclick="OrgFlo.expandToDepth(1)">Directors</button>
+          <button class="btn" onclick="OrgFlo.expandToDepth(2)">Managers</button>
+          <button class="btn" onclick="OrgFlo.expandToDepth(3)">Teams</button>
+          <span class="toolbar-sep"></span>
+          <span class="zoom-controls" id="zoomControls">
+            <span class="toolbar-label">Zoom</span>
+            <button class="btn" onclick="OrgFlo.zoom(-1)" title="Zoom out">&minus;</button>
+            <span class="zoom-level" id="zoomLevel">100%</span>
+            <button class="btn" onclick="OrgFlo.zoom(1)" title="Zoom in">+</button>
+          </span>
+          <button class="btn" onclick="OrgFlo.resetChart()">Reset to seeded chart</button>
+          <span class="save-status" style="border:none;padding:0.35rem 0"><span id="chartSummary"></span></span>
+        </div>
+
+        <!-- Traditional top down org chart -->
+        <div class="otree-wrap" id="chartView">
+          <div class="otree-scale" id="otreeScale">
+            <div class="otree" id="orgTreeClassic"></div>
+          </div>
+        </div>
+
+        <!-- Indented list -->
+        <div class="tree-wrap" id="listView">
+          <ul class="tree" id="orgTree"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── ROLE DEFINITIONS ─── -->
+    <section class="section">
+      <div class="section-label">
+        Role definitions
+        <span class="hint">What each role owns. Click any line to edit it</span>
+      </div>
+
+      <div class="card">
+        <div class="tree-toolbar">
+          <button class="btn primary" onclick="OrgFlo.addRole()">Add role</button>
+          <span class="save-status" style="border:none;padding:0.35rem 0"><span id="rolesSummary"></span></span>
+        </div>
+        <div class="roles-grid" id="rolesGrid"></div>
+      </div>
+    </section>
+
+    <!-- ─── 3. HIRING LIST ─── -->
+    <section class="section">
+      <div class="section-label">
+        Prioritized hiring list
+        <span class="hint">Who to hire, in order, and what triggers the hire</span>
+      </div>
+
+      <div class="card">
+        <div class="tree-toolbar">
+          <button class="btn primary" onclick="OrgFlo.addHire()">Add row</button>
+          <button class="btn" onclick="OrgFlo.resetHiring()">Reset to seeded list</button>
+        </div>
+        <div class="table-wrap">
+          <table class="hiring">
+            <thead>
+              <tr>
+                <th>Priority</th>
+                <th>Role</th>
+                <th>Reports to</th>
+                <th>When to hire (trigger)</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="hiringBody"></tbody>
+          </table>
+        </div>
+
+        <div class="hiring-note">
+          <span class="hn-label">Already on the team</span>
+          <textarea id="hiringNote" rows="2"
+            oninput="OrgFlo.editHiringNote(this.value)"
+            placeholder="Roles that already exist and are not new hires here"></textarea>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ═══ NODE EDIT MODAL ═══ -->
+<div class="modal-backdrop" id="nodeModal" onclick="if(event.target===this)OrgFlo.closeNodeModal()">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3 id="nodeModalTitle">Edit role</h3>
+
+    <div class="field">
+      <label for="mRole">Role title</label>
+      <input type="text" id="mRole" placeholder="Director of SDR #5">
+    </div>
+
+    <div class="field">
+      <label for="mPerson">Person name</label>
+      <input type="text" id="mPerson" placeholder="Leave blank if the seat is open">
+    </div>
+
+    <div class="field" id="mHeadcountField">
+      <label for="mHeadcount">Headcount represented by this node</label>
+      <input type="number" id="mHeadcount" min="0" step="1" inputmode="numeric">
+      <div class="sub">Use this on team nodes that stand in for a group of SDRs.</div>
+    </div>
+
+    <div class="field">
+      <label for="mKind">Node type</label>
+      <select id="mKind">
+        <option value="exec">Executive</option>
+        <option value="director">Director</option>
+        <option value="manager">Manager</option>
+        <option value="team">SDR team</option>
+        <option value="sdr">Individual SDR</option>
+        <option value="support">Support and infrastructure</option>
+        <option value="shared">Existing shared function</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <div class="check-row">
+        <input type="checkbox" id="mExisting">
+        <label for="mExisting">This role already exists on the current team</label>
+      </div>
+      <div class="sub">Existing roles show on a dotted line and are not counted as new hires.</div>
+    </div>
+
+    <div class="field">
+      <label for="mNotes">Notes</label>
+      <textarea id="mNotes" placeholder="Span of control, ramp expectations, anything worth remembering"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn" onclick="OrgFlo.closeNodeModal()">Cancel</button>
+      <button class="btn primary" onclick="OrgFlo.commitNodeModal()">Save role</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   OrgFlo — SDR organization designer
+   v1.4
+
+   Persistence pattern:
+   the plan lives in orgflo_data.json in the repo, and edits are
+   written back through the GitHub contents API using the edit
+   token supplied on the address. No browser storage is used as
+   the source of truth.
+   ============================================================ */
+var OrgFlo = (function () {
+  'use strict';
+
+  // ─── Configuration ────────────────────────────────────────
+  var GITHUB_REPO = 'theinneslife/orgflo';
+  var DATA_FILE   = 'orgflo_data.json';
+  var DATA_URL    = './' + DATA_FILE;
+  var API_URL     = 'https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + DATA_FILE;
+  var SAVE_DEBOUNCE_MS = 1200;
+
+  // ─── State ────────────────────────────────────────────────
+  var data        = null;   // the whole plan
+  var seed        = null;   // pristine copy of what loaded, for the reset buttons
+  var githubToken = null;
+  var lastSha     = null;
+  var saveTimer   = null;
+  var saving      = false;
+  var dirty       = false;
+  var collapsed   = {};     // nodeId -> true when the branch is folded away
+  var editingId   = null;   // node currently open in the modal
+  var uidSeq      = 0;
+
+  // ─── Small helpers ────────────────────────────────────────
+  function $(id) { return document.getElementById(id); }
+
+  function esc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function uid(prefix) {
+    uidSeq += 1;
+    return prefix + Date.now().toString(36) + uidSeq.toString(36);
+  }
+
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+
+  function num(v, fallback) {
+    var n = parseFloat(v);
+    return isFinite(n) ? n : fallback;
+  }
+
+  function fmt(n) { return Math.round(n).toLocaleString('en-US'); }
+
+  var toastTimer = null;
+  function toast(msg, kind) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.className = 'show ' + (kind || '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.className = ''; }, 2600);
+  }
+
+  function setStatus(state, text) {
+    var el = $('saveStatus');
+    el.className = 'save-status' + (state ? ' ' + state : '');
+    $('saveStatusText').textContent = text;
+  }
+
+  // ─── Token ────────────────────────────────────────────────
+  function getGithubToken() {
+    var params = new URLSearchParams(window.location.search);
+    return params.get('token');
+  }
+
+  function utf8ToBase64(str) { return btoa(unescape(encodeURIComponent(str))); }
+  function base64ToUtf8(str) { return decodeURIComponent(escape(atob(str.replace(/\n/g, '')))); }
+
+  // ─── Tree walking ─────────────────────────────────────────
+  function walk(node, fn, parent) {
+    fn(node, parent);
+    (node.children || []).forEach(function (c) { walk(c, fn, node); });
+  }
+
+  function findNode(id, node, parent) {
+    node = node || data.orgChart;
+    if (node.id === id) return { node: node, parent: parent || null };
+    var kids = node.children || [];
+    for (var i = 0; i < kids.length; i++) {
+      var hit = findNode(id, kids[i], node);
+      if (hit) return hit;
+    }
+    return null;
+  }
+
+  // Seats that represent real SDRs. A team node stands in for a group
+  // until it is expanded, at which point its named slots are counted
+  // instead so nothing is double counted.
+  function sdrSeats(node) {
+    var childSeats = (node.children || []).reduce(function (s, c) { return s + sdrSeats(c); }, 0);
+    if (node.kind === 'sdr')  return 1 + childSeats;
+    if (node.kind === 'team') return childSeats > 0 ? childSeats : (num(node.headcount, 0));
+    return childSeats;
+  }
+
+  function countKind(kind) {
+    var n = 0;
+    walk(data.orgChart, function (node) { if (node.kind === kind) n += 1; });
+    return n;
+  }
+
+  // ─── Org chart rendering ──────────────────────────────────
+  var KIND_LABEL = {
+    exec: 'Exec', director: 'Director', manager: 'Manager',
+    team: 'Team', sdr: 'SDR', support: 'Support', shared: 'Shared'
+  };
+
+  // ─── Notes ────────────────────────────────────────────────
+  function renderNotes() {
+    var grid = $('notesGrid');
+    var notes = data.notes || [];
+
+    grid.innerHTML = notes.map(function (n) {
+      var h = '';
+      h += '<div class="note-card" data-id="' + esc(n.id) + '">';
+      h += '<div class="note-head">';
+      h += '<input class="note-title" type="text" value="' + esc(n.title) + '" placeholder="Note title" ' +
+           'onchange="OrgFlo.editNote(\'' + esc(n.id) + '\',\'title\',this.value)">';
+      h += '<div class="note-actions">' +
+           '<button class="btn tiny" onclick="OrgFlo.moveNote(\'' + esc(n.id) + '\',-1)" title="Move up">↑</button>' +
+           '<button class="btn tiny" onclick="OrgFlo.moveNote(\'' + esc(n.id) + '\',1)" title="Move down">↓</button>' +
+           '<button class="btn tiny danger" onclick="OrgFlo.removeNote(\'' + esc(n.id) + '\')" title="Remove this note">✕</button>' +
+           '</div>';
+      h += '</div>';
+      h += '<textarea class="note-body" placeholder="What matters about this" ' +
+           'onchange="OrgFlo.editNote(\'' + esc(n.id) + '\',\'body\',this.value)">' + esc(n.body) + '</textarea>';
+      h += '</div>';
+      return h;
+    }).join('');
+
+    if (!notes.length) {
+      grid.innerHTML = '<div style="color:var(--text-muted);font-size:0.8rem;padding:0.5rem 0">' +
+        'No notes yet. Use Add note to capture how this org should run.</div>';
+    }
+
+    var hn = $('hiringNote');
+    if (hn && document.activeElement !== hn) hn.value = data.hiringNote || '';
+  }
+
+  function editNote(id, field, value) {
+    var n = (data.notes || []).find(function (x) { return x.id === id; });
+    if (!n) return;
+    n[field] = value;
+    // The textarea already shows the new text, so skip the notes repaint
+    // and avoid yanking the cursor out from under the user.
+    changed({ skipHiring: true, skipNotes: true });
+  }
+
+  function addNote() {
+    data.notes = data.notes || [];
+    data.notes.push({ id: uid('note'), title: '', body: '' });
+    changed({ skipHiring: true });
+    setTimeout(function () {
+      var last = $('notesGrid').querySelector('.note-card:last-child .note-title');
+      if (last) last.focus();
+    }, 40);
+  }
+
+  function removeNote(id) {
+    var n = (data.notes || []).find(function (x) { return x.id === id; });
+    if (!n) return;
+    if ((n.title || n.body) && !confirm('Remove the note "' + (n.title || 'untitled') + '"?')) return;
+    data.notes = data.notes.filter(function (x) { return x.id !== id; });
+    changed({ skipHiring: true });
+  }
+
+  function moveNote(id, dir) {
+    var list = data.notes || [];
+    var i = list.findIndex(function (x) { return x.id === id; });
+    var j = i + dir;
+    if (i < 0 || j < 0 || j >= list.length) return;
+    var tmp = list[i]; list[i] = list[j]; list[j] = tmp;
+    changed({ skipHiring: true });
+  }
+
+  // ─── Role definitions ─────────────────────────────────────
+  // Each card is a role: an editable title plus a list of editable
+  // responsibility lines. Roles flagged as context already exist
+  // elsewhere in the business and are not hires for this org.
+  function autoGrow(el) {
+    el.style.height = 'auto';
+    // These textareas are border-box, so scrollHeight covers content plus
+    // padding but not the border. Add the border back or every line sits a
+    // couple of pixels short and clips its last row of text.
+    var border = el.offsetHeight - el.clientHeight;
+    el.style.height = (el.scrollHeight + border) + 'px';
+  }
+
+  function growAllResp() {
+    Array.prototype.forEach.call(document.querySelectorAll('.resp-text'), autoGrow);
+  }
+
+  function renderRoles() {
+    var grid = $('rolesGrid');
+    var roles = data.roleDefinitions || [];
+
+    grid.innerHTML = roles.map(function (r) {
+      var lines = (r.responsibilities || []).map(function (text, i) {
+        return '<div class="resp-row">' +
+          '<span class="resp-dot">•</span>' +
+          '<textarea class="resp-text" rows="1" placeholder="What this role owns" ' +
+            'oninput="OrgFlo.growResp(this)" ' +
+            'onchange="OrgFlo.editResp(\'' + esc(r.id) + '\',' + i + ',this.value)">' + esc(text) + '</textarea>' +
+          '<button class="resp-del" title="Remove this line" ' +
+            'onclick="OrgFlo.removeResp(\'' + esc(r.id) + '\',' + i + ')">✕</button>' +
+        '</div>';
+      }).join('');
+
+      var h = '';
+      h += '<div class="role-card' + (r.context ? ' context' : '') + '" data-id="' + esc(r.id) + '">';
+      h += '<div class="role-head">';
+      h += '<input class="role-title" type="text" value="' + esc(r.title) + '" placeholder="Role title" ' +
+           'onchange="OrgFlo.editRole(\'' + esc(r.id) + '\',\'title\',this.value)">';
+      if (r.context) h += '<span class="pill exists">Already exists</span>';
+      h += '<div class="role-actions">' +
+           '<button class="btn tiny" onclick="OrgFlo.addResp(\'' + esc(r.id) + '\')" title="Add a responsibility line">Add line</button>' +
+           '<button class="btn tiny" onclick="OrgFlo.toggleRoleContext(\'' + esc(r.id) + '\')" title="Mark whether this role already exists">' +
+             (r.context ? 'New hire' : 'Existing') + '</button>' +
+           '<button class="btn tiny" onclick="OrgFlo.moveRole(\'' + esc(r.id) + '\',-1)" title="Move up">↑</button>' +
+           '<button class="btn tiny" onclick="OrgFlo.moveRole(\'' + esc(r.id) + '\',1)" title="Move down">↓</button>' +
+           '<button class="btn tiny danger" onclick="OrgFlo.removeRole(\'' + esc(r.id) + '\')" title="Remove this role">✕</button>' +
+           '</div>';
+      h += '</div>';
+      h += '<div class="resp-list">' + lines + '</div>';
+      h += '</div>';
+      return h;
+    }).join('');
+
+    if (!roles.length) {
+      grid.innerHTML = '<div style="color:var(--text-muted);font-size:0.8rem;padding:0.5rem 0">' +
+        'No role definitions yet. Use Add role to start.</div>';
+    }
+
+    var newHires = roles.filter(function (r) { return !r.context; }).length;
+    var context  = roles.length - newHires;
+    $('rolesSummary').textContent =
+      roles.length + ' roles defined, ' + newHires + ' in this org and ' + context + ' already existing';
+
+    // Textareas start at one row, so size them to their content.
+    growAllResp();
+  }
+
+  function findRole(id) {
+    return (data.roleDefinitions || []).find(function (r) { return r.id === id; });
+  }
+
+  function editRole(id, field, value) {
+    var r = findRole(id);
+    if (!r) return;
+    r[field] = value;
+    changed({ skipHiring: true, skipNotes: true, skipRoles: true });
+  }
+
+  function editResp(id, index, value) {
+    var r = findRole(id);
+    if (!r || !Array.isArray(r.responsibilities) || index >= r.responsibilities.length) return;
+    r.responsibilities[index] = value;
+    // The textarea already holds the text, so leave the panel alone.
+    changed({ skipHiring: true, skipNotes: true, skipRoles: true });
+  }
+
+  function addResp(id) {
+    var r = findRole(id);
+    if (!r) return;
+    r.responsibilities = r.responsibilities || [];
+    r.responsibilities.push('');
+    changed({ skipHiring: true, skipNotes: true });
+    setTimeout(function () {
+      var last = $('rolesGrid').querySelector('.role-card[data-id="' + id + '"] .resp-row:last-child .resp-text');
+      if (last) last.focus();
+    }, 40);
+  }
+
+  function removeResp(id, index) {
+    var r = findRole(id);
+    if (!r) return;
+    r.responsibilities.splice(index, 1);
+    changed({ skipHiring: true, skipNotes: true });
+  }
+
+  function addRole() {
+    data.roleDefinitions = data.roleDefinitions || [];
+    data.roleDefinitions.push({ id: uid('r'), title: '', context: false, responsibilities: [''] });
+    changed({ skipHiring: true, skipNotes: true });
+    setTimeout(function () {
+      var last = $('rolesGrid').querySelector('.role-card:last-child .role-title');
+      if (last) last.focus();
+    }, 40);
+  }
+
+  function removeRole(id) {
+    var r = findRole(id);
+    if (!r) return;
+    if (r.title && !confirm('Remove the role definition for "' + r.title + '"?')) return;
+    data.roleDefinitions = data.roleDefinitions.filter(function (x) { return x.id !== id; });
+    changed({ skipHiring: true, skipNotes: true });
+  }
+
+  function moveRole(id, dir) {
+    var list = data.roleDefinitions || [];
+    var i = list.findIndex(function (x) { return x.id === id; });
+    var j = i + dir;
+    if (i < 0 || j < 0 || j >= list.length) return;
+    var tmp = list[i]; list[i] = list[j]; list[j] = tmp;
+    changed({ skipHiring: true, skipNotes: true });
+  }
+
+  function toggleRoleContext(id) {
+    var r = findRole(id);
+    if (!r) return;
+    r.context = !r.context;
+    changed({ skipHiring: true, skipNotes: true });
+  }
+
+  function editHiringNote(value) {
+    data.hiringNote = value;
+    changed({ skipHiring: true, skipNotes: true });
+  }
+
+  // ─── Traditional top down org chart ───────────────────────
+  // Same data and same collapse state as the indented list, drawn as a
+  // classic corporate chart: boxes on levels joined by connector lines.
+  function renderClassic() {
+    $('orgTreeClassic').innerHTML = '<ul>' + renderOBox(data.orgChart) + '</ul>';
+  }
+
+  function renderOBox(node) {
+    var kids = node.children || [];
+    var isClosed = !!collapsed[node.id];
+    var kind = node.kind || 'support';
+    var seats = sdrSeats(node);
+    var id = esc(node.id);
+
+    var meta = '';
+    if (kind === 'team' && node.headcount && !kids.length) {
+      meta = fmt(node.headcount) + ' SDRs';
+    } else if (kind === 'sdr') {
+      meta = '';
+    } else if (seats > 0) {
+      meta = fmt(seats) + ' SDRs';
+    }
+
+    var h = '';
+    h += '<li>';
+    h += '<div class="obox-wrap">';
+    h += '<div class="obox k-' + esc(kind) + (node.existing ? ' existing' : '') +
+         '" onclick="OrgFlo.openNodeModal(\'' + id + '\')" title="Click to edit this role">';
+    h += '<div class="obox-role">' + esc(node.role || 'Untitled role') + '</div>';
+    h += node.person
+      ? '<div class="obox-person">' + esc(node.person) + '</div>'
+      : '<div class="obox-person vacant">Open seat</div>';
+    if (meta) h += '<div class="obox-meta">' + meta + '</div>';
+    if (isClosed && kids.length) {
+      h += '<div class="obox-hidden">' + kids.length + ' below</div>';
+    }
+    h += '</div>';
+    if (kids.length) {
+      h += '<button class="obox-toggle" title="Fold or unfold this branch" ' +
+           'onclick="event.stopPropagation();OrgFlo.toggle(\'' + id + '\')">' +
+           (isClosed ? '+' : '&minus;') + '</button>';
+    }
+    h += '</div>';
+
+    if (kids.length && !isClosed) {
+      h += '<ul>' + kids.map(renderOBox).join('') + '</ul>';
+    }
+    h += '</li>';
+    return h;
+  }
+
+  // ─── View switching, depth and zoom ───────────────────────
+  var viewMode = 'chart';          // 'chart' = traditional, 'list' = indented
+  var zoomSteps = [50, 60, 70, 85, 100, 115, 130];
+  var zoomIdx = 4;
+
+  // The tree is centred, so once it is wider than the pane the top box sits
+  // off screen. Recentre the scroll after the layout settles.
+  function centerChart() {
+    if (viewMode !== 'chart') return;
+    var run = function () {
+      var pane = $('chartView');
+      if (!pane || !pane.clientWidth) return;
+      pane.scrollLeft = Math.max(0, (pane.scrollWidth - pane.clientWidth) / 2);
+    };
+    // Timers rather than animation frames: a page opened in a background tab
+    // never fires rAF, and the chart should already be centred when the user
+    // first looks at it. Run twice because a zoom change reflows in stages.
+    setTimeout(run, 0);
+    setTimeout(run, 140);
+  }
+
+  function setView(mode) {
+    viewMode = (mode === 'list') ? 'list' : 'chart';
+    applyView();
+    renderTree();
+    centerChart();
+  }
+
+  function applyView() {
+    var isChart = viewMode === 'chart';
+    $('chartView').style.display = isChart ? '' : 'none';
+    $('listView').style.display  = isChart ? 'none' : '';
+    $('zoomControls').style.display = isChart ? '' : 'none';
+    $('viewChart').className = 'switch-btn' + (isChart ? ' active' : '');
+    $('viewList').className  = 'switch-btn' + (isChart ? '' : ' active');
+  }
+
+  function zoom(dir) {
+    zoomIdx = Math.max(0, Math.min(zoomSteps.length - 1, zoomIdx + dir));
+    applyZoom();
+  }
+
+  function applyZoom(recenter) {
+    var pct = zoomSteps[zoomIdx];
+    // zoom reflows rather than just scaling pixels, so the scroll area
+    // stays correct at every level.
+    $('otreeScale').style.zoom = (pct / 100);
+    $('zoomLevel').textContent = pct + '%';
+    if (recenter !== false) centerChart();
+  }
+
+  // Collapse everything at or below the given depth. Depth 0 is the top role,
+  // so depth 1 shows its direct reports, depth 2 shows the managers, and so on.
+  function expandToDepth(depth) {
+    collapsed = {};
+    (function mark(node, d) {
+      var kids = node.children || [];
+      if (!kids.length) return;
+      if (d >= depth) collapsed[node.id] = true;
+      kids.forEach(function (c) { mark(c, d + 1); });
+    })(data.orgChart, 0);
+    renderTree();
+    centerChart();
+  }
+
+  function renderTree() {
+    var root = $('orgTree');
+    root.innerHTML = renderNode(data.orgChart);
+    renderClassic();
+
+    var seats = sdrSeats(data.orgChart);
+    $('chartSummary').textContent =
+      fmt(seats) + ' SDR seats, ' + fmt(countKind('manager')) + ' managers, ' +
+      fmt(countKind('director')) + ' directors';
+  }
+
+  function renderNode(node) {
+    var kids = node.children || [];
+    var hasKids = kids.length > 0;
+    var isClosed = !!collapsed[node.id];
+    var kind = node.kind || 'support';
+    var seats = sdrSeats(node);
+
+    var pills = '';
+    pills += '<span class="pill">' + esc(KIND_LABEL[kind] || kind) + '</span>';
+    if (node.existing) pills += '<span class="pill exists">Already exists</span>';
+    if (kind === 'team' && node.headcount && !kids.length) {
+      pills += '<span class="pill hc">' + fmt(node.headcount) + ' SDRs</span>';
+    }
+    if (seats > 0 && kind !== 'team' && kind !== 'sdr') {
+      pills += '<span class="pill roll">' + fmt(seats) + ' SDRs below</span>';
+    }
+    if (hasKids) {
+      pills += '<span class="pill">' + kids.length + ' direct</span>';
+    }
+
+    var personHtml = node.person
+      ? '<span class="node-person">' + esc(node.person) + '</span>'
+      : '<span class="node-person vacant">Open seat</span>';
+
+    var html = '';
+    html += '<li class="tnode' + (node.existing ? ' existing-branch' : '') + '" data-id="' + esc(node.id) + '">';
+    html += '<div class="node-row k-' + esc(kind) + (node.existing ? ' existing' : '') + '">';
+
+    html += '<button class="twist' + (hasKids ? (isClosed ? ' closed' : '') : ' leaf') +
+            '" onclick="OrgFlo.toggle(\'' + esc(node.id) + '\')" title="Fold or unfold this branch">▾</button>';
+
+    html += '<div class="node-body">';
+    html += '<div class="node-title">' + esc(node.role || 'Untitled role') + '</div>';
+    html += '<div class="node-meta">' + personHtml + pills + '</div>';
+    if (node.notes) html += '<div class="node-notes">' + esc(node.notes) + '</div>';
+    html += '</div>';
+
+    html += '<div class="node-actions">';
+    html += '<button class="btn tiny" onclick="OrgFlo.openNodeModal(\'' + esc(node.id) + '\')" title="Edit this role">Edit</button>';
+    html += '<button class="btn tiny" onclick="OrgFlo.addChild(\'' + esc(node.id) + '\')" title="Add a role reporting to this one">Add</button>';
+    if (kind === 'team' && !kids.length && num(node.headcount, 0) > 0) {
+      html += '<button class="btn tiny" onclick="OrgFlo.expandTeam(\'' + esc(node.id) + '\')" title="Break this team into individual SDR slots">Expand</button>';
+    }
+    if (node.id !== data.orgChart.id) {
+      html += '<button class="btn tiny" onclick="OrgFlo.moveNode(\'' + esc(node.id) + '\',-1)" title="Move up">↑</button>';
+      html += '<button class="btn tiny" onclick="OrgFlo.moveNode(\'' + esc(node.id) + '\',1)" title="Move down">↓</button>';
+      html += '<button class="btn tiny danger" onclick="OrgFlo.removeNode(\'' + esc(node.id) + '\')" title="Remove this role and everything under it">Remove</button>';
+    }
+    html += '</div>';
+
+    html += '</div>'; // node-row
+
+    if (hasKids && !isClosed) {
+      html += '<ul>' + kids.map(renderNode).join('') + '</ul>';
+    }
+
+    html += '</li>';
+    return html;
+  }
+
+  // ─── Org chart actions ────────────────────────────────────
+  function toggle(id) {
+    collapsed[id] = !collapsed[id];
+    renderTree();
+  }
+
+  function expandAll(open) {
+    collapsed = {};
+    if (!open) {
+      // Fold everything except the very top so the shape stays readable.
+      walk(data.orgChart, function (node) {
+        if (node.id !== data.orgChart.id && (node.children || []).length) collapsed[node.id] = true;
+      });
+    }
+    renderTree();
+  }
+
+  function addChild(parentId) {
+    var hit = findNode(parentId);
+    if (!hit) return;
+    var parentKind = hit.node.kind;
+    var childKind =
+      parentKind === 'exec'     ? 'director' :
+      parentKind === 'director' ? 'manager'  :
+      parentKind === 'manager'  ? 'team'     :
+      parentKind === 'team'     ? 'sdr'      :
+      parentKind === 'shared'   ? 'shared'   : 'support';
+
+    var child = {
+      id: uid('n'),
+      role: childKind === 'team' ? 'New SDR team' : 'New role',
+      person: '',
+      notes: '',
+      kind: childKind,
+      children: []
+    };
+    if (childKind === 'team') child.headcount = 8;
+    if (childKind === 'shared') child.existing = true;
+
+    hit.node.children = hit.node.children || [];
+    hit.node.children.push(child);
+    collapsed[parentId] = false;
+    changed();
+    openNodeModal(child.id);
+  }
+
+  function removeNode(id) {
+    if (id === data.orgChart.id) { toast('The top role cannot be removed', 'err'); return; }
+    var hit = findNode(id);
+    if (!hit || !hit.parent) return;
+    var below = (hit.node.children || []).length;
+    var msg = below
+      ? 'Remove "' + (hit.node.role || 'this role') + '" and the ' + below + ' role(s) reporting to it?'
+      : 'Remove "' + (hit.node.role || 'this role') + '"?';
+    if (!confirm(msg)) return;
+    hit.parent.children = hit.parent.children.filter(function (c) { return c.id !== id; });
+    changed();
+    toast('Role removed');
+  }
+
+  function moveNode(id, dir) {
+    var hit = findNode(id);
+    if (!hit || !hit.parent) return;
+    var sibs = hit.parent.children;
+    var i = sibs.findIndex(function (c) { return c.id === id; });
+    var j = i + dir;
+    if (i < 0 || j < 0 || j >= sibs.length) return;
+    var tmp = sibs[i]; sibs[i] = sibs[j]; sibs[j] = tmp;
+    changed();
+  }
+
+  function expandTeam(id) {
+    var hit = findNode(id);
+    if (!hit) return;
+    var n = Math.max(0, Math.round(num(hit.node.headcount, 0)));
+    if (!n) { toast('Set a headcount on this team first', 'err'); return; }
+    if (n > 60 && !confirm('This will add ' + n + ' individual slots. Continue?')) return;
+
+    hit.node.children = [];
+    for (var i = 1; i <= n; i++) {
+      hit.node.children.push({
+        id: uid('n'),
+        role: (hit.node.role || 'SDR team') + ' slot ' + i,
+        person: '',
+        notes: '',
+        kind: 'sdr',
+        children: []
+      });
+    }
+    collapsed[id] = false;
+    changed();
+    toast(n + ' SDR slots created');
+  }
+
+  function resetChart() {
+    if (!seed) return;
+    if (!confirm('Replace the org chart with the seeded structure? Your chart edits will be lost.')) return;
+    data.orgChart = clone(seed.orgChart);
+    collapsed = {};
+    changed();
+    toast('Org chart reset');
+  }
+
+  // ─── Node modal ───────────────────────────────────────────
+  function openNodeModal(id) {
+    var hit = findNode(id);
+    if (!hit) return;
+    editingId = id;
+    var n = hit.node;
+
+    $('nodeModalTitle').textContent = 'Edit role';
+    $('mRole').value      = n.role || '';
+    $('mPerson').value    = n.person || '';
+    $('mNotes').value     = n.notes || '';
+    $('mKind').value      = n.kind || 'support';
+    $('mExisting').checked = !!n.existing;
+    $('mHeadcount').value = n.headcount === undefined ? '' : n.headcount;
+    syncHeadcountField();
+
+    $('nodeModal').classList.add('open');
+    setTimeout(function () { $('mRole').focus(); $('mRole').select(); }, 40);
+  }
+
+  function syncHeadcountField() {
+    $('mHeadcountField').style.display = ($('mKind').value === 'team') ? '' : 'none';
+  }
+
+  function closeNodeModal() {
+    $('nodeModal').classList.remove('open');
+    editingId = null;
+  }
+
+  function commitNodeModal() {
+    if (!editingId) return closeNodeModal();
+    var hit = findNode(editingId);
+    if (!hit) return closeNodeModal();
+    var n = hit.node;
+
+    n.role   = $('mRole').value.trim() || 'Untitled role';
+    n.person = $('mPerson').value.trim();
+    n.notes  = $('mNotes').value.trim();
+    n.kind   = $('mKind').value;
+
+    if ($('mExisting').checked) n.existing = true;
+    else delete n.existing;
+
+    if (n.kind === 'team') {
+      n.headcount = Math.max(0, Math.round(num($('mHeadcount').value, 0)));
+    } else {
+      delete n.headcount;
+    }
+
+    closeNodeModal();
+    changed();
+    toast('Role updated');
+  }
+
+  // ─── Hiring list ──────────────────────────────────────────
+  var STATUSES = ['Open', 'Sourcing', 'Interviewing', 'Offer out', 'Hired', 'On hold'];
+  var STATUS_CLASS = {
+    'Open': 's-open', 'Sourcing': 's-next', 'Interviewing': 's-active',
+    'Offer out': 's-offer', 'Hired': 's-hired', 'On hold': 's-hold'
+  };
+
+  function renderHiring() {
+    var body = $('hiringBody');
+    var rows = data.hiringList || [];
+
+    body.innerHTML = rows.map(function (row, i) {
+      var opts = STATUSES.map(function (s) {
+        return '<option value="' + esc(s) + '"' + (row.status === s ? ' selected' : '') + '>' + esc(s) + '</option>';
+      }).join('');
+
+      var h = '';
+      h += '<tr class="hrow" data-id="' + esc(row.id) + '">';
+      h += '<td class="c-prio"><div class="prio">' + (i + 1) + '</div></td>';
+      h += '<td><input type="text" value="' + esc(row.role) + '" placeholder="Role" ' +
+           'onchange="OrgFlo.editHire(\'' + esc(row.id) + '\',\'role\',this.value)"></td>';
+      h += '<td><input type="text" value="' + esc(row.reportsTo) + '" placeholder="Reports to" ' +
+           'onchange="OrgFlo.editHire(\'' + esc(row.id) + '\',\'reportsTo\',this.value)"></td>';
+      h += '<td><input type="text" value="' + esc(row.trigger) + '" placeholder="When to hire" ' +
+           'onchange="OrgFlo.editHire(\'' + esc(row.id) + '\',\'trigger\',this.value)"></td>';
+      h += '<td class="c-status"><select class="status-sel ' + (STATUS_CLASS[row.status] || 's-open') + '" ' +
+           'onchange="OrgFlo.editHire(\'' + esc(row.id) + '\',\'status\',this.value)">' + opts + '</select></td>';
+      h += '<td class="c-act"><div class="row-actions">' +
+           '<button class="btn tiny" onclick="OrgFlo.moveHire(\'' + esc(row.id) + '\',-1)" title="Move up">↑</button>' +
+           '<button class="btn tiny" onclick="OrgFlo.moveHire(\'' + esc(row.id) + '\',1)" title="Move down">↓</button>' +
+           '<button class="btn tiny danger" onclick="OrgFlo.removeHire(\'' + esc(row.id) + '\')" title="Remove this row">✕</button>' +
+           '</div></td>';
+      h += '</tr>';
+      return h;
+    }).join('');
+
+    if (!rows.length) {
+      body.innerHTML = '<tr><td colspan="6" style="padding:1.25rem;color:var(--text-muted);font-size:0.8rem">' +
+        'No roles in the list yet. Use Add row to start.</td></tr>';
+    }
+  }
+
+  function renumber() {
+    (data.hiringList || []).forEach(function (r, i) { r.priority = i + 1; });
+  }
+
+  function editHire(id, field, value) {
+    var row = (data.hiringList || []).find(function (r) { return r.id === id; });
+    if (!row) return;
+    row[field] = value;
+    changed({ skipHiring: field !== 'status' });
+  }
+
+  function addHire() {
+    data.hiringList = data.hiringList || [];
+    data.hiringList.push({
+      id: uid('h'),
+      priority: data.hiringList.length + 1,
+      role: '', reportsTo: '', trigger: '', status: 'Open'
+    });
+    renumber();
+    changed();
+    // Put the cursor straight into the new role cell.
+    setTimeout(function () {
+      var last = $('hiringBody').querySelector('tr:last-child input');
+      if (last) last.focus();
+    }, 40);
+  }
+
+  function removeHire(id) {
+    var row = (data.hiringList || []).find(function (r) { return r.id === id; });
+    if (!row) return;
+    if (row.role && !confirm('Remove "' + row.role + '" from the hiring list?')) return;
+    data.hiringList = data.hiringList.filter(function (r) { return r.id !== id; });
+    renumber();
+    changed();
+  }
+
+  function moveHire(id, dir) {
+    var list = data.hiringList || [];
+    var i = list.findIndex(function (r) { return r.id === id; });
+    var j = i + dir;
+    if (i < 0 || j < 0 || j >= list.length) return;
+    var tmp = list[i]; list[i] = list[j]; list[j] = tmp;
+    renumber();
+    changed();
+  }
+
+  function resetHiring() {
+    if (!seed) return;
+    if (!confirm('Replace the hiring list with the seeded list? Your list edits will be lost.')) return;
+    data.hiringList = clone(seed.hiringList);
+    changed();
+    toast('Hiring list reset');
+  }
+
+  // ─── Render everything + mark dirty ───────────────────────
+  function renderAll(opts) {
+    opts = opts || {};
+    renderTree();
+    if (!opts.skipNotes)  renderNotes();
+    if (!opts.skipRoles)  renderRoles();
+    if (!opts.skipHiring) renderHiring();
+  }
+
+  function changed(opts) {
+    dirty = true;
+    renderAll(opts);
+    scheduleSave();
+  }
+
+  // ─── Load ─────────────────────────────────────────────────
+  function normalize(raw) {
+    var d = raw || {};
+    d.schemaVersion = d.schemaVersion || 1;
+    d.calculator = d.calculator || {};
+    var c = d.calculator;
+    c.scheduledPerSDR = num(c.scheduledPerSDR, 13);
+    c.completedPerSDR = num(c.completedPerSDR, 10);
+    c.quarterlyTarget = num(c.quarterlyTarget, 7000);
+    // The 7,000 quarterly target is measured on completed demos, so that is
+    // the default reading. Scheduled stays visible as the secondary.
+    c.basis = (c.basis === 'scheduled') ? 'scheduled' : 'completed';
+
+    d.orgChart = d.orgChart || { id: 'n1', role: 'Head of Inside Sales (VP)', person: '', notes: '', kind: 'exec', children: [] };
+    // Guarantee every node has an id and a children array.
+    walk(d.orgChart, function (n) {
+      if (!n.id) n.id = uid('n');
+      if (!Array.isArray(n.children)) n.children = [];
+      if (!n.kind) n.kind = 'support';
+      if (n.existing !== true) delete n.existing;
+    });
+
+    d.notes = Array.isArray(d.notes) ? d.notes : [];
+    d.notes.forEach(function (n) {
+      if (!n.id) n.id = uid('note');
+      n.title = n.title || '';
+      n.body  = n.body  || '';
+    });
+    d.hiringNote = typeof d.hiringNote === 'string' ? d.hiringNote : '';
+
+    d.roleDefinitions = Array.isArray(d.roleDefinitions) ? d.roleDefinitions : [];
+    d.roleDefinitions.forEach(function (r) {
+      if (!r.id) r.id = uid('r');
+      r.title   = r.title || '';
+      r.context = r.context === true;
+      r.responsibilities = Array.isArray(r.responsibilities)
+        ? r.responsibilities.map(function (x) { return typeof x === 'string' ? x : String(x || ''); })
+        : [];
+    });
+
+    d.hiringList = Array.isArray(d.hiringList) ? d.hiringList : [];
+    d.hiringList.forEach(function (r, i) {
+      if (!r.id) r.id = uid('h');
+      r.priority  = i + 1;
+      r.role      = r.role || '';
+      r.reportsTo = r.reportsTo || '';
+      r.trigger   = r.trigger || '';
+      r.status    = STATUSES.indexOf(r.status) >= 0 ? r.status : 'Open';
+    });
+    return d;
+  }
+
+  async function load(silent) {
+    if (!silent) setStatus('busy', 'Loading');
+    try {
+      var raw = null;
+
+      // With a token, read through the API so we get the newest commit and
+      // the sha we need for the next write. Without one, read the file
+      // directly with a cache buster.
+      if (githubToken) {
+        var apiResp = await fetch(API_URL, {
+          headers: { 'Authorization': 'token ' + githubToken, 'Accept': 'application/vnd.github.v3+json' },
+          cache: 'no-store'
+        });
+        if (apiResp.ok) {
+          var apiData = await apiResp.json();
+          lastSha = apiData.sha;
+          raw = JSON.parse(base64ToUtf8(apiData.content));
+        }
+      }
+
+      if (!raw) {
+        var resp = await fetch(DATA_URL + '?_=' + Date.now(), { cache: 'no-store' });
+        if (!resp.ok) throw new Error('Could not fetch ' + DATA_FILE + ' (' + resp.status + ')');
+        raw = await resp.json();
+      }
+
+      data = normalize(raw);
+      seed = clone(data);
+      dirty = false;
+      renderAll();
+      setStatus(githubToken ? 'ok' : '', githubToken ? 'Saved' : 'Read only');
+      if (!silent) toast('Plan loaded');
+    } catch (e) {
+      console.error('OrgFlo load failed', e);
+      setStatus('error', 'Load failed');
+      toast('Could not load the plan: ' + e.message, 'err');
+    }
+  }
+
+  function reload() {
+    if (dirty && !confirm('Reload from the repo and discard unsaved changes on screen?')) return;
+    load();
+  }
+
+  // ─── Save ─────────────────────────────────────────────────
+  function scheduleSave() {
+    if (!githubToken) { setStatus('', 'Read only'); return; }
+    setStatus('busy', 'Saving soon');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () { save(); }, SAVE_DEBOUNCE_MS);
+  }
+
+  function saveNow() {
+    clearTimeout(saveTimer);
+    if (!githubToken) { toast('Read only. No edit token on the address', 'err'); return; }
+    save(true);
+  }
+
+  async function save(announce, isRetry) {
+    if (!githubToken || !data) return;
+    if (saving) { scheduleSave(); return; }
+
+    saving = true;
+    setStatus('busy', 'Saving');
+
+    try {
+      renumber();
+      data.updatedAt = new Date().toISOString();
+      data.appVersion = 'v1.4';
+
+      // Always take the current sha immediately before writing so a commit
+      // from another tab or from the automation does not get clobbered.
+      var getResp = await fetch(API_URL, {
+        headers: { 'Authorization': 'token ' + githubToken, 'Accept': 'application/vnd.github.v3+json' },
+        cache: 'no-store'
+      });
+      if (!getResp.ok) throw new Error('Could not read the current file (' + getResp.status + ')');
+      var fileData = await getResp.json();
+      lastSha = fileData.sha;
+
+      var body = {
+        message: 'Update SDR org plan via OrgFlo',
+        content: utf8ToBase64(JSON.stringify(data, null, 2)),
+        sha: lastSha
+      };
+
+      var putResp = await fetch(API_URL, {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'token ' + githubToken,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+
+      if (putResp.status === 409 && !isRetry) {
+        // Someone wrote in between the read and the write. Take a fresh sha once.
+        saving = false;
+        return save(announce, true);
+      }
+      if (!putResp.ok) {
+        var errText = await putResp.text();
+        throw new Error('Write rejected (' + putResp.status + ') ' + errText.slice(0, 140));
+      }
+
+      var result = await putResp.json();
+      lastSha = result.content && result.content.sha;
+      dirty = false;
+      setStatus('ok', 'Saved');
+      if (announce) toast('Plan saved to the repo', 'ok');
+    } catch (e) {
+      console.error('OrgFlo save failed', e);
+      setStatus('error', 'Save failed');
+      toast('Save failed: ' + e.message, 'err');
+    } finally {
+      saving = false;
+    }
+  }
+
+  // ─── Boot ─────────────────────────────────────────────────
+  async function init() {
+    githubToken = getGithubToken();
+    if (!githubToken) $('readOnlyBanner').style.display = '';
+
+
+    await load(true);
+    if (!data) return;
+
+    // Open on the traditional chart, folded to the leadership layer so it
+    // reads as a presentable one screen chart rather than 30 boxes wide.
+    applyView();
+    applyZoom(false);
+    expandToDepth(1);
+
+    $('mKind').addEventListener('change', syncHeadcountField);
+
+    // Responsibility lines are auto sized, so re-measure them when the
+    // column width changes.
+    var growTimer = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(growTimer);
+      growTimer = setTimeout(growAllResp, 120);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && $('nodeModal').classList.contains('open')) closeNodeModal();
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') { e.preventDefault(); saveNow(); }
+    });
+
+    window.addEventListener('beforeunload', function (e) {
+      if (dirty && githubToken) { e.preventDefault(); e.returnValue = ''; }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // ─── Public surface ───────────────────────────────────────
+  return {
+    toggle: toggle,
+    setView: setView,
+    zoom: zoom,
+    expandToDepth: expandToDepth,
+    expandAll: expandAll,
+    addChild: addChild,
+    removeNode: removeNode,
+    moveNode: moveNode,
+    expandTeam: expandTeam,
+    resetChart: resetChart,
+    openNodeModal: openNodeModal,
+    closeNodeModal: closeNodeModal,
+    commitNodeModal: commitNodeModal,
+    addRole: addRole,
+    editRole: editRole,
+    moveRole: moveRole,
+    removeRole: removeRole,
+    toggleRoleContext: toggleRoleContext,
+    addResp: addResp,
+    editResp: editResp,
+    removeResp: removeResp,
+    growResp: autoGrow,
+    addNote: addNote,
+    editNote: editNote,
+    moveNote: moveNote,
+    removeNote: removeNote,
+    editHiringNote: editHiringNote,
+    addHire: addHire,
+    editHire: editHire,
+    moveHire: moveHire,
+    removeHire: removeHire,
+    resetHiring: resetHiring,
+    saveNow: saveNow,
+    reload: reload
+  };
+})();
+</script>
+</body>
+</html>

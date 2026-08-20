@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "appVersion": "v1.4",
-  "updatedAt": "2026-08-20T23:26:59.474Z",
+  "updatedAt": "2026-08-20T23:27:48.358Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -43,7 +43,7 @@
       "responsibilities": [
         "Owns the entire SDR org, its number of 7,000 completed demos per quarter, and the operating model.",
         "Builds and leads the leadership layer, sets the coaching culture, and hires and develops the directors.",
-        "Owns capacity planning, headcount ramp, targets, comp, and reporting to the COO.",
+        "Owns capacity planning, headcount ramp, targets, comp",
         "Stays close to the floor and protects the org from meeting and tool bloat."
       ]
     },
@@ -88,8 +88,7 @@
         "Owns new hire onboarding and ramp certification across the first 30, 60 and 90 days, and is accountable for ramp to productivity time.",
         "Builds the coaching infrastructure, call scoring rubrics, playbooks, and 1:1 and call review frameworks, and trains the managers to coach.",
         "Owns the SDR tool stack, dialer, sequencer and conversation intelligence, and keeps training lightweight and just in time.",
-        "Operationalizes Product Marketing messaging into rep ready sequences, talk tracks, and objection handling.",
-        "Deliberately lean, measured on ramp rather than on session count."
+        "Operationalizes Product Marketing messaging into rep ready sequences, talk tracks, and objection handling."
       ]
     },
     {

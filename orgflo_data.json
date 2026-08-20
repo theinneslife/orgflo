@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "appVersion": "v1.4",
-  "updatedAt": "2026-08-19T00:00:00Z",
+  "updatedAt": "2026-08-20T23:25:54.011Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -17,7 +17,7 @@
     {
       "id": "note2",
       "title": "Span of control",
-      "body": "One manager per 8 SDRs, not 10, to leave real room for coaching. One director per roughly 50 SDRs. That lands at 30 managers and 5 directors. The org is seeded at 240 seats rather than 234 so every team is full at 8, which covers the 234 requirement with 6 seats of headroom."
+      "body": "One manager per 8 SDRs to leave real room for coaching. One director per roughly 50 SDRs. That lands at 30 managers and 5 directors. The org is seeded at 240 seats to drive 7k demos per quarter"
     },
     {
       "id": "note3",

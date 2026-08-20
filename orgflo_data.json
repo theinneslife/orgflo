@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "appVersion": "v1.4",
-  "updatedAt": "2026-08-20T23:28:03.661Z",
+  "updatedAt": "2026-08-20T23:28:05.671Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,

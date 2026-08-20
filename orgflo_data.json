@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "appVersion": "v1.4",
-  "updatedAt": "2026-08-20T23:27:48.358Z",
+  "updatedAt": "2026-08-20T23:27:51.527Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -86,9 +86,7 @@
       "context": false,
       "responsibilities": [
         "Owns new hire onboarding and ramp certification across the first 30, 60 and 90 days, and is accountable for ramp to productivity time.",
-        "Builds the coaching infrastructure, call scoring rubrics, playbooks, and 1:1 and call review frameworks, and trains the managers to coach.",
-        "Owns the SDR tool stack, dialer, sequencer and conversation intelligence, and keeps training lightweight and just in time.",
-        "Operationalizes Product Marketing messaging into rep ready sequences, talk tracks, and objection handling."
+        "Builds the coaching infrastructure, call scoring rubrics, playbooks, and 1:1 and call review frameworks, and trains the managers to coach."
       ]
     },
     {

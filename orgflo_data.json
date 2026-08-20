@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "appVersion": "v1.4",
-  "updatedAt": "2026-08-20T23:25:54.011Z",
+  "updatedAt": "2026-08-20T23:26:28.032Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -22,7 +22,7 @@
     {
       "id": "note3",
       "title": "Messaging is owned by Product Marketing",
-      "body": "Product Marketing already provides messaging and content, so messaging is owned by PMM and not by this org. Enablement operationalizes what PMM produces into rep ready sequences and talk tracks."
+      "body": "Product Marketing already provides messaging and content, so messaging and sequences is owned by PMM"
     },
     {
       "id": "note4",

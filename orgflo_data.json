@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "appVersion": "v1.4",
-  "updatedAt": "2026-08-20T23:26:28.032Z",
+  "updatedAt": "2026-08-20T23:26:47.076Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -27,7 +27,7 @@
     {
       "id": "note4",
       "title": "Enablement stays lean",
-      "body": "Enablement is deliberately a single role, scoped so it does not duplicate Product Marketing or the managers. It is measured on ramp to productivity, not on the number of training sessions run."
+      "body": "Enablement is deliberately a single role that is setup to onboard the team the first 90 days, then hand to managers. "
     },
     {
       "id": "note5",

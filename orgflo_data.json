@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "appVersion": "v1.4",
-  "updatedAt": "2026-08-20T23:27:51.527Z",
+  "updatedAt": "2026-08-20T23:27:54.546Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -85,8 +85,7 @@
       "title": "SDR Enablement Lead",
       "context": false,
       "responsibilities": [
-        "Owns new hire onboarding and ramp certification across the first 30, 60 and 90 days, and is accountable for ramp to productivity time.",
-        "Builds the coaching infrastructure, call scoring rubrics, playbooks, and 1:1 and call review frameworks, and trains the managers to coach."
+        "Owns new hire onboarding and ramp certification across the first 30, 60 and 90 days, and is accountable for ramp to productivity time."
       ]
     },
     {

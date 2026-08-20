@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "appVersion": "v1.4",
-  "updatedAt": "2026-08-20T23:27:54.546Z",
+  "updatedAt": "2026-08-20T23:28:03.661Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -757,7 +757,7 @@
       "id": "h1",
       "priority": 1,
       "role": "Head of Inside Sales",
-      "reportsTo": "COO",
+      "reportsTo": "CEO",
       "trigger": "Hire first. This person builds the org",
       "status": "Open"
     },

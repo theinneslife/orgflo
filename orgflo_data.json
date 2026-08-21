@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 4,
-  "appVersion": "v1.6",
+  "schemaVersion": 6,
+  "appVersion": "v1.7",
   "updatedAt": "2026-08-21T00:00:00Z",
   "calculator": {
     "scheduledPerSDR": 13,
@@ -33,6 +33,26 @@
       "id": "note5",
       "title": "Existing shared functions",
       "body": "Rev Ops, Sales Recruiter and Talent Partner, and Content and Messaging already exist on the current team. "
+    },
+    {
+      "id": "note6",
+      "title": "Phase 1, hire the org to capacity",
+      "body": "Phase 1 is 106 net new hires: 90 internal MDRs plus the leadership to support them, 12 managers at one per 8, 2 directors, 1 MDR Enablement Lead and the Head of Inside Sales. It runs alongside what already exists rather than replacing it."
+    },
+    {
+      "id": "note7",
+      "title": "The overage is deliberate",
+      "body": "Capacity today is 181, which is 31 internal plus 150 outsourced. The 90 Phase 1 hires take working capacity to 271, roughly 30 over the 240 target. That buffer is on purpose. Hiring is constant and ongoing so we can weed out and replace underperformers without dropping below the number."
+    },
+    {
+      "id": "note8",
+      "title": "Phase 2, replace outsourced and legacy with internal",
+      "body": "Phase 2 swaps the 150 outsourced MDRs for internal MDRs and rebuilds the 31 legacy internal seats with their 4 managers and 1 director into the end state structure. Leadership builds out to 30 managers and 5 directors. After continuous trimming the org settles at roughly 240 fully internal MDRs."
+    },
+    {
+      "id": "note9",
+      "title": "Assumption on the legacy leaders",
+      "body": "The model absorbs the 4 existing managers and 1 existing director into the 30 and 5 end state, so Phase 2 adds 14 managers and 2 directors. If those leaders are replaced rather than kept, Phase 2 is 18 managers and 3 directors instead."
     }
   ],
   "roleDefinitions": [
@@ -43,6 +63,7 @@
       "responsibilities": [
         "Owns the entire MDR org, its number of 7,000 completed demos per quarter, and the operating model.",
         "Builds and leads the leadership layer, sets the coaching culture, and hires and develops the directors.",
+        "Owns the two phase build: Phase 1 hires to capacity, Phase 2 replaces the outsourced and legacy teams with internal MDRs.",
         "Owns capacity planning, headcount ramp, targets, comp",
         "Stays close to the floor and protects the org from meeting and tool bloat."
       ]
@@ -54,6 +75,7 @@
       "responsibilities": [
         "Owns a segment of about 50 MDRs across roughly 6 managers, and their share of the demo target.",
         "Develops and coaches the managers, the coach the coach work, runs manager 1:1s, and holds the coaching standard.",
+        "Runs their share of the phase plan, whether that is standing up net new Phase 1 teams or converting outsourced seats to internal in Phase 2.",
         "Accountable for team demo output, ramp, and quality, and removes blockers.",
         "Must have real MDR and people management experience."
       ]
@@ -163,27 +185,147 @@
         "person": "",
         "notes": "Net new hire, deliberately a single role. Remit: new hire onboarding and ramp certification, which is critical at wave hiring velocity. Building the coaching infrastructure, call scoring rubrics and playbooks, and training the managers to coach, the coach the coach work. Owning the MDR tool stack so reps and managers do not carry tool training. Operationalizing Product Marketing's messaging into rep ready sequences and talk tracks. Measured on ramp to productivity, not on the number of training sessions run.",
         "kind": "support",
-        "children": []
+        "children": [],
+        "phase": "p1"
+      },
+      {
+        "id": "x1",
+        "role": "Director of MDR, internal today",
+        "person": "",
+        "notes": "Exists today. Owns the legacy internal team of 31 MDRs across 4 managers. Rebuilt into the end state structure in Phase 2.",
+        "kind": "director",
+        "phase": "existing",
+        "children": [
+          {
+            "id": "x1m1",
+            "role": "MDR Manager, internal 1",
+            "person": "",
+            "notes": "Exists today. Manages 8 internal MDRs. Rebuilt into the end state structure in Phase 2.",
+            "kind": "manager",
+            "children": [
+              {
+                "id": "x1t1",
+                "role": "MDR Team, internal 1",
+                "person": "",
+                "notes": "Exists today. Represents 8 internal MDRs. Replaced or rebuilt in Phase 2.",
+                "kind": "team",
+                "headcount": 8,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "x1m2",
+            "role": "MDR Manager, internal 2",
+            "person": "",
+            "notes": "Exists today. Manages 8 internal MDRs. Rebuilt into the end state structure in Phase 2.",
+            "kind": "manager",
+            "children": [
+              {
+                "id": "x1t2",
+                "role": "MDR Team, internal 2",
+                "person": "",
+                "notes": "Exists today. Represents 8 internal MDRs. Replaced or rebuilt in Phase 2.",
+                "kind": "team",
+                "headcount": 8,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "x1m3",
+            "role": "MDR Manager, internal 3",
+            "person": "",
+            "notes": "Exists today. Manages 8 internal MDRs. Rebuilt into the end state structure in Phase 2.",
+            "kind": "manager",
+            "children": [
+              {
+                "id": "x1t3",
+                "role": "MDR Team, internal 3",
+                "person": "",
+                "notes": "Exists today. Represents 8 internal MDRs. Replaced or rebuilt in Phase 2.",
+                "kind": "team",
+                "headcount": 8,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "x1m4",
+            "role": "MDR Manager, internal 4",
+            "person": "",
+            "notes": "Exists today. Manages 7 internal MDRs. Rebuilt into the end state structure in Phase 2.",
+            "kind": "manager",
+            "children": [
+              {
+                "id": "x1t4",
+                "role": "MDR Team, internal 4",
+                "person": "",
+                "notes": "Exists today. Represents 7 internal MDRs. Replaced or rebuilt in Phase 2.",
+                "kind": "team",
+                "headcount": 7,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "x2",
+        "role": "Outsourced MDR team (vendor)",
+        "person": "",
+        "notes": "Ramping to 150 MDRs. Vendor managed, so its leadership is not internal headcount. Counts toward capacity during Phase 1 and is replaced seat for seat with internal MDRs in Phase 2.",
+        "kind": "support",
+        "phase": "outsourced",
+        "children": [
+          {
+            "id": "x2p1",
+            "role": "Outsourced pod 1",
+            "person": "",
+            "notes": "Represents 50 outsourced MDRs. Replaced with internal MDRs in Phase 2.",
+            "kind": "team",
+            "headcount": 50,
+            "children": []
+          },
+          {
+            "id": "x2p2",
+            "role": "Outsourced pod 2",
+            "person": "",
+            "notes": "Represents 50 outsourced MDRs. Replaced with internal MDRs in Phase 2.",
+            "kind": "team",
+            "headcount": 50,
+            "children": []
+          },
+          {
+            "id": "x2p3",
+            "role": "Outsourced pod 3",
+            "person": "",
+            "notes": "Represents 50 outsourced MDRs. Replaced with internal MDRs in Phase 2.",
+            "kind": "team",
+            "headcount": 50,
+            "children": []
+          }
+        ]
       },
       {
         "id": "n18",
         "role": "Director of MDR #1",
         "person": "",
-        "notes": "Spans 48 MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
+        "notes": "Phase 1 hire. Spans 45 net new internal MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
         "kind": "director",
         "children": [
           {
             "id": "n7",
             "role": "MDR Manager 1.1",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n6",
                 "role": "MDR Team 1.1",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 8 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -194,14 +336,14 @@
             "id": "n9",
             "role": "MDR Manager 1.2",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n8",
                 "role": "MDR Team 1.2",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 8 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -212,14 +354,14 @@
             "id": "n11",
             "role": "MDR Manager 1.3",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n10",
                 "role": "MDR Team 1.3",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 8 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -230,16 +372,16 @@
             "id": "n13",
             "role": "MDR Manager 1.4",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 7 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n12",
                 "role": "MDR Team 1.4",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 7 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
-                "headcount": 8,
+                "headcount": 7,
                 "children": []
               }
             ]
@@ -248,16 +390,16 @@
             "id": "n15",
             "role": "MDR Manager 1.5",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 7 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n14",
                 "role": "MDR Team 1.5",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 7 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
-                "headcount": 8,
+                "headcount": 7,
                 "children": []
               }
             ]
@@ -266,41 +408,42 @@
             "id": "n17",
             "role": "MDR Manager 1.6",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 7 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n16",
                 "role": "MDR Team 1.6",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 7 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
-                "headcount": 8,
+                "headcount": 7,
                 "children": []
               }
             ]
           }
-        ]
+        ],
+        "phase": "p1"
       },
       {
         "id": "n31",
         "role": "Director of MDR #2",
         "person": "",
-        "notes": "Spans 48 MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
+        "notes": "Phase 1 hire. Spans 45 net new internal MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
         "kind": "director",
         "children": [
           {
             "id": "n20",
             "role": "MDR Manager 2.1",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n19",
                 "role": "MDR Team 2.1",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 8 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -311,14 +454,14 @@
             "id": "n22",
             "role": "MDR Manager 2.2",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n21",
                 "role": "MDR Team 2.2",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 8 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -329,14 +472,14 @@
             "id": "n24",
             "role": "MDR Manager 2.3",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n23",
                 "role": "MDR Team 2.3",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 8 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -347,16 +490,16 @@
             "id": "n26",
             "role": "MDR Manager 2.4",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 7 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n25",
                 "role": "MDR Team 2.4",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 7 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
-                "headcount": 8,
+                "headcount": 7,
                 "children": []
               }
             ]
@@ -365,16 +508,16 @@
             "id": "n28",
             "role": "MDR Manager 2.5",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 7 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n27",
                 "role": "MDR Team 2.5",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 7 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
-                "headcount": 8,
+                "headcount": 7,
                 "children": []
               }
             ]
@@ -383,432 +526,142 @@
             "id": "n30",
             "role": "MDR Manager 2.6",
             "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
+            "notes": "Phase 1 hire. Manages a team of 7 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n29",
                 "role": "MDR Team 2.6",
                 "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
+                "notes": "Phase 1 hire. Represents 7 net new internal MDRs. Expand into slots to name individuals.",
                 "kind": "team",
-                "headcount": 8,
+                "headcount": 7,
                 "children": []
               }
             ]
           }
-        ]
-      },
-      {
-        "id": "n44",
-        "role": "Director of MDR #3",
-        "person": "",
-        "notes": "Spans 48 MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
-        "kind": "director",
-        "children": [
-          {
-            "id": "n33",
-            "role": "MDR Manager 3.1",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n32",
-                "role": "MDR Team 3.1",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n35",
-            "role": "MDR Manager 3.2",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n34",
-                "role": "MDR Team 3.2",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n37",
-            "role": "MDR Manager 3.3",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n36",
-                "role": "MDR Team 3.3",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n39",
-            "role": "MDR Manager 3.4",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n38",
-                "role": "MDR Team 3.4",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n41",
-            "role": "MDR Manager 3.5",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n40",
-                "role": "MDR Team 3.5",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n43",
-            "role": "MDR Manager 3.6",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n42",
-                "role": "MDR Team 3.6",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "n57",
-        "role": "Director of MDR #4",
-        "person": "",
-        "notes": "Spans 48 MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
-        "kind": "director",
-        "children": [
-          {
-            "id": "n46",
-            "role": "MDR Manager 4.1",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n45",
-                "role": "MDR Team 4.1",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n48",
-            "role": "MDR Manager 4.2",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n47",
-                "role": "MDR Team 4.2",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n50",
-            "role": "MDR Manager 4.3",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n49",
-                "role": "MDR Team 4.3",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n52",
-            "role": "MDR Manager 4.4",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n51",
-                "role": "MDR Team 4.4",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n54",
-            "role": "MDR Manager 4.5",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n53",
-                "role": "MDR Team 4.5",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n56",
-            "role": "MDR Manager 4.6",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n55",
-                "role": "MDR Team 4.6",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "n70",
-        "role": "Director of MDR #5",
-        "person": "",
-        "notes": "Spans 48 MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
-        "kind": "director",
-        "children": [
-          {
-            "id": "n59",
-            "role": "MDR Manager 5.1",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n58",
-                "role": "MDR Team 5.1",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n61",
-            "role": "MDR Manager 5.2",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n60",
-                "role": "MDR Team 5.2",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n63",
-            "role": "MDR Manager 5.3",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n62",
-                "role": "MDR Team 5.3",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n65",
-            "role": "MDR Manager 5.4",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n64",
-                "role": "MDR Team 5.4",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n67",
-            "role": "MDR Manager 5.5",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n66",
-                "role": "MDR Team 5.5",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          },
-          {
-            "id": "n69",
-            "role": "MDR Manager 5.6",
-            "person": "",
-            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
-            "kind": "manager",
-            "children": [
-              {
-                "id": "n68",
-                "role": "MDR Team 5.6",
-                "person": "",
-                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
-                "kind": "team",
-                "headcount": 8,
-                "children": []
-              }
-            ]
-          }
-        ]
+        ],
+        "phase": "p1"
       }
-    ]
+    ],
+    "phase": "p1"
   },
   "hiringList": [
     {
-      "id": "h1",
+      "id": "p1a",
       "priority": 1,
+      "phase": "p1",
       "role": "Head of Inside Sales",
       "reportsTo": "CEO",
-      "trigger": "Hire first. This person builds the org",
+      "trigger": "Hire first. This person builds the org and owns both phases",
       "status": "Open"
     },
     {
-      "id": "h2",
+      "id": "p1b",
       "priority": 2,
+      "phase": "p1",
       "role": "MDR Enablement Lead",
       "reportsTo": "Head of Inside Sales",
       "trigger": "Before the first wave. Owns onboarding, ramp, coach the coach, the tool stack, and operationalizing PMM content",
       "status": "Open"
     },
     {
-      "id": "h3",
+      "id": "p1c",
       "priority": 3,
+      "phase": "p1",
       "role": "Director of MDR #1",
       "reportsTo": "Head of Inside Sales",
       "trigger": "With wave one",
       "status": "Open"
     },
     {
-      "id": "h4",
+      "id": "p1d",
       "priority": 4,
+      "phase": "p1",
       "role": "First MDR Managers, one per 8 MDRs",
       "reportsTo": "Director of MDR #1",
       "trigger": "Ahead of each wave. Must have real MDR and coaching experience",
       "status": "Open"
     },
     {
-      "id": "h5",
+      "id": "p1e",
       "priority": 5,
+      "phase": "p1",
       "role": "MDR Wave 1, 35 MDRs, then plus 30 per week",
       "reportsTo": "MDR Managers",
-      "trigger": "Weekly until target headcount, 240 seats at full productivity, covering the 234 requirement",
+      "trigger": "Weekly until all 90 net new internal MDRs are in",
       "status": "Open"
     },
     {
-      "id": "h6",
+      "id": "p1f",
       "priority": 6,
-      "role": "Directors #2 to #5",
+      "phase": "p1",
+      "role": "Director of MDR #2",
       "reportsTo": "Head of Inside Sales",
-      "trigger": "Added as headcount passes roughly 50, 100, 150 and 200",
+      "trigger": "As Phase 1 headcount passes roughly 48",
       "status": "Open"
     },
     {
-      "id": "h7",
+      "id": "p1g",
       "priority": 7,
-      "role": "Additional Managers",
+      "phase": "p1",
+      "role": "Remaining Phase 1 Managers, 12 in total",
       "reportsTo": "Directors of MDR",
-      "trigger": "One added per 8 new MDRs",
+      "trigger": "One added per 8 new MDRs as each wave lands",
+      "status": "Open"
+    },
+    {
+      "id": "p2a",
+      "priority": 8,
+      "phase": "p2",
+      "role": "Internal MDRs to replace the outsourced 150",
+      "reportsTo": "MDR Managers",
+      "trigger": "Start once Phase 1 is at capacity and ramp is holding. Wind the vendor down as internal seats fill",
+      "status": "Open"
+    },
+    {
+      "id": "p2b",
+      "priority": 9,
+      "phase": "p2",
+      "role": "Additional MDR Managers, 14 more to reach 30",
+      "reportsTo": "Directors of MDR",
+      "trigger": "One added per 8 replacement MDRs",
+      "status": "Open"
+    },
+    {
+      "id": "p2c",
+      "priority": 10,
+      "phase": "p2",
+      "role": "Directors of MDR, 2 more to reach 5",
+      "reportsTo": "Head of Inside Sales",
+      "trigger": "Added as internal headcount passes roughly 150 and 200",
+      "status": "Open"
+    },
+    {
+      "id": "p2d",
+      "priority": 11,
+      "phase": "p2",
+      "role": "Internal MDRs to rebuild the 31 legacy internal seats",
+      "reportsTo": "MDR Managers",
+      "trigger": "Once the outsourced replacement is underway",
+      "status": "Open"
+    },
+    {
+      "id": "p2e",
+      "priority": 12,
+      "phase": "p2",
+      "role": "Rebuild the legacy leadership, 4 managers and 1 director",
+      "reportsTo": "Head of Inside Sales",
+      "trigger": "Absorbed into the 30 and 5 end state where the bar is met, replaced where it is not",
       "status": "Open"
     }
   ],
-  "hiringNote": "Rev Ops, Sales Recruiter, and Content / Messaging already exist on the current team and are not new hires here. Product Marketing owns messaging and content, so this org does not hire for it."
+  "hiringNote": "Rev Ops, Sales Recruiter, and Content / Messaging already exist on the current team and are not new hires here. Product Marketing owns messaging and content, so this org does not hire for it. Phase 1 is net new hiring to reach capacity. Phase 2 is internal replacement of the outsourced and legacy teams, not additional capacity.",
+  "endState": {
+    "mdrs": 240,
+    "managers": 30,
+    "directors": 5,
+    "enablementLeads": 1,
+    "leaders": 1
+  }
 }

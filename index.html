@@ -506,6 +506,123 @@
       background: rgba(244,114,182,0.1);
     }
 
+    /* Phase tags. Every MDR pod reads as one of three things: on the team
+       today, outsourced and due for replacement, or a Phase 1 hire. */
+    .pill.ph-existing {
+      color: var(--accent-yellow);
+      border-color: rgba(251,191,36,0.4);
+      background: rgba(251,191,36,0.1);
+    }
+    .pill.ph-outsourced {
+      color: var(--accent-orange);
+      border-color: rgba(251,146,60,0.4);
+      background: rgba(251,146,60,0.1);
+    }
+    .pill.ph-p1 {
+      color: var(--accent-green);
+      border-color: rgba(52,211,153,0.4);
+      background: rgba(52,211,153,0.1);
+    }
+
+    .obox.ph-existing   { box-shadow: inset 3px 0 0 var(--accent-yellow); }
+    .obox.ph-outsourced { box-shadow: inset 3px 0 0 var(--accent-orange); }
+    .obox.ph-p1         { box-shadow: inset 3px 0 0 var(--accent-green); }
+    .node-row.ph-existing   { box-shadow: inset 3px 0 0 rgba(251,191,36,0.55); }
+    .node-row.ph-outsourced { box-shadow: inset 3px 0 0 rgba(251,146,60,0.55); }
+    .node-row.ph-p1         { box-shadow: inset 3px 0 0 rgba(52,211,153,0.55); }
+
+    .obox-phase {
+      font-size: 0.55rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+      opacity: 0.9;
+    }
+    .obox.ph-existing   .obox-phase { color: var(--accent-yellow); }
+    .obox.ph-outsourced .obox-phase { color: var(--accent-orange); }
+    .obox.ph-p1         .obox-phase { color: var(--accent-green); }
+
+    /* ============================================
+       Headcount summary
+       ============================================ */
+    .hc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.7rem;
+    }
+
+    .hc-tile {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.7rem 0.8rem;
+    }
+    .hc-tile.t-existing   { border-left-color: var(--accent-yellow); }
+    .hc-tile.t-outsourced { border-left-color: var(--accent-orange); }
+    .hc-tile.t-p1         { border-left-color: var(--accent-green); }
+    .hc-tile.t-p2         { border-left-color: var(--accent-blue); }
+    .hc-tile.t-end        { border-left-color: var(--accent-purple); }
+
+    .hc-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .hc-num {
+      font-size: 1.5rem;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--text-primary);
+    }
+    .hc-num small { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); }
+    .hc-sub {
+      font-size: 0.72rem;
+      line-height: 1.45;
+      color: var(--text-secondary);
+      margin-top: 0.15rem;
+    }
+    .hc-foot {
+      margin-top: 0.85rem;
+      font-size: 0.75rem;
+      line-height: 1.55;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-color);
+      padding-top: 0.7rem;
+    }
+
+    /* Phase banding inside the hiring table */
+    tr.phase-head td {
+      padding: 0.9rem 0.35rem 0.35rem;
+      border-top: 1px solid var(--border-color);
+    }
+    tr.phase-head:first-child td { border-top: none; padding-top: 0.2rem; }
+    .phase-head-inner {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .phase-name {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .phase-head.p-p1 .phase-name { color: var(--accent-green); }
+    .phase-head.p-p2 .phase-name { color: var(--accent-blue); }
+    .phase-desc { font-size: 0.72rem; color: var(--text-muted); }
+
+    .phase-sel {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.25rem 0.3rem;
+    }
+    td.c-phase { width: 6rem; }
+
     /* ============================================
        Notes
        ============================================ */
@@ -984,7 +1101,7 @@
         <text x="80" y="28" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="20" font-weight="700" fill="url(#of-g)">Flo</text>
         <path d="M80 33Q96 28 114 33" stroke="url(#of-g)" stroke-width="2" fill="none" opacity=".8"/>
       </svg>
-      <span class="version-badge">v1.6</span>
+      <span class="version-badge">v1.7</span>
     </div>
 
 
@@ -1018,11 +1135,24 @@
       </div>
     </section>
 
+    <!-- ─── HEADCOUNT SUMMARY ─── -->
+    <section class="section">
+      <div class="section-label">
+        Headcount summary
+        <span class="hint">Where the org sits today, what Phase 1 hires, what Phase 2 replaces, and the fully internal end state</span>
+      </div>
+
+      <div class="card">
+        <div class="hc-grid" id="hcGrid"></div>
+        <div class="hc-foot" id="hcFoot"></div>
+      </div>
+    </section>
+
     <!-- ─── 2. ORG CHART ─── -->
     <section class="section">
       <div class="section-label">
         Org chart
-        <span class="hint">240 MDR seats covering the 234 requirement at 10 completed demos per MDR per month, with every team full at 8. One director per roughly 50 MDRs</span>
+        <span class="hint">The org as it stands once Phase 1 lands: 31 internal today, 150 outsourced, and 90 Phase 1 hires, which is 271 of working capacity against a 240 target. Every pod is tagged internal today, outsourced or Phase 1 hire. One manager per 8 MDRs, one director per roughly 6 managers</span>
       </div>
 
       <div class="card">
@@ -1094,6 +1224,7 @@
             <thead>
               <tr>
                 <th>Priority</th>
+                <th>Phase</th>
                 <th>Role</th>
                 <th>Reports to</th>
                 <th>When to hire (trigger)</th>
@@ -1152,6 +1283,17 @@
     </div>
 
     <div class="field">
+      <label for="mPhase">Phase tag</label>
+      <select id="mPhase">
+        <option value="">Inherit from the role above</option>
+        <option value="existing">Internal today, rebuilt in Phase 2</option>
+        <option value="outsourced">Outsourced, replaced in Phase 2</option>
+        <option value="p1">Phase 1 hire</option>
+      </select>
+      <div class="sub">Everything reporting to this role inherits the tag unless it sets its own.</div>
+    </div>
+
+    <div class="field">
       <div class="check-row">
         <input type="checkbox" id="mExisting">
         <label for="mExisting">This role already exists on the current team</label>
@@ -1176,7 +1318,7 @@
 <script>
 /* ============================================================
    OrgFlo — MDR organization designer
-   v1.6
+   v1.7
 
    Persistence pattern:
    the plan lives in orgflo_data.json in the repo, and edits are
@@ -1288,11 +1430,148 @@ var OrgFlo = (function () {
     return n;
   }
 
+  // ─── Phases ───────────────────────────────────────────────
+  // Three tags describe where a pod came from: 'existing' is on the team
+  // today, 'outsourced' is the vendor team, 'p1' is a Phase 1 hire. A node
+  // sets its own tag and everything below inherits it, so a pod added under
+  // a Phase 1 director reads as a Phase 1 hire without any extra work.
+  // Phase 2 is a replacement programme rather than a branch of the tree, so
+  // it shows up on the pods it replaces, in the hiring list and in the
+  // summary rather than as nodes of its own.
+  var PHASES = ['existing', 'outsourced', 'p1'];
+  var PHASE_LABEL = {
+    existing:   'Internal today · Phase 2 rebuild',
+    outsourced: 'Outsourced · Phase 2 replace',
+    p1:         'Phase 1 hire'
+  };
+  var PHASE_SHORT = { existing: 'Internal today', outsourced: 'Outsourced', p1: 'Phase 1 hire' };
+
+  var phaseOf = {};              // nodeId -> one of PHASES, or ''
+
+  function computePhases() {
+    phaseOf = {};
+    (function rec(node, p) {
+      var mine = node.kind === 'shared' ? ''
+               : PHASES.indexOf(node.phase) >= 0 ? node.phase : p;
+      phaseOf[node.id] = mine || '';
+      (node.children || []).forEach(function (c) { rec(c, mine); });
+    })(data.orgChart, '');
+  }
+
+  function phaseFor(node) { return phaseOf[node.id] || ''; }
+
+  // What a single node contributes on its own, so summing across the tree
+  // never double counts a team against the slots it was expanded into.
+  function ownSeats(node) {
+    if (node.kind === 'sdr') return 1;
+    if (node.kind === 'team') {
+      var kidSeats = (node.children || []).reduce(function (t, c) { return t + sdrSeats(c); }, 0);
+      return kidSeats > 0 ? 0 : num(node.headcount, 0);
+    }
+    return 0;
+  }
+
+  function seatsInPhase(phase) {
+    var n = 0;
+    walk(data.orgChart, function (node) { if (phaseFor(node) === phase) n += ownSeats(node); });
+    return n;
+  }
+
+  function countKindInPhase(kind, phase) {
+    var n = 0;
+    walk(data.orgChart, function (node) {
+      if (node.kind === kind && phaseFor(node) === phase) n += 1;
+    });
+    return n;
+  }
+
+  function endState() {
+    var e = data.endState || {};
+    return {
+      mdrs:        num(e.mdrs, 240),
+      managers:    num(e.managers, 30),
+      directors:   num(e.directors, 5),
+      enablement:  num(e.enablementLeads, 1),
+      leaders:     num(e.leaders, 1)
+    };
+  }
+
+  // Every number the summary shows, derived from the chart so it stays
+  // honest when the chart is edited.
+  function headcount() {
+    var e = endState();
+    var h = {
+      exMdr:  seatsInPhase('existing'),
+      exMgr:  countKindInPhase('manager', 'existing'),
+      exDir:  countKindInPhase('director', 'existing'),
+      outMdr: seatsInPhase('outsourced'),
+      p1Mdr:  seatsInPhase('p1'),
+      p1Mgr:  countKindInPhase('manager', 'p1'),
+      p1Dir:  countKindInPhase('director', 'p1'),
+      p1Sup:  countKindInPhase('support', 'p1'),
+      p1Exec: countKindInPhase('exec', 'p1'),
+      end: e
+    };
+    h.capacityNow  = h.exMdr + h.outMdr;
+    h.p1Hires      = h.p1Mdr + h.p1Mgr + h.p1Dir + h.p1Sup + h.p1Exec;
+    h.capacityP1   = h.capacityNow + h.p1Mdr;
+    h.overage      = h.capacityP1 - e.mdrs;
+    h.p2Replace    = h.outMdr + h.exMdr;
+    h.p2Mgr        = Math.max(0, e.managers  - h.p1Mgr - h.exMgr);
+    h.p2Dir        = Math.max(0, e.directors - h.p1Dir - h.exDir);
+    h.endRoles     = e.mdrs + e.managers + e.directors + e.enablement + e.leaders;
+    return h;
+  }
+
   // ─── Org chart rendering ──────────────────────────────────
   var KIND_LABEL = {
     exec: 'Exec', director: 'Director', manager: 'Manager',
     team: 'Team', sdr: 'MDR', support: 'Support', shared: 'Shared'
   };
+
+  // ─── Headcount summary ────────────────────────────────────
+  function tile(cls, label, big, small, sub) {
+    return '<div class="hc-tile ' + cls + '">' +
+      '<div class="hc-label">' + esc(label) + '</div>' +
+      '<div class="hc-num">' + esc(big) + (small ? ' <small>' + esc(small) + '</small>' : '') + '</div>' +
+      '<div class="hc-sub">' + esc(sub) + '</div>' +
+      '</div>';
+  }
+
+  function renderSummary() {
+    var h = headcount();
+    var e = h.end;
+
+    var html = '';
+    html += tile('t-existing', 'Internal today', fmt(h.exMdr), 'MDRs',
+                 fmt(h.exMgr) + ' managers and ' + fmt(h.exDir) + ' director. Rebuilt into the end state in Phase 2.');
+    html += tile('t-outsourced', 'Outsourced today', fmt(h.outMdr), 'MDRs',
+                 'Vendor managed and ramping. Replaced seat for seat with internal MDRs in Phase 2.');
+    html += tile('t-existing', 'Capacity today', fmt(h.capacityNow), 'MDRs',
+                 fmt(h.exMdr) + ' internal plus ' + fmt(h.outMdr) + ' outsourced.');
+    html += tile('t-p1', 'Phase 1 net new hires', fmt(h.p1Hires), 'people',
+                 fmt(h.p1Mdr) + ' MDRs, ' + fmt(h.p1Mgr) + ' managers, ' + fmt(h.p1Dir) + ' directors, ' +
+                 fmt(h.p1Sup) + ' enablement lead and ' + fmt(h.p1Exec) + ' Head of Inside Sales.');
+    html += tile('t-p1', 'Capacity during Phase 1', fmt(h.capacityP1), 'MDRs',
+                 (h.overage >= 0 ? 'Roughly ' + fmt(h.overage) + ' over the ' + fmt(e.mdrs) + ' target. '
+                                   + 'That buffer is deliberate so underperformers can be weeded out and replaced.'
+                                 : fmt(-h.overage) + ' under the ' + fmt(e.mdrs) + ' target.'));
+    html += tile('t-p2', 'Phase 2 replacements', fmt(h.p2Replace), 'MDRs',
+                 fmt(h.outMdr) + ' to replace the outsourced team and ' + fmt(h.exMdr) +
+                 ' to rebuild the legacy internal seats, plus ' + fmt(h.p2Mgr) + ' managers and ' +
+                 fmt(h.p2Dir) + ' directors to finish the leadership layer.');
+    html += tile('t-end', 'End state, fully internal', fmt(e.mdrs), 'MDRs',
+                 fmt(e.managers) + ' managers at one per 8, ' + fmt(e.directors) + ' directors, ' +
+                 fmt(e.enablement) + ' enablement lead and ' + fmt(e.leaders) +
+                 ' Head of Inside Sales. ' + fmt(h.endRoles) + ' roles in all.');
+
+    $('hcGrid').innerHTML = html;
+    $('hcFoot').textContent =
+      'Phase 1 adds ' + fmt(h.p1Hires) + ' net new hires and takes working capacity from ' +
+      fmt(h.capacityNow) + ' to ' + fmt(h.capacityP1) + ' MDRs. Phase 2 adds no capacity, it swaps ' +
+      fmt(h.p2Replace) + ' outsourced and legacy seats for internal ones. After continuous trimming the '
+      + 'org settles at roughly ' + fmt(e.mdrs) + ' fully internal MDRs.';
+  }
 
   // ─── Notes ────────────────────────────────────────────────
   function renderNotes() {
@@ -1532,13 +1811,15 @@ var OrgFlo = (function () {
     var h = '';
     h += '<li>';
     h += '<div class="obox-wrap">';
-    h += '<div class="obox k-' + esc(kind) + (node.existing ? ' existing' : '') +
+    var ph = phaseFor(node);
+    h += '<div class="obox k-' + esc(kind) + (ph ? ' ph-' + ph : '') + (node.existing ? ' existing' : '') +
          '" onclick="OrgFlo.openNodeModal(\'' + id + '\')" title="Click to edit this role">';
     h += '<div class="obox-role">' + esc(node.role || 'Untitled role') + '</div>';
     h += node.person
       ? '<div class="obox-person">' + esc(node.person) + '</div>'
       : '<div class="obox-person vacant">Open seat</div>';
     if (meta) h += '<div class="obox-meta">' + meta + '</div>';
+    if (ph) h += '<div class="obox-phase">' + esc(PHASE_SHORT[ph]) + '</div>';
     if (isClosed && kids.length) {
       h += '<div class="obox-hidden">' + kids.length + ' below</div>';
     }
@@ -1623,14 +1904,17 @@ var OrgFlo = (function () {
   }
 
   function renderTree() {
+    computePhases();
     var root = $('orgTree');
     root.innerHTML = renderNode(data.orgChart);
     renderClassic();
 
-    var seats = sdrSeats(data.orgChart);
+    var h = headcount();
     $('chartSummary').textContent =
-      fmt(seats) + ' MDR seats, ' + fmt(countKind('manager')) + ' managers, ' +
-      fmt(countKind('director')) + ' directors';
+      fmt(h.capacityP1) + ' MDR capacity: ' + fmt(h.exMdr) + ' internal today, ' +
+      fmt(h.outMdr) + ' outsourced, ' + fmt(h.p1Mdr) + ' Phase 1 hires. ' +
+      fmt(countKind('manager')) + ' managers, ' + fmt(countKind('director')) + ' directors';
+    renderSummary();
   }
 
   function renderNode(node) {
@@ -1642,6 +1926,8 @@ var OrgFlo = (function () {
 
     var pills = '';
     pills += '<span class="pill">' + esc(KIND_LABEL[kind] || kind) + '</span>';
+    var ph = phaseFor(node);
+    if (ph) pills += '<span class="pill ph-' + ph + '">' + esc(PHASE_LABEL[ph]) + '</span>';
     if (node.existing) pills += '<span class="pill exists">Already exists</span>';
     if (kind === 'team' && node.headcount && !kids.length) {
       pills += '<span class="pill hc">' + fmt(node.headcount) + ' MDRs</span>';
@@ -1659,7 +1945,7 @@ var OrgFlo = (function () {
 
     var html = '';
     html += '<li class="tnode' + (node.existing ? ' existing-branch' : '') + '" data-id="' + esc(node.id) + '">';
-    html += '<div class="node-row k-' + esc(kind) + (node.existing ? ' existing' : '') + '">';
+    html += '<div class="node-row k-' + esc(kind) + (ph ? ' ph-' + ph : '') + (node.existing ? ' existing' : '') + '">';
 
     html += '<button class="twist' + (hasKids ? (isClosed ? ' closed' : '') : ' leaf') +
             '" onclick="OrgFlo.toggle(\'' + esc(node.id) + '\')" title="Fold or unfold this branch">▾</button>';
@@ -1808,6 +2094,7 @@ var OrgFlo = (function () {
     $('mPerson').value    = n.person || '';
     $('mNotes').value     = n.notes || '';
     $('mKind').value      = n.kind || 'support';
+    $('mPhase').value     = PHASES.indexOf(n.phase) >= 0 ? n.phase : '';
     $('mExisting').checked = !!n.existing;
     $('mHeadcount').value = n.headcount === undefined ? '' : n.headcount;
     syncHeadcountField();
@@ -1836,6 +2123,9 @@ var OrgFlo = (function () {
     n.notes  = $('mNotes').value.trim();
     n.kind   = $('mKind').value;
 
+    var ph = $('mPhase').value;
+    if (PHASES.indexOf(ph) >= 0) n.phase = ph; else delete n.phase;
+
     if ($('mExisting').checked) n.existing = true;
     else delete n.existing;
 
@@ -1857,18 +2147,49 @@ var OrgFlo = (function () {
     'Offer out': 's-offer', 'Hired': 's-hired', 'On hold': 's-hold'
   };
 
+  // Phase 1 is net new headcount. Phase 2 swaps outsourced and legacy
+  // seats for internal ones and adds no capacity.
+  var HIRE_PHASES = [
+    { v: 'p1', name: 'Phase 1', desc: 'Hire the MDR org to capacity. Net new headcount' },
+    { v: 'p2', name: 'Phase 2', desc: 'Replace the outsourced and legacy teams with internal MDRs' }
+  ];
+  function hirePhase(v) {
+    for (var i = 0; i < HIRE_PHASES.length; i++) if (HIRE_PHASES[i].v === v) return HIRE_PHASES[i];
+    return null;
+  }
+
   function renderHiring() {
     var body = $('hiringBody');
     var rows = data.hiringList || [];
+    var lastPhase = null;
 
     body.innerHTML = rows.map(function (row, i) {
       var opts = STATUSES.map(function (s) {
         return '<option value="' + esc(s) + '"' + (row.status === s ? ' selected' : '') + '>' + esc(s) + '</option>';
       }).join('');
 
+      var phOpts = HIRE_PHASES.map(function (p) {
+        return '<option value="' + esc(p.v) + '"' + (row.phase === p.v ? ' selected' : '') + '>' + esc(p.name) + '</option>';
+      }).join('');
+
       var h = '';
+
+      // Band the table so the two phases read as separate blocks of work.
+      if (row.phase !== lastPhase) {
+        lastPhase = row.phase;
+        var meta = hirePhase(row.phase);
+        if (meta) {
+          h += '<tr class="phase-head p-' + esc(meta.v) + '"><td colspan="7"><div class="phase-head-inner">' +
+               '<span class="phase-name">' + esc(meta.name) + '</span>' +
+               '<span class="phase-desc">' + esc(meta.desc) + '</span>' +
+               '</div></td></tr>';
+        }
+      }
+
       h += '<tr class="hrow" data-id="' + esc(row.id) + '">';
       h += '<td class="c-prio"><div class="prio">' + (i + 1) + '</div></td>';
+      h += '<td class="c-phase"><select class="status-sel phase-sel" ' +
+           'onchange="OrgFlo.editHire(\'' + esc(row.id) + '\',\'phase\',this.value)">' + phOpts + '</select></td>';
       h += '<td><input type="text" value="' + esc(row.role) + '" placeholder="Role" ' +
            'onchange="OrgFlo.editHire(\'' + esc(row.id) + '\',\'role\',this.value)"></td>';
       h += '<td><input type="text" value="' + esc(row.reportsTo) + '" placeholder="Reports to" ' +
@@ -1887,7 +2208,7 @@ var OrgFlo = (function () {
     }).join('');
 
     if (!rows.length) {
-      body.innerHTML = '<tr><td colspan="6" style="padding:1.25rem;color:var(--text-muted);font-size:0.8rem">' +
+      body.innerHTML = '<tr><td colspan="7" style="padding:1.25rem;color:var(--text-muted);font-size:0.8rem">' +
         'No roles in the list yet. Use Add row to start.</td></tr>';
     }
   }
@@ -1908,13 +2229,14 @@ var OrgFlo = (function () {
     data.hiringList.push({
       id: uid('h'),
       priority: data.hiringList.length + 1,
+      phase: (data.hiringList.length ? data.hiringList[data.hiringList.length - 1].phase : 'p1'),
       role: '', reportsTo: '', trigger: '', status: 'Open'
     });
     renumber();
     changed();
     // Put the cursor straight into the new role cell.
     setTimeout(function () {
-      var last = $('hiringBody').querySelector('tr:last-child input');
+      var last = $('hiringBody').querySelector('tr.hrow:last-child input');
       if (last) last.focus();
     }, 40);
   }
@@ -1981,7 +2303,17 @@ var OrgFlo = (function () {
       if (!Array.isArray(n.children)) n.children = [];
       if (!n.kind) n.kind = 'support';
       if (n.existing !== true) delete n.existing;
+      if (PHASES.indexOf(n.phase) < 0) delete n.phase;
     });
+
+    // The end state the summary measures the phases against.
+    d.endState = d.endState || {};
+    var es = d.endState;
+    es.mdrs            = num(es.mdrs, 240);
+    es.managers        = num(es.managers, 30);
+    es.directors       = num(es.directors, 5);
+    es.enablementLeads = num(es.enablementLeads, 1);
+    es.leaders         = num(es.leaders, 1);
 
     d.notes = Array.isArray(d.notes) ? d.notes : [];
     d.notes.forEach(function (n) {
@@ -2008,6 +2340,7 @@ var OrgFlo = (function () {
       r.role      = r.role || '';
       r.reportsTo = r.reportsTo || '';
       r.trigger   = r.trigger || '';
+      r.phase     = hirePhase(r.phase) ? r.phase : 'p1';
       r.status    = STATUSES.indexOf(r.status) >= 0 ? r.status : 'Open';
     });
     return d;
@@ -2081,7 +2414,7 @@ var OrgFlo = (function () {
     try {
       renumber();
       data.updatedAt = new Date().toISOString();
-      data.appVersion = 'v1.6';
+      data.appVersion = 'v1.7';
 
       // Always take the current sha immediately before writing so a commit
       // from another tab or from the automation does not get clobbered.

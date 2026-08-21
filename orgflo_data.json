@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 4,
-  "appVersion": "v1.4",
-  "updatedAt": "2026-08-20T23:28:05.671Z",
+  "schemaVersion": 5,
+  "appVersion": "v1.5",
+  "updatedAt": "2026-08-21T00:00:00Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -12,12 +12,12 @@
     {
       "id": "note1",
       "title": "Operating philosophy",
-      "body": "This is a coaching first org. Leaders spend their time coaching: team meetings, 1:1s, reviewing calls and emails, and giving real time feedback. Managers and directors must have serious hands on SDR experience, know how to coach, and have been coached themselves. We deliberately avoid an org bogged down in tools training and low value meetings."
+      "body": "This is a coaching first org. Leaders spend their time coaching: team meetings, 1:1s, reviewing calls and emails, and giving real time feedback. Managers and directors must have serious hands on MDR experience, know how to coach, and have been coached themselves. We deliberately avoid an org bogged down in tools training and low value meetings."
     },
     {
       "id": "note2",
       "title": "Span of control",
-      "body": "One manager per 8 SDRs to leave real room for coaching. One director per roughly 50 SDRs. That lands at 30 managers and 5 directors. The org is seeded at 240 seats to drive 7k demos per quarter"
+      "body": "One manager per 8 MDRs to leave real room for coaching. One director per roughly 50 MDRs. That lands at 30 managers and 5 directors. The org is seeded at 240 seats to drive 7k demos per quarter"
     },
     {
       "id": "note3",
@@ -33,6 +33,16 @@
       "id": "note5",
       "title": "Existing shared functions",
       "body": "Rev Ops, Sales Recruiter and Talent Partner, and Content and Messaging already exist on the current team. "
+    },
+    {
+      "id": "note6",
+      "title": "AE coverage and spans",
+      "body": "The AE org is sized off the MDR org at 2.6 MDRs to every 1 AE. At 240 MDRs that is 92.3 AEs, so the model carries 92 and the rounding is deliberate. AE managers run 7 AEs, which is 13.14 managers rounded up to 14, so teams land at 7 or 6 and no manager carries more than 7. AE directors run 5 managers, which is 2.8 rounded up to 3."
+    },
+    {
+      "id": "note7",
+      "title": "Coaching on the AE side",
+      "body": "Same coaching first standard as the MDR org. AE managers spend the majority of their time coaching deals, pipeline and forecast: pipeline reviews, deal inspection, call and email reviews, and weekly 1:1s. AE directors coach the managers and hold the forecast standard. AEs also feed demo quality back to the MDR org so the top of funnel keeps improving."
     }
   ],
   "roleDefinitions": [
@@ -41,7 +51,7 @@
       "title": "Head of Inside Sales (VP)",
       "context": false,
       "responsibilities": [
-        "Owns the entire SDR org, its number of 7,000 completed demos per quarter, and the operating model.",
+        "Owns the entire MDR org, its number of 7,000 completed demos per quarter, and the operating model.",
         "Builds and leads the leadership layer, sets the coaching culture, and hires and develops the directors.",
         "Owns capacity planning, headcount ramp, targets, comp",
         "Stays close to the floor and protects the org from meeting and tool bloat."
@@ -49,29 +59,29 @@
     },
     {
       "id": "r2",
-      "title": "Director of SDR",
+      "title": "Director of MDR",
       "context": false,
       "responsibilities": [
-        "Owns a segment of about 50 SDRs across roughly 6 managers, and their share of the demo target.",
+        "Owns a segment of about 50 MDRs across roughly 6 managers, and their share of the demo target.",
         "Develops and coaches the managers, the coach the coach work, runs manager 1:1s, and holds the coaching standard.",
         "Accountable for team demo output, ramp, and quality, and removes blockers.",
-        "Must have real SDR and people management experience."
+        "Must have real MDR and people management experience."
       ]
     },
     {
       "id": "r3",
-      "title": "SDR Manager / Team Lead",
+      "title": "MDR Manager / Team Lead",
       "context": false,
       "responsibilities": [
-        "Owns a team of 8 SDRs and their demo number.",
+        "Owns a team of 8 MDRs and their demo number.",
         "Spends the majority of time coaching: team meetings, weekly 1:1s, reviewing calls and emails, and real time feedback.",
         "Hires, ramps, develops, and manages the performance of the team, and runs the pod cadence.",
-        "Must have serious hands on SDR experience, know how to coach, and have been coached."
+        "Must have serious hands on MDR experience, know how to coach, and have been coached."
       ]
     },
     {
       "id": "r4",
-      "title": "SDR",
+      "title": "MDR",
       "context": false,
       "responsibilities": [
         "Owns 13 scheduled and 10 completed demos per month against target accounts.",
@@ -82,10 +92,54 @@
     },
     {
       "id": "r5",
-      "title": "SDR Enablement Lead",
+      "title": "MDR Enablement Lead",
       "context": false,
       "responsibilities": [
         "Owns new hire onboarding and ramp certification across the first 30, 60 and 90 days, and is accountable for ramp to productivity time."
+      ]
+    },
+    {
+      "id": "r9",
+      "title": "Head of Sales, AEs (VP)",
+      "context": false,
+      "responsibilities": [
+        "Owns the AE org, the closed revenue number, and the conversion of MDR sourced demos into pipeline and closed business.",
+        "Builds and leads the AE leadership layer, sets the coaching culture, and hires and develops the AE directors.",
+        "Owns AE capacity planning against the 2.6 MDRs to 1 AE ratio, plus quota, comp, and forecast accuracy.",
+        "Partners with the Head of Inside Sales so demo supply and closing capacity stay in step."
+      ]
+    },
+    {
+      "id": "r10",
+      "title": "AE Director",
+      "context": false,
+      "responsibilities": [
+        "Owns a segment of about 30 AEs across roughly 5 managers, and their share of the revenue number.",
+        "Develops and coaches the managers, the coach the coach work, runs manager 1:1s, and holds the forecast and deal inspection standard.",
+        "Accountable for pipeline coverage, win rate, ramp, and removing blockers.",
+        "Must have real AE and people management experience."
+      ]
+    },
+    {
+      "id": "r11",
+      "title": "AE Manager / Team Lead",
+      "context": false,
+      "responsibilities": [
+        "Owns a team of 7 AEs and their revenue number.",
+        "Spends the majority of time coaching deals, pipeline and forecast: pipeline reviews, deal inspection, call and email reviews, and weekly 1:1s.",
+        "Hires, ramps, develops, and manages the performance of the team, and runs the pod cadence.",
+        "Must have serious hands on closing experience, know how to coach, and have been coached."
+      ]
+    },
+    {
+      "id": "r12",
+      "title": "Account Executive (AE)",
+      "context": false,
+      "responsibilities": [
+        "Carries a quota and works the demos the MDR org books, from first meeting through close.",
+        "Runs discovery, builds and manages pipeline, drives the deal cycle, and forecasts accurately.",
+        "Gives the MDR team clean feedback on demo quality so the top of funnel keeps improving.",
+        "Keeps CRM, pipeline stages, and next steps clean."
       ]
     },
     {
@@ -141,7 +195,7 @@
             "id": "n2",
             "role": "Sales Recruiter / Talent Partner",
             "person": "",
-            "notes": "Already exists. Runs the candidate pipeline that feeds each SDR wave.",
+            "notes": "Already exists. Runs the candidate pipeline that feeds each MDR wave.",
             "kind": "shared",
             "existing": true,
             "children": []
@@ -159,31 +213,31 @@
       },
       {
         "id": "n5",
-        "role": "SDR Enablement Lead",
+        "role": "MDR Enablement Lead",
         "person": "",
-        "notes": "Net new hire, deliberately a single role. Remit: new hire onboarding and ramp certification, which is critical at wave hiring velocity. Building the coaching infrastructure, call scoring rubrics and playbooks, and training the managers to coach, the coach the coach work. Owning the SDR tool stack so reps and managers do not carry tool training. Operationalizing Product Marketing's messaging into rep ready sequences and talk tracks. Measured on ramp to productivity, not on the number of training sessions run.",
+        "notes": "Net new hire, deliberately a single role. Remit: new hire onboarding and ramp certification, which is critical at wave hiring velocity. Building the coaching infrastructure, call scoring rubrics and playbooks, and training the managers to coach, the coach the coach work. Owning the MDR tool stack so reps and managers do not carry tool training. Operationalizing Product Marketing's messaging into rep ready sequences and talk tracks. Measured on ramp to productivity, not on the number of training sessions run.",
         "kind": "support",
         "children": []
       },
       {
         "id": "n18",
-        "role": "Director of SDR #1",
+        "role": "Director of MDR #1",
         "person": "",
-        "notes": "Spans 48 SDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
+        "notes": "Spans 48 MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
         "kind": "director",
         "children": [
           {
             "id": "n7",
-            "role": "SDR Manager 1.1",
+            "role": "MDR Manager 1.1",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n6",
-                "role": "SDR Team 1.1",
+                "role": "MDR Team 1.1",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -192,16 +246,16 @@
           },
           {
             "id": "n9",
-            "role": "SDR Manager 1.2",
+            "role": "MDR Manager 1.2",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n8",
-                "role": "SDR Team 1.2",
+                "role": "MDR Team 1.2",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -210,16 +264,16 @@
           },
           {
             "id": "n11",
-            "role": "SDR Manager 1.3",
+            "role": "MDR Manager 1.3",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n10",
-                "role": "SDR Team 1.3",
+                "role": "MDR Team 1.3",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -228,16 +282,16 @@
           },
           {
             "id": "n13",
-            "role": "SDR Manager 1.4",
+            "role": "MDR Manager 1.4",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n12",
-                "role": "SDR Team 1.4",
+                "role": "MDR Team 1.4",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -246,16 +300,16 @@
           },
           {
             "id": "n15",
-            "role": "SDR Manager 1.5",
+            "role": "MDR Manager 1.5",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n14",
-                "role": "SDR Team 1.5",
+                "role": "MDR Team 1.5",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -264,16 +318,16 @@
           },
           {
             "id": "n17",
-            "role": "SDR Manager 1.6",
+            "role": "MDR Manager 1.6",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n16",
-                "role": "SDR Team 1.6",
+                "role": "MDR Team 1.6",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -284,23 +338,23 @@
       },
       {
         "id": "n31",
-        "role": "Director of SDR #2",
+        "role": "Director of MDR #2",
         "person": "",
-        "notes": "Spans 48 SDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
+        "notes": "Spans 48 MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
         "kind": "director",
         "children": [
           {
             "id": "n20",
-            "role": "SDR Manager 2.1",
+            "role": "MDR Manager 2.1",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n19",
-                "role": "SDR Team 2.1",
+                "role": "MDR Team 2.1",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -309,16 +363,16 @@
           },
           {
             "id": "n22",
-            "role": "SDR Manager 2.2",
+            "role": "MDR Manager 2.2",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n21",
-                "role": "SDR Team 2.2",
+                "role": "MDR Team 2.2",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -327,16 +381,16 @@
           },
           {
             "id": "n24",
-            "role": "SDR Manager 2.3",
+            "role": "MDR Manager 2.3",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n23",
-                "role": "SDR Team 2.3",
+                "role": "MDR Team 2.3",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -345,16 +399,16 @@
           },
           {
             "id": "n26",
-            "role": "SDR Manager 2.4",
+            "role": "MDR Manager 2.4",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n25",
-                "role": "SDR Team 2.4",
+                "role": "MDR Team 2.4",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -363,16 +417,16 @@
           },
           {
             "id": "n28",
-            "role": "SDR Manager 2.5",
+            "role": "MDR Manager 2.5",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n27",
-                "role": "SDR Team 2.5",
+                "role": "MDR Team 2.5",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -381,16 +435,16 @@
           },
           {
             "id": "n30",
-            "role": "SDR Manager 2.6",
+            "role": "MDR Manager 2.6",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n29",
-                "role": "SDR Team 2.6",
+                "role": "MDR Team 2.6",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -401,23 +455,23 @@
       },
       {
         "id": "n44",
-        "role": "Director of SDR #3",
+        "role": "Director of MDR #3",
         "person": "",
-        "notes": "Spans 48 SDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
+        "notes": "Spans 48 MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
         "kind": "director",
         "children": [
           {
             "id": "n33",
-            "role": "SDR Manager 3.1",
+            "role": "MDR Manager 3.1",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n32",
-                "role": "SDR Team 3.1",
+                "role": "MDR Team 3.1",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -426,16 +480,16 @@
           },
           {
             "id": "n35",
-            "role": "SDR Manager 3.2",
+            "role": "MDR Manager 3.2",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n34",
-                "role": "SDR Team 3.2",
+                "role": "MDR Team 3.2",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -444,16 +498,16 @@
           },
           {
             "id": "n37",
-            "role": "SDR Manager 3.3",
+            "role": "MDR Manager 3.3",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n36",
-                "role": "SDR Team 3.3",
+                "role": "MDR Team 3.3",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -462,16 +516,16 @@
           },
           {
             "id": "n39",
-            "role": "SDR Manager 3.4",
+            "role": "MDR Manager 3.4",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n38",
-                "role": "SDR Team 3.4",
+                "role": "MDR Team 3.4",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -480,16 +534,16 @@
           },
           {
             "id": "n41",
-            "role": "SDR Manager 3.5",
+            "role": "MDR Manager 3.5",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n40",
-                "role": "SDR Team 3.5",
+                "role": "MDR Team 3.5",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -498,16 +552,16 @@
           },
           {
             "id": "n43",
-            "role": "SDR Manager 3.6",
+            "role": "MDR Manager 3.6",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n42",
-                "role": "SDR Team 3.6",
+                "role": "MDR Team 3.6",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -518,23 +572,23 @@
       },
       {
         "id": "n57",
-        "role": "Director of SDR #4",
+        "role": "Director of MDR #4",
         "person": "",
-        "notes": "Spans 48 SDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
+        "notes": "Spans 48 MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
         "kind": "director",
         "children": [
           {
             "id": "n46",
-            "role": "SDR Manager 4.1",
+            "role": "MDR Manager 4.1",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n45",
-                "role": "SDR Team 4.1",
+                "role": "MDR Team 4.1",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -543,16 +597,16 @@
           },
           {
             "id": "n48",
-            "role": "SDR Manager 4.2",
+            "role": "MDR Manager 4.2",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n47",
-                "role": "SDR Team 4.2",
+                "role": "MDR Team 4.2",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -561,16 +615,16 @@
           },
           {
             "id": "n50",
-            "role": "SDR Manager 4.3",
+            "role": "MDR Manager 4.3",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n49",
-                "role": "SDR Team 4.3",
+                "role": "MDR Team 4.3",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -579,16 +633,16 @@
           },
           {
             "id": "n52",
-            "role": "SDR Manager 4.4",
+            "role": "MDR Manager 4.4",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n51",
-                "role": "SDR Team 4.4",
+                "role": "MDR Team 4.4",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -597,16 +651,16 @@
           },
           {
             "id": "n54",
-            "role": "SDR Manager 4.5",
+            "role": "MDR Manager 4.5",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n53",
-                "role": "SDR Team 4.5",
+                "role": "MDR Team 4.5",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -615,16 +669,16 @@
           },
           {
             "id": "n56",
-            "role": "SDR Manager 4.6",
+            "role": "MDR Manager 4.6",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n55",
-                "role": "SDR Team 4.6",
+                "role": "MDR Team 4.6",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -635,23 +689,23 @@
       },
       {
         "id": "n70",
-        "role": "Director of SDR #5",
+        "role": "Director of MDR #5",
         "person": "",
-        "notes": "Spans 48 SDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
+        "notes": "Spans 48 MDRs across 6 teams. Coaching first: team meetings, 1:1s, call and email reviews.",
         "kind": "director",
         "children": [
           {
             "id": "n59",
-            "role": "SDR Manager 5.1",
+            "role": "MDR Manager 5.1",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n58",
-                "role": "SDR Team 5.1",
+                "role": "MDR Team 5.1",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -660,16 +714,16 @@
           },
           {
             "id": "n61",
-            "role": "SDR Manager 5.2",
+            "role": "MDR Manager 5.2",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n60",
-                "role": "SDR Team 5.2",
+                "role": "MDR Team 5.2",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -678,16 +732,16 @@
           },
           {
             "id": "n63",
-            "role": "SDR Manager 5.3",
+            "role": "MDR Manager 5.3",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n62",
-                "role": "SDR Team 5.3",
+                "role": "MDR Team 5.3",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -696,16 +750,16 @@
           },
           {
             "id": "n65",
-            "role": "SDR Manager 5.4",
+            "role": "MDR Manager 5.4",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n64",
-                "role": "SDR Team 5.4",
+                "role": "MDR Team 5.4",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -714,16 +768,16 @@
           },
           {
             "id": "n67",
-            "role": "SDR Manager 5.5",
+            "role": "MDR Manager 5.5",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n66",
-                "role": "SDR Team 5.5",
+                "role": "MDR Team 5.5",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
@@ -732,19 +786,308 @@
           },
           {
             "id": "n69",
-            "role": "SDR Manager 5.6",
+            "role": "MDR Manager 5.6",
             "person": "",
-            "notes": "Manages a team of 8 SDRs. Must have real SDR experience, know how to coach, and have been coached.",
+            "notes": "Manages a team of 8 MDRs. Must have real MDR experience, know how to coach, and have been coached.",
             "kind": "manager",
             "children": [
               {
                 "id": "n68",
-                "role": "SDR Team 5.6",
+                "role": "MDR Team 5.6",
                 "person": "",
-                "notes": "Represents 8 SDRs. Expand into slots to name individuals.",
+                "notes": "Represents 8 MDRs. Expand into slots to name individuals.",
                 "kind": "team",
                 "headcount": 8,
                 "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "a1",
+        "role": "Head of Sales, AEs (VP)",
+        "person": "",
+        "notes": "Net new. Owns the AE org and the closed revenue number. Sits alongside the MDR leadership under the Head of Inside Sales so demo supply and closing capacity stay in step. Same coaching first standard: AE leaders coach deals, pipeline and forecast.",
+        "kind": "exec",
+        "track": "ae",
+        "children": [
+          {
+            "id": "a2",
+            "role": "AE Director #1",
+            "person": "",
+            "notes": "Spans 33 AEs across 5 teams. Coaching first: pipeline reviews, deal inspection, call reviews and 1:1s.",
+            "kind": "director",
+            "children": [
+              {
+                "id": "a3",
+                "role": "AE Manager 1.1",
+                "person": "",
+                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a4",
+                    "role": "AE Team 1.1",
+                    "person": "",
+                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 7,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "a5",
+                "role": "AE Manager 1.2",
+                "person": "",
+                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a6",
+                    "role": "AE Team 1.2",
+                    "person": "",
+                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 7,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "a7",
+                "role": "AE Manager 1.3",
+                "person": "",
+                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a8",
+                    "role": "AE Team 1.3",
+                    "person": "",
+                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 7,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "a9",
+                "role": "AE Manager 1.4",
+                "person": "",
+                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a10",
+                    "role": "AE Team 1.4",
+                    "person": "",
+                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 6,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "a11",
+                "role": "AE Manager 1.5",
+                "person": "",
+                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a12",
+                    "role": "AE Team 1.5",
+                    "person": "",
+                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 6,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "a13",
+            "role": "AE Director #2",
+            "person": "",
+            "notes": "Spans 33 AEs across 5 teams. Coaching first: pipeline reviews, deal inspection, call reviews and 1:1s.",
+            "kind": "director",
+            "children": [
+              {
+                "id": "a14",
+                "role": "AE Manager 2.1",
+                "person": "",
+                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a15",
+                    "role": "AE Team 2.1",
+                    "person": "",
+                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 7,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "a16",
+                "role": "AE Manager 2.2",
+                "person": "",
+                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a17",
+                    "role": "AE Team 2.2",
+                    "person": "",
+                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 7,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "a18",
+                "role": "AE Manager 2.3",
+                "person": "",
+                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a19",
+                    "role": "AE Team 2.3",
+                    "person": "",
+                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 7,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "a20",
+                "role": "AE Manager 2.4",
+                "person": "",
+                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a21",
+                    "role": "AE Team 2.4",
+                    "person": "",
+                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 6,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "a22",
+                "role": "AE Manager 2.5",
+                "person": "",
+                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a23",
+                    "role": "AE Team 2.5",
+                    "person": "",
+                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 6,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "a24",
+            "role": "AE Director #3",
+            "person": "",
+            "notes": "Spans 26 AEs across 4 teams. Coaching first: pipeline reviews, deal inspection, call reviews and 1:1s.",
+            "kind": "director",
+            "children": [
+              {
+                "id": "a25",
+                "role": "AE Manager 3.1",
+                "person": "",
+                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a26",
+                    "role": "AE Team 3.1",
+                    "person": "",
+                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 7,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "a27",
+                "role": "AE Manager 3.2",
+                "person": "",
+                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a28",
+                    "role": "AE Team 3.2",
+                    "person": "",
+                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 7,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "a29",
+                "role": "AE Manager 3.3",
+                "person": "",
+                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a30",
+                    "role": "AE Team 3.3",
+                    "person": "",
+                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 6,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "a31",
+                "role": "AE Manager 3.4",
+                "person": "",
+                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
+                "kind": "manager",
+                "children": [
+                  {
+                    "id": "a32",
+                    "role": "AE Team 3.4",
+                    "person": "",
+                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
+                    "kind": "team",
+                    "headcount": 6,
+                    "children": []
+                  }
+                ]
               }
             ]
           }
@@ -764,7 +1107,7 @@
     {
       "id": "h2",
       "priority": 2,
-      "role": "SDR Enablement Lead",
+      "role": "MDR Enablement Lead",
       "reportsTo": "Head of Inside Sales",
       "trigger": "Before the first wave. Owns onboarding, ramp, coach the coach, the tool stack, and operationalizing PMM content",
       "status": "Open"
@@ -772,7 +1115,7 @@
     {
       "id": "h3",
       "priority": 3,
-      "role": "Director of SDR #1",
+      "role": "Director of MDR #1",
       "reportsTo": "Head of Inside Sales",
       "trigger": "With wave one",
       "status": "Open"
@@ -780,35 +1123,83 @@
     {
       "id": "h4",
       "priority": 4,
-      "role": "First SDR Managers, one per 8 SDRs",
-      "reportsTo": "Director of SDR #1",
-      "trigger": "Ahead of each wave. Must have real SDR and coaching experience",
+      "role": "First MDR Managers, one per 8 MDRs",
+      "reportsTo": "Director of MDR #1",
+      "trigger": "Ahead of each wave. Must have real MDR and coaching experience",
       "status": "Open"
     },
     {
       "id": "h5",
       "priority": 5,
-      "role": "SDR Wave 1, 35 SDRs, then plus 30 per week",
-      "reportsTo": "SDR Managers",
+      "role": "MDR Wave 1, 35 MDRs, then plus 30 per week",
+      "reportsTo": "MDR Managers",
       "trigger": "Weekly until target headcount, 240 seats at full productivity, covering the 234 requirement",
       "status": "Open"
     },
     {
-      "id": "h6",
+      "id": "h106",
       "priority": 6,
-      "role": "Directors #2 to #5",
+      "role": "Head of Sales, AEs",
+      "reportsTo": "Head of Inside Sales",
+      "trigger": "With the first MDR wave. There has to be a closing org ready to take the demos",
+      "status": "Open"
+    },
+    {
+      "id": "h107",
+      "priority": 7,
+      "role": "AE Director #1",
+      "reportsTo": "Head of Sales, AEs",
+      "trigger": "With the first AE wave",
+      "status": "Open"
+    },
+    {
+      "id": "h108",
+      "priority": 8,
+      "role": "First AE Managers, one per 7 AEs",
+      "reportsTo": "AE Director #1",
+      "trigger": "Ahead of each AE wave. Must have real closing and coaching experience",
+      "status": "Open"
+    },
+    {
+      "id": "h109",
+      "priority": 9,
+      "role": "AE Wave 1, 20 AEs, then plus 12 per week",
+      "reportsTo": "AE Managers",
+      "trigger": "Tracks the MDR ramp at 2.6 MDRs to 1 AE, up to 92 AEs",
+      "status": "Open"
+    },
+    {
+      "id": "h6",
+      "priority": 10,
+      "role": "Directors of MDR #2 to #5",
       "reportsTo": "Head of Inside Sales",
       "trigger": "Added as headcount passes roughly 50, 100, 150 and 200",
       "status": "Open"
     },
     {
       "id": "h7",
-      "priority": 7,
-      "role": "Additional Managers",
-      "reportsTo": "Directors of SDR",
-      "trigger": "One added per 8 new SDRs",
+      "priority": 11,
+      "role": "Additional MDR Managers",
+      "reportsTo": "Directors of MDR",
+      "trigger": "One added per 8 new MDRs",
+      "status": "Open"
+    },
+    {
+      "id": "h112",
+      "priority": 12,
+      "role": "AE Directors #2 and #3",
+      "reportsTo": "Head of Sales, AEs",
+      "trigger": "Added as AE headcount passes roughly 33 and 66",
+      "status": "Open"
+    },
+    {
+      "id": "h113",
+      "priority": 13,
+      "role": "Additional AE Managers",
+      "reportsTo": "AE Directors",
+      "trigger": "One added per 7 new AEs",
       "status": "Open"
     }
   ],
-  "hiringNote": "Rev Ops, Sales Recruiter, and Content / Messaging already exist on the current team and are not new hires here. Product Marketing owns messaging and content, so this org does not hire for it."
+  "hiringNote": "Rev Ops, Sales Recruiter, and Content / Messaging already exist on the current team and are not new hires here. Product Marketing owns messaging and content, so this org does not hire for it. The AE org is sized off the MDR org at 2.6 MDRs to 1 AE, so AE hiring waves follow the MDR waves."
 }

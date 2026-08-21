@@ -5,7 +5,7 @@
 <script src="gate.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OrgFlo · MDR and AE Org Design</title>
+  <title>OrgFlo · MDR Org Design</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23a78bfa'/%3E%3Cstop offset='100%25' stop-color='%2334d399'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='7' fill='url(%23g)'/%3E%3Crect x='12' y='5' width='8' height='6' rx='2' fill='%23fff' opacity='.95'/%3E%3Crect x='4' y='21' width='8' height='6' rx='2' fill='%23fff' opacity='.85'/%3E%3Crect x='20' y='21' width='8' height='6' rx='2' fill='%23fff' opacity='.85'/%3E%3Cpath d='M16 11v5M8 21v-5h16v5' stroke='%23fff' stroke-width='1.6' fill='none' opacity='.8'/%3E%3C/svg%3E">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -380,8 +380,6 @@
     .obox.k-team     { border-top-color: var(--accent-green); }
     .obox.k-sdr      { border-top-color: var(--accent-pink); }
     .obox.k-shared   { border-top-color: var(--accent-pink); }
-    /* The AE branch carries a track marker so it reads apart from the MDR side. */
-    .obox.t-ae       { box-shadow: inset 3px 0 0 var(--accent-blue); }
 
     .obox.existing {
       border-style: dashed;
@@ -491,7 +489,6 @@
     .node-row.k-team     { border-left-color: var(--accent-green); }
     .node-row.k-sdr      { border-left-color: var(--accent-pink); }
     .node-row.k-shared   { border-left-color: var(--accent-pink); }
-    .node-row.t-ae       { box-shadow: inset 3px 0 0 rgba(96,165,250,0.55); }
 
     /* Existing shared functions hang off a dotted line: they already exist on
        the current team and are not net new hires for this org. */
@@ -987,7 +984,7 @@
         <text x="80" y="28" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="20" font-weight="700" fill="url(#of-g)">Flo</text>
         <path d="M80 33Q96 28 114 33" stroke="url(#of-g)" stroke-width="2" fill="none" opacity=".8"/>
       </svg>
-      <span class="version-badge">v1.5</span>
+      <span class="version-badge">v1.6</span>
     </div>
 
 
@@ -1025,7 +1022,7 @@
     <section class="section">
       <div class="section-label">
         Org chart
-        <span class="hint">240 MDR seats at 10 completed demos per MDR per month, with every team full at 8, and one director per roughly 50 MDRs. The AE side runs at 2.6 MDRs to 1 AE, which is 92 AEs across 14 managers and 3 directors</span>
+        <span class="hint">240 MDR seats covering the 234 requirement at 10 completed demos per MDR per month, with every team full at 8. One director per roughly 50 MDRs</span>
       </div>
 
       <div class="card">
@@ -1138,7 +1135,7 @@
     <div class="field" id="mHeadcountField">
       <label for="mHeadcount">Headcount represented by this node</label>
       <input type="number" id="mHeadcount" min="0" step="1" inputmode="numeric">
-      <div class="sub">Use this on team nodes that stand in for a group of MDRs or AEs.</div>
+      <div class="sub">Use this on team nodes that stand in for a group of MDRs.</div>
     </div>
 
     <div class="field">
@@ -1147,8 +1144,8 @@
         <option value="exec">Executive</option>
         <option value="director">Director</option>
         <option value="manager">Manager</option>
-        <option value="team">MDR or AE team</option>
-        <option value="sdr">Individual MDR or AE</option>
+        <option value="team">MDR team</option>
+        <option value="sdr">Individual MDR</option>
         <option value="support">Support and infrastructure</option>
         <option value="shared">Existing shared function</option>
       </select>
@@ -1178,8 +1175,8 @@
 
 <script>
 /* ============================================================
-   OrgFlo — MDR and AE organization designer
-   v1.5
+   OrgFlo — MDR organization designer
+   v1.6
 
    Persistence pattern:
    the plan lives in orgflo_data.json in the repo, and edits are
@@ -1274,12 +1271,12 @@ var OrgFlo = (function () {
     return null;
   }
 
-  // Seats that represent real reps, MDR or AE. A team node stands in for a
-  // group until it is expanded, at which point its named slots are counted
+  // Seats that represent real MDRs. A team node stands in for a group
+  // until it is expanded, at which point its named slots are counted
   // instead so nothing is double counted. The internal kind id stays 'sdr'
   // so plans saved by earlier versions still load.
-  function seatCount(node) {
-    var childSeats = (node.children || []).reduce(function (s, c) { return s + seatCount(c); }, 0);
+  function sdrSeats(node) {
+    var childSeats = (node.children || []).reduce(function (s, c) { return s + sdrSeats(c); }, 0);
     if (node.kind === 'sdr')  return 1 + childSeats;
     if (node.kind === 'team') return childSeats > 0 ? childSeats : (num(node.headcount, 0));
     return childSeats;
@@ -1291,84 +1288,11 @@ var OrgFlo = (function () {
     return n;
   }
 
-  // ─── Tracks: the MDR side and the AE side ─────────────────
-  // A node carries track:'ae' at the top of the AE branch and everything
-  // below it inherits that track, so anything added under the AE leader
-  // reads and counts as AE without any extra bookkeeping.
-  var trackOf = {};              // nodeId -> 'ae' or ''
-
-  function computeTracks() {
-    trackOf = {};
-    (function rec(node, t) {
-      var mine = node.track || t || '';
-      trackOf[node.id] = mine;
-      (node.children || []).forEach(function (c) { rec(c, mine); });
-    })(data.orgChart, '');
-  }
-
-  function trackOfNode(node) { return trackOf[node.id] || node.track || ''; }
-  function isAE(node) { return trackOfNode(node) === 'ae'; }
-
-  // "8 MDRs" on the MDR side, "7 AEs" on the AE side.
-  function seatWord(node, n) {
-    var base = isAE(node) ? 'AE' : 'MDR';
-    return n === 1 ? base : base + 's';
-  }
-
-  // A node above both branches rolls up a mix, so label it as a mix rather
-  // than calling every seat below the top role an MDR.
-  function seatsSplit(node) {
-    var ae = 0;
-    walk(node, function (n) { if (n.track === 'ae') ae += seatCount(n); });
-    return { ae: ae, mdr: seatCount(node) - ae };
-  }
-
-  function seatLabel(node, seats) {
-    if (isAE(node)) return fmt(seats) + ' ' + seatWord(node, seats);
-    var sp = seatsSplit(node);
-    if (sp.ae > 0 && sp.mdr > 0) return fmt(sp.mdr) + ' MDRs and ' + fmt(sp.ae) + ' AEs';
-    if (sp.ae > 0) return fmt(sp.ae) + ' ' + (sp.ae === 1 ? 'AE' : 'AEs');
-    return fmt(seats) + ' ' + seatWord(node, seats);
-  }
-
-  function countKindTrack(kind, ae) {
-    var n = 0;
-    walk(data.orgChart, function (node) {
-      if (node.kind === kind && isAE(node) === ae) n += 1;
-    });
-    return n;
-  }
-
-  // Seats on the AE side only: sum the branches that declare track 'ae'.
-  function aeSeats() {
-    var n = 0;
-    walk(data.orgChart, function (node) { if (node.track === 'ae') n += seatCount(node); });
-    return n;
-  }
-
-  // Every seat plus every named leadership and support role that is not an
-  // existing shared function, which is the real size of the org being built.
-  function totalRoles() {
-    var n = 0;
-    walk(data.orgChart, function (node) {
-      if (node.existing) return;
-      if (node.kind === 'team' || node.kind === 'sdr') return;
-      n += 1;
-    });
-    return n + seatCount(data.orgChart);
-  }
-
   // ─── Org chart rendering ──────────────────────────────────
   var KIND_LABEL = {
     exec: 'Exec', director: 'Director', manager: 'Manager',
     team: 'Team', sdr: 'MDR', support: 'Support', shared: 'Shared'
   };
-
-  function kindLabel(node) {
-    var kind = node.kind || 'support';
-    if (kind === 'sdr') return isAE(node) ? 'AE' : 'MDR';
-    return KIND_LABEL[kind] || kind;
-  }
 
   // ─── Notes ────────────────────────────────────────────────
   function renderNotes() {
@@ -1593,22 +1517,22 @@ var OrgFlo = (function () {
     var kids = node.children || [];
     var isClosed = !!collapsed[node.id];
     var kind = node.kind || 'support';
-    var seats = seatCount(node);
+    var seats = sdrSeats(node);
     var id = esc(node.id);
 
     var meta = '';
     if (kind === 'team' && node.headcount && !kids.length) {
-      meta = fmt(node.headcount) + ' ' + seatWord(node, node.headcount);
+      meta = fmt(node.headcount) + ' MDRs';
     } else if (kind === 'sdr') {
       meta = '';
     } else if (seats > 0) {
-      meta = seatLabel(node, seats);
+      meta = fmt(seats) + ' MDRs';
     }
 
     var h = '';
     h += '<li>';
     h += '<div class="obox-wrap">';
-    h += '<div class="obox k-' + esc(kind) + (isAE(node) ? ' t-ae' : '') + (node.existing ? ' existing' : '') +
+    h += '<div class="obox k-' + esc(kind) + (node.existing ? ' existing' : '') +
          '" onclick="OrgFlo.openNodeModal(\'' + id + '\')" title="Click to edit this role">';
     h += '<div class="obox-role">' + esc(node.role || 'Untitled role') + '</div>';
     h += node.person
@@ -1699,18 +1623,14 @@ var OrgFlo = (function () {
   }
 
   function renderTree() {
-    computeTracks();
     var root = $('orgTree');
     root.innerHTML = renderNode(data.orgChart);
     renderClassic();
 
-    var ae = aeSeats();
-    var mdr = seatCount(data.orgChart) - ae;
+    var seats = sdrSeats(data.orgChart);
     $('chartSummary').textContent =
-      fmt(mdr) + ' MDR seats and ' + fmt(ae) + ' AE seats, ' +
-      fmt(countKindTrack('manager', false)) + ' MDR and ' + fmt(countKindTrack('manager', true)) + ' AE managers, ' +
-      fmt(countKindTrack('director', false)) + ' MDR and ' + fmt(countKindTrack('director', true)) + ' AE directors, ' +
-      fmt(totalRoles()) + ' roles in total';
+      fmt(seats) + ' MDR seats, ' + fmt(countKind('manager')) + ' managers, ' +
+      fmt(countKind('director')) + ' directors';
   }
 
   function renderNode(node) {
@@ -1718,16 +1638,16 @@ var OrgFlo = (function () {
     var hasKids = kids.length > 0;
     var isClosed = !!collapsed[node.id];
     var kind = node.kind || 'support';
-    var seats = seatCount(node);
+    var seats = sdrSeats(node);
 
     var pills = '';
-    pills += '<span class="pill">' + esc(kindLabel(node)) + '</span>';
+    pills += '<span class="pill">' + esc(KIND_LABEL[kind] || kind) + '</span>';
     if (node.existing) pills += '<span class="pill exists">Already exists</span>';
     if (kind === 'team' && node.headcount && !kids.length) {
-      pills += '<span class="pill hc">' + fmt(node.headcount) + ' ' + seatWord(node, node.headcount) + '</span>';
+      pills += '<span class="pill hc">' + fmt(node.headcount) + ' MDRs</span>';
     }
     if (seats > 0 && kind !== 'team' && kind !== 'sdr') {
-      pills += '<span class="pill roll">' + seatLabel(node, seats) + ' below</span>';
+      pills += '<span class="pill roll">' + fmt(seats) + ' MDRs below</span>';
     }
     if (hasKids) {
       pills += '<span class="pill">' + kids.length + ' direct</span>';
@@ -1739,7 +1659,7 @@ var OrgFlo = (function () {
 
     var html = '';
     html += '<li class="tnode' + (node.existing ? ' existing-branch' : '') + '" data-id="' + esc(node.id) + '">';
-    html += '<div class="node-row k-' + esc(kind) + (isAE(node) ? ' t-ae' : '') + (node.existing ? ' existing' : '') + '">';
+    html += '<div class="node-row k-' + esc(kind) + (node.existing ? ' existing' : '') + '">';
 
     html += '<button class="twist' + (hasKids ? (isClosed ? ' closed' : '') : ' leaf') +
             '" onclick="OrgFlo.toggle(\'' + esc(node.id) + '\')" title="Fold or unfold this branch">▾</button>';
@@ -1754,7 +1674,7 @@ var OrgFlo = (function () {
     html += '<button class="btn tiny" onclick="OrgFlo.openNodeModal(\'' + esc(node.id) + '\')" title="Edit this role">Edit</button>';
     html += '<button class="btn tiny" onclick="OrgFlo.addChild(\'' + esc(node.id) + '\')" title="Add a role reporting to this one">Add</button>';
     if (kind === 'team' && !kids.length && num(node.headcount, 0) > 0) {
-      html += '<button class="btn tiny" onclick="OrgFlo.expandTeam(\'' + esc(node.id) + '\')" title="Break this team into individual seats">Expand</button>';
+      html += '<button class="btn tiny" onclick="OrgFlo.expandTeam(\'' + esc(node.id) + '\')" title="Break this team into individual MDR slots">Expand</button>';
     }
     if (node.id !== data.orgChart.id) {
       html += '<button class="btn tiny" onclick="OrgFlo.moveNode(\'' + esc(node.id) + '\',-1)" title="Move up">↑</button>';
@@ -1803,7 +1723,7 @@ var OrgFlo = (function () {
 
     var child = {
       id: uid('n'),
-      role: childKind === 'team' ? (isAE(hit.node) ? 'New AE team' : 'New MDR team') : 'New role',
+      role: childKind === 'team' ? 'New MDR team' : 'New role',
       person: '',
       notes: '',
       kind: childKind,
@@ -1855,7 +1775,7 @@ var OrgFlo = (function () {
     for (var i = 1; i <= n; i++) {
       hit.node.children.push({
         id: uid('n'),
-        role: (hit.node.role || 'Team') + ' slot ' + i,
+        role: (hit.node.role || 'MDR team') + ' slot ' + i,
         person: '',
         notes: '',
         kind: 'sdr',
@@ -1864,7 +1784,7 @@ var OrgFlo = (function () {
     }
     collapsed[id] = false;
     changed();
-    toast(n + ' ' + (isAE(hit.node) ? 'AE' : 'MDR') + ' slots created');
+    toast(n + ' MDR slots created');
   }
 
   function resetChart() {
@@ -2061,7 +1981,6 @@ var OrgFlo = (function () {
       if (!Array.isArray(n.children)) n.children = [];
       if (!n.kind) n.kind = 'support';
       if (n.existing !== true) delete n.existing;
-      if (n.track !== 'ae') delete n.track;
     });
 
     d.notes = Array.isArray(d.notes) ? d.notes : [];
@@ -2162,7 +2081,7 @@ var OrgFlo = (function () {
     try {
       renumber();
       data.updatedAt = new Date().toISOString();
-      data.appVersion = 'v1.5';
+      data.appVersion = 'v1.6';
 
       // Always take the current sha immediately before writing so a commit
       // from another tab or from the automation does not get clobbered.
@@ -2175,7 +2094,7 @@ var OrgFlo = (function () {
       lastSha = fileData.sha;
 
       var body = {
-        message: 'Update MDR and AE org plan via OrgFlo',
+        message: 'Update MDR org plan via OrgFlo',
         content: utf8ToBase64(JSON.stringify(data, null, 2)),
         sha: lastSha
       };

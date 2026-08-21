@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 5,
-  "appVersion": "v1.5",
+  "schemaVersion": 4,
+  "appVersion": "v1.6",
   "updatedAt": "2026-08-21T00:00:00Z",
   "calculator": {
     "scheduledPerSDR": 13,
@@ -33,16 +33,6 @@
       "id": "note5",
       "title": "Existing shared functions",
       "body": "Rev Ops, Sales Recruiter and Talent Partner, and Content and Messaging already exist on the current team. "
-    },
-    {
-      "id": "note6",
-      "title": "AE coverage and spans",
-      "body": "The AE org is sized off the MDR org at 2.6 MDRs to every 1 AE. At 240 MDRs that is 92.3 AEs, so the model carries 92 and the rounding is deliberate. AE managers run 7 AEs, which is 13.14 managers rounded up to 14, so teams land at 7 or 6 and no manager carries more than 7. AE directors run 5 managers, which is 2.8 rounded up to 3."
-    },
-    {
-      "id": "note7",
-      "title": "Coaching on the AE side",
-      "body": "Same coaching first standard as the MDR org. AE managers spend the majority of their time coaching deals, pipeline and forecast: pipeline reviews, deal inspection, call and email reviews, and weekly 1:1s. AE directors coach the managers and hold the forecast standard. AEs also feed demo quality back to the MDR org so the top of funnel keeps improving."
     }
   ],
   "roleDefinitions": [
@@ -96,50 +86,6 @@
       "context": false,
       "responsibilities": [
         "Owns new hire onboarding and ramp certification across the first 30, 60 and 90 days, and is accountable for ramp to productivity time."
-      ]
-    },
-    {
-      "id": "r9",
-      "title": "Head of Sales, AEs (VP)",
-      "context": false,
-      "responsibilities": [
-        "Owns the AE org, the closed revenue number, and the conversion of MDR sourced demos into pipeline and closed business.",
-        "Builds and leads the AE leadership layer, sets the coaching culture, and hires and develops the AE directors.",
-        "Owns AE capacity planning against the 2.6 MDRs to 1 AE ratio, plus quota, comp, and forecast accuracy.",
-        "Partners with the Head of Inside Sales so demo supply and closing capacity stay in step."
-      ]
-    },
-    {
-      "id": "r10",
-      "title": "AE Director",
-      "context": false,
-      "responsibilities": [
-        "Owns a segment of about 30 AEs across roughly 5 managers, and their share of the revenue number.",
-        "Develops and coaches the managers, the coach the coach work, runs manager 1:1s, and holds the forecast and deal inspection standard.",
-        "Accountable for pipeline coverage, win rate, ramp, and removing blockers.",
-        "Must have real AE and people management experience."
-      ]
-    },
-    {
-      "id": "r11",
-      "title": "AE Manager / Team Lead",
-      "context": false,
-      "responsibilities": [
-        "Owns a team of 7 AEs and their revenue number.",
-        "Spends the majority of time coaching deals, pipeline and forecast: pipeline reviews, deal inspection, call and email reviews, and weekly 1:1s.",
-        "Hires, ramps, develops, and manages the performance of the team, and runs the pod cadence.",
-        "Must have serious hands on closing experience, know how to coach, and have been coached."
-      ]
-    },
-    {
-      "id": "r12",
-      "title": "Account Executive (AE)",
-      "context": false,
-      "responsibilities": [
-        "Carries a quota and works the demos the MDR org books, from first meeting through close.",
-        "Runs discovery, builds and manages pipeline, drives the deal cycle, and forecasts accurately.",
-        "Gives the MDR team clean feedback on demo quality so the top of funnel keeps improving.",
-        "Keeps CRM, pipeline stages, and next steps clean."
       ]
     },
     {
@@ -803,295 +749,6 @@
             ]
           }
         ]
-      },
-      {
-        "id": "a1",
-        "role": "Head of Sales, AEs (VP)",
-        "person": "",
-        "notes": "Net new. Owns the AE org and the closed revenue number. Sits alongside the MDR leadership under the Head of Inside Sales so demo supply and closing capacity stay in step. Same coaching first standard: AE leaders coach deals, pipeline and forecast.",
-        "kind": "exec",
-        "track": "ae",
-        "children": [
-          {
-            "id": "a2",
-            "role": "AE Director #1",
-            "person": "",
-            "notes": "Spans 33 AEs across 5 teams. Coaching first: pipeline reviews, deal inspection, call reviews and 1:1s.",
-            "kind": "director",
-            "children": [
-              {
-                "id": "a3",
-                "role": "AE Manager 1.1",
-                "person": "",
-                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a4",
-                    "role": "AE Team 1.1",
-                    "person": "",
-                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 7,
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "a5",
-                "role": "AE Manager 1.2",
-                "person": "",
-                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a6",
-                    "role": "AE Team 1.2",
-                    "person": "",
-                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 7,
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "a7",
-                "role": "AE Manager 1.3",
-                "person": "",
-                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a8",
-                    "role": "AE Team 1.3",
-                    "person": "",
-                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 7,
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "a9",
-                "role": "AE Manager 1.4",
-                "person": "",
-                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a10",
-                    "role": "AE Team 1.4",
-                    "person": "",
-                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 6,
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "a11",
-                "role": "AE Manager 1.5",
-                "person": "",
-                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a12",
-                    "role": "AE Team 1.5",
-                    "person": "",
-                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 6,
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "a13",
-            "role": "AE Director #2",
-            "person": "",
-            "notes": "Spans 33 AEs across 5 teams. Coaching first: pipeline reviews, deal inspection, call reviews and 1:1s.",
-            "kind": "director",
-            "children": [
-              {
-                "id": "a14",
-                "role": "AE Manager 2.1",
-                "person": "",
-                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a15",
-                    "role": "AE Team 2.1",
-                    "person": "",
-                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 7,
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "a16",
-                "role": "AE Manager 2.2",
-                "person": "",
-                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a17",
-                    "role": "AE Team 2.2",
-                    "person": "",
-                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 7,
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "a18",
-                "role": "AE Manager 2.3",
-                "person": "",
-                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a19",
-                    "role": "AE Team 2.3",
-                    "person": "",
-                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 7,
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "a20",
-                "role": "AE Manager 2.4",
-                "person": "",
-                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a21",
-                    "role": "AE Team 2.4",
-                    "person": "",
-                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 6,
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "a22",
-                "role": "AE Manager 2.5",
-                "person": "",
-                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a23",
-                    "role": "AE Team 2.5",
-                    "person": "",
-                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 6,
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "a24",
-            "role": "AE Director #3",
-            "person": "",
-            "notes": "Spans 26 AEs across 4 teams. Coaching first: pipeline reviews, deal inspection, call reviews and 1:1s.",
-            "kind": "director",
-            "children": [
-              {
-                "id": "a25",
-                "role": "AE Manager 3.1",
-                "person": "",
-                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a26",
-                    "role": "AE Team 3.1",
-                    "person": "",
-                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 7,
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "a27",
-                "role": "AE Manager 3.2",
-                "person": "",
-                "notes": "Manages a team of 7 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a28",
-                    "role": "AE Team 3.2",
-                    "person": "",
-                    "notes": "Represents 7 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 7,
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "a29",
-                "role": "AE Manager 3.3",
-                "person": "",
-                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a30",
-                    "role": "AE Team 3.3",
-                    "person": "",
-                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 6,
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "a31",
-                "role": "AE Manager 3.4",
-                "person": "",
-                "notes": "Manages a team of 6 AEs. Coaches deals, pipeline and forecast. Must have real closing experience, know how to coach, and have been coached.",
-                "kind": "manager",
-                "children": [
-                  {
-                    "id": "a32",
-                    "role": "AE Team 3.4",
-                    "person": "",
-                    "notes": "Represents 6 AEs. Expand into slots to name individuals.",
-                    "kind": "team",
-                    "headcount": 6,
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          }
-        ]
       }
     ]
   },
@@ -1137,69 +794,21 @@
       "status": "Open"
     },
     {
-      "id": "h106",
-      "priority": 6,
-      "role": "Head of Sales, AEs",
-      "reportsTo": "Head of Inside Sales",
-      "trigger": "With the first MDR wave. There has to be a closing org ready to take the demos",
-      "status": "Open"
-    },
-    {
-      "id": "h107",
-      "priority": 7,
-      "role": "AE Director #1",
-      "reportsTo": "Head of Sales, AEs",
-      "trigger": "With the first AE wave",
-      "status": "Open"
-    },
-    {
-      "id": "h108",
-      "priority": 8,
-      "role": "First AE Managers, one per 7 AEs",
-      "reportsTo": "AE Director #1",
-      "trigger": "Ahead of each AE wave. Must have real closing and coaching experience",
-      "status": "Open"
-    },
-    {
-      "id": "h109",
-      "priority": 9,
-      "role": "AE Wave 1, 20 AEs, then plus 12 per week",
-      "reportsTo": "AE Managers",
-      "trigger": "Tracks the MDR ramp at 2.6 MDRs to 1 AE, up to 92 AEs",
-      "status": "Open"
-    },
-    {
       "id": "h6",
-      "priority": 10,
-      "role": "Directors of MDR #2 to #5",
+      "priority": 6,
+      "role": "Directors #2 to #5",
       "reportsTo": "Head of Inside Sales",
       "trigger": "Added as headcount passes roughly 50, 100, 150 and 200",
       "status": "Open"
     },
     {
       "id": "h7",
-      "priority": 11,
-      "role": "Additional MDR Managers",
+      "priority": 7,
+      "role": "Additional Managers",
       "reportsTo": "Directors of MDR",
       "trigger": "One added per 8 new MDRs",
       "status": "Open"
-    },
-    {
-      "id": "h112",
-      "priority": 12,
-      "role": "AE Directors #2 and #3",
-      "reportsTo": "Head of Sales, AEs",
-      "trigger": "Added as AE headcount passes roughly 33 and 66",
-      "status": "Open"
-    },
-    {
-      "id": "h113",
-      "priority": 13,
-      "role": "Additional AE Managers",
-      "reportsTo": "AE Directors",
-      "trigger": "One added per 7 new AEs",
-      "status": "Open"
     }
   ],
-  "hiringNote": "Rev Ops, Sales Recruiter, and Content / Messaging already exist on the current team and are not new hires here. Product Marketing owns messaging and content, so this org does not hire for it. The AE org is sized off the MDR org at 2.6 MDRs to 1 AE, so AE hiring waves follow the MDR waves."
+  "hiringNote": "Rev Ops, Sales Recruiter, and Content / Messaging already exist on the current team and are not new hires here. Product Marketing owns messaging and content, so this org does not hire for it."
 }

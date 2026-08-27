@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:24:14.323Z",
+  "updatedAt": "2026-08-27T18:24:20.592Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -652,7 +652,7 @@
       "priority": 12,
       "phase": "p2",
       "role": "Rebuild the legacy leadership, 4 managers and 1 director",
-      "reportsTo": "Head of Inside Sales",
+      "reportsTo": "Head of SMB Sales",
       "trigger": "Absorbed into the 30 and 5 end state where the bar is met, replaced where it is not",
       "status": "Open"
     }

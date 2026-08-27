@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:19:18.066Z",
+  "updatedAt": "2026-08-27T18:19:26.321Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -37,7 +37,7 @@
     {
       "id": "note6",
       "title": "Phase 1, hire the org to capacity",
-      "body": "Phase 1 is 106 net new hires: 90 internal MDRs plus the leadership to support them, 12 managers at one per 8, 2 directors, 1 MDR Enablement Lead and the Head of Inside Sales. It runs alongside what already exists rather than replacing it."
+      "body": "Phase 1 is 106 net new hires: 80 internal MDRs plus the leadership to support them, 12 managers at one per 8, 2 directors, 1 MDR Enablement Lead and the Head of Inside Sales. It runs alongside what already exists rather than replacing it."
     },
     {
       "id": "note7",

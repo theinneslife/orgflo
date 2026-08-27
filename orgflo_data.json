@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:23:15.278Z",
+  "updatedAt": "2026-08-27T18:23:25.193Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -104,7 +104,7 @@
     },
     {
       "id": "r5",
-      "title": "MDR Enablement Lead",
+      "title": "MDR New Hire Trainer",
       "context": false,
       "responsibilities": [
         "Owns new hire onboarding and ramp certification across the first 30, 60 and 90 days, and is accountable for ramp to productivity time."

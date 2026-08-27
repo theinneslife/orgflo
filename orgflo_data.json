@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:23:58.734Z",
+  "updatedAt": "2026-08-27T18:24:01.098Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -571,7 +571,7 @@
       "priority": 3,
       "phase": "p1",
       "role": "Director of MDR #1",
-      "reportsTo": "Head of Inside Sales",
+      "reportsTo": "Head of SMB Sales",
       "trigger": "With wave one",
       "status": "Open"
     },

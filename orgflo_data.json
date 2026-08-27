@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:23:39.075Z",
+  "updatedAt": "2026-08-27T18:23:48.541Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -552,7 +552,7 @@
       "id": "p1a",
       "priority": 1,
       "phase": "p1",
-      "role": "Head of Inside Sales",
+      "role": "Head of SMB Sales",
       "reportsTo": "CEO",
       "trigger": "Hire first. This person builds the org and owns both phases",
       "status": "Open"

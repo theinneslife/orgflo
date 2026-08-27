@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:23:31.376Z",
+  "updatedAt": "2026-08-27T18:23:39.075Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -120,7 +120,7 @@
     },
     {
       "id": "r7",
-      "title": "Sales Recruiter / Talent",
+      "title": "Sales Recruiter",
       "context": true,
       "responsibilities": [
         "Fills the hiring pipeline at wave velocity."

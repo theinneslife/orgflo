@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:18:48.265Z",
+  "updatedAt": "2026-08-27T18:19:18.066Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -32,7 +32,7 @@
     {
       "id": "note5",
       "title": "Existing shared functions",
-      "body": "Rev Ops, Sales Recruiter and Talent Partner, and Content and Messaging already exist on the current team. "
+      "body": "Operations (rev ops within Richards org), Sales Recruiter, and Content / Messaging already exist on the current team. "
     },
     {
       "id": "note6",

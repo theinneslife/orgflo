@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:17:58.286Z",
+  "updatedAt": "2026-08-27T18:18:48.265Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -27,7 +27,7 @@
     {
       "id": "note4",
       "title": "Enablement stays lean",
-      "body": "Enablement is deliberately a single role that is setup to onboard the team the first 90 days, then hand to managers. "
+      "body": "Enablement is deliberately a single role that is setup to onboard the team the first 90 days, then hand to managers. \n\nIf tools training, platforms are needed, existing enablement can help."
     },
     {
       "id": "note5",

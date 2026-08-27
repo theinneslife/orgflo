@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:19:40.206Z",
+  "updatedAt": "2026-08-27T18:19:51.204Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -42,7 +42,7 @@
     {
       "id": "note7",
       "title": "The overage is deliberate",
-      "body": "Capacity today is 181, which is 31 internal plus 150 outsourced. The 90 Phase 1 hires take working capacity to 271, roughly 30 over the 240 target. That buffer is on purpose. Hiring is constant and ongoing so we can weed out and replace underperformers without dropping below the number."
+      "body": "Capacity today is 181, which is 31 internal plus 150 outsourced. The 80 Phase 1 hires take working capacity to 271, roughly 30 over the 240 target. That buffer is on purpose. Hiring is constant and ongoing so we can weed out and replace underperformers without dropping below the number."
     },
     {
       "id": "note8",

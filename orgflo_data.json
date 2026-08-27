@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:23:48.541Z",
+  "updatedAt": "2026-08-27T18:23:53.344Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -561,7 +561,7 @@
       "id": "p1b",
       "priority": 2,
       "phase": "p1",
-      "role": "MDR Enablement Lead",
+      "role": "MDR New Hire Trainer",
       "reportsTo": "Head of Inside Sales",
       "trigger": "Before the first wave. Owns onboarding, ramp, coach the coach, the tool stack, and operationalizing PMM content",
       "status": "Open"

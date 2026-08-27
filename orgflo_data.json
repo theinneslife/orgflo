@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-21T00:00:00Z",
+  "updatedAt": "2026-08-27T15:11:41.082Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -139,7 +139,7 @@
     "id": "n71",
     "role": "Head of Inside Sales (VP)",
     "person": "",
-    "notes": "Builds the organization. Reports to the COO. Sets a coaching first standard for every leader in the org.",
+    "notes": "Builds the organization. Reports to the CEO. Sets a coaching first standard for every leader in the org.",
     "kind": "exec",
     "children": [
       {
@@ -544,7 +544,8 @@
         "phase": "p1"
       }
     ],
-    "phase": "p1"
+    "phase": "p1",
+    "existing": true
   },
   "hiringList": [
     {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:19:51.204Z",
+  "updatedAt": "2026-08-27T18:21:04.131Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -137,7 +137,7 @@
   ],
   "orgChart": {
     "id": "n71",
-    "role": "Head of Inside Sales (VP)",
+    "role": "Head of SMB Sales",
     "person": "",
     "notes": "Builds the organization. Reports to the CEO. Sets a coaching first standard for every leader in the org.",
     "kind": "exec",

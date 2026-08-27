@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T15:11:53.132Z",
+  "updatedAt": "2026-08-27T18:17:58.286Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -17,7 +17,7 @@
     {
       "id": "note2",
       "title": "Span of control",
-      "body": "One manager per 8 MDRs to leave real room for coaching. One director per roughly 50 MDRs. That lands at 30 managers and 5 directors. The org is seeded at 240 seats to drive 7k demos per quarter"
+      "body": "One manager per 8 MDRs to leave real room for coaching. One director per roughly 50 MDRs. That lands at 30 managers and 5 directors. The org is seeded at 240 seats to drive 9k demos per quarter"
     },
     {
       "id": "note3",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:23:25.193Z",
+  "updatedAt": "2026-08-27T18:23:31.376Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -112,7 +112,7 @@
     },
     {
       "id": "r6",
-      "title": "Rev / Sales Ops",
+      "title": "Operations (sales ops)",
       "context": true,
       "responsibilities": [
         "Reporting, tooling, data, and comp and quota mechanics."

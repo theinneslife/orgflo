@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "appVersion": "v1.7",
-  "updatedAt": "2026-08-27T18:21:35.365Z",
+  "updatedAt": "2026-08-27T18:22:13.377Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -58,7 +58,7 @@
   "roleDefinitions": [
     {
       "id": "r1",
-      "title": "Head of Inside Sales (VP)",
+      "title": "Head of SMB Sales",
       "context": false,
       "responsibilities": [
         "Owns the entire MDR org, its number of 7,000 completed demos per quarter, and the operating model.",

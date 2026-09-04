@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.2",
-  "updatedAt": "2026-09-04T01:53:16.507Z",
+  "updatedAt": "2026-09-04T01:53:38.294Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -22,14 +22,9 @@
       "body": "One manager per 8 MDRs to leave real room for coaching. One director per roughly 6 managers, which is about 48 MDRs. Both ratios are the working model. At 9,000 meetings a quarter and 11 booked per MDR per month, full capacity is 273 MDRs, which at 8 to 1 is 35 managers and 6 directors."
     },
     {
-      "id": "note3",
-      "title": "Messaging is owned by Product Marketing",
-      "body": "Product Marketing already provides messaging and content, so messaging and sequences is owned by PMM"
-    },
-    {
       "id": "note4",
       "title": "The New Hire Trainer stays lean",
-      "body": "We are not calling this Enablement. It is a New Hire Trainer, deliberately a single role, set up to onboard a new hire through their first month and then hand them to their manager. Ramp is 1 month, not 90 days. If tools and platform training is needed, existing enablement can help."
+      "body": "Deliberately a single role, set up to onboard a new hire through their first month and then hand them to their manager. Ramp is 1 month, not 90 days. If tools and platform training is needed, existing enablement can help."
     },
     {
       "id": "note5",

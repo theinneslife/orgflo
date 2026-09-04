@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.1",
-  "updatedAt": "2026-09-04T01:37:06.976Z",
+  "updatedAt": "2026-09-04T01:37:09.073Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -578,8 +578,7 @@
         "Do you prefer an 8:1 model or a different ratio?",
         "At 8:1 the 273 MDR end state needs 35 managers.",
         "Second question: how many managers should a director carry?",
-        "At 6 managers per director, 35 managers needs 6 directors. This is the working model.",
-        "Both ratios drive the Phase 1 breakdown, the Q1 hiring plan and the cost of the whole build, so they are worth settling first."
+        "At 6 managers per director, 35 managers needs 6 directors. This is the working model."
       ]
     },
     {

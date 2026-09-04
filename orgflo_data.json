@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.1",
-  "updatedAt": "2026-09-04T01:37:53.768Z",
+  "updatedAt": "2026-09-04T01:37:58.057Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -590,7 +590,6 @@
         "Directors carry roughly 6 managers, which is about 48 MDRs each.",
         "Each MDR books 11 completed demos per month. ",
         "The goal is 9,000 meetings per quarter. At 11 booked per MDR per month that is 3,000 a month, which needs 273 MDRs at full capacity.",
-        "If the 9,000 has to be completed demos rather than booked, then at a 77 percent show rate full capacity is 355 MDRs rather than 273.",
         "At 8 to 1 that 273 MDR end state needs 35 managers, and at 6 managers per director it needs 6 directors.",
         "Sales reps receive 4 leads per day. At roughly 21 working days that is about 84 a month per rep, so 9,000 a quarter needs roughly 36 receiving reps.",
         "Phase 1 is 40 hires in Q4: 33 MDRs, 5 managers, 1 director and 1 New Hire Trainer.",

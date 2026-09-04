@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.1",
-  "updatedAt": "2026-09-04T01:37:58.057Z",
+  "updatedAt": "2026-09-04T01:38:43.745Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -592,7 +592,7 @@
         "The goal is 9,000 meetings per quarter. At 11 booked per MDR per month that is 3,000 a month, which needs 273 MDRs at full capacity.",
         "At 8 to 1 that 273 MDR end state needs 35 managers, and at 6 managers per director it needs 6 directors.",
         "Sales reps receive 4 leads per day. At roughly 21 working days that is about 84 a month per rep, so 9,000 a quarter needs roughly 36 receiving reps.",
-        "Phase 1 is 40 hires in Q4: 33 MDRs, 5 managers, 1 director and 1 New Hire Trainer.",
+        "Phase 1 is 40 hires in Q4: 32 MDRs, 5 managers, 1 director, 1 New Hire Trainer and one Sales Recruiter",
         "Phase 1 teams are seeded at 7 and 6 rather than 8 so each team can grow to 8 without adding a manager.",
         "Outsourced is 70 live as of 9/8 and ramps to a total of 150 by the middle of October.",
         "Outsourced headcount counts toward meeting capacity but not toward internal headcount.",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.2",
-  "updatedAt": "2026-09-04T01:55:35.098Z",
+  "updatedAt": "2026-09-04T01:57:56.839Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -73,7 +73,7 @@
       "title": "Head of SMB Sales",
       "context": false,
       "responsibilities": [
-        "Owns the entire MDR org, its number of 9,000 meetings per quarter, and the operating model.",
+        "Owns the entire MDR org, and sales reps. its number of 9,000 meetings per quarter, and the operating model.",
         "Builds and leads the leadership layer, sets the coaching culture, and hires and develops the directors.",
         "Owns the three phase build: Phase 1 hires 50 in Q4, Phase 2 replaces the outsourced team with internal, Phase 3 goes to full capacity.",
         "Owns capacity planning, headcount ramp, targets and comp.",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.2",
-  "updatedAt": "2026-09-04T01:52:52.008Z",
+  "updatedAt": "2026-09-04T01:53:16.507Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -19,7 +19,7 @@
     {
       "id": "note2",
       "title": "Span of control",
-      "body": "One manager per 8 MDRs to leave real room for coaching. One director per roughly 6 managers, which is about 48 MDRs. Both ratios are the working model and both are open questions for Lynn. At 9,000 meetings a quarter and 11 booked per MDR per month, full capacity is 273 MDRs, which at 8 to 1 is 35 managers and 6 directors."
+      "body": "One manager per 8 MDRs to leave real room for coaching. One director per roughly 6 managers, which is about 48 MDRs. Both ratios are the working model. At 9,000 meetings a quarter and 11 booked per MDR per month, full capacity is 273 MDRs, which at 8 to 1 is 35 managers and 6 directors."
     },
     {
       "id": "note3",

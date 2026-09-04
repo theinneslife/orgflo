@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.1",
-  "updatedAt": "2026-09-04T01:36:32.725Z",
+  "updatedAt": "2026-09-04T01:37:05.007Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -579,8 +579,6 @@
         "At 8:1 the 273 MDR end state needs 35 managers.",
         "Second question: how many managers should a director carry?",
         "At 6 managers per director, 35 managers needs 6 directors. This is the working model.",
-        "At 8 managers per director it needs 5 directors, which is one fewer leader but thinner coach the coach time.",
-        "At 4 managers per director it needs 9 directors, which is much closer coaching of managers and three more leaders to pay for.",
         "Both ratios drive the Phase 1 breakdown, the Q1 hiring plan and the cost of the whole build, so they are worth settling first."
       ]
     },

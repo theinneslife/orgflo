@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "appVersion": "v2.2",
+  "appVersion": "v2.3",
   "updatedAt": "2026-09-04T01:57:56.839Z",
   "calculator": {
     "scheduledPerSDR": 13,
@@ -34,12 +34,12 @@
     {
       "id": "note6",
       "title": "Phase 1, 40 hires in Q4",
-      "body": "Phase 1 is 39 hires in Q4 and it breaks down cleanly: 33 MDRs, 5 managers at one per 8, 1 director, 1 New Hire Trainer and one Sales Recruiter."
+      "body": "Phase 1 is 40 hires in Q4 and it breaks down cleanly: 32 MDRs, 5 managers at one per 8, 1 director, 1 New Hire Trainer and one Sales Recruiter. All five are counted inside the forty."
     },
     {
       "id": "note7",
       "title": "Where capacity lands",
-      "body": "Today capacity is 107 MDRs (with 30 ramping reps), which is 37 internal plus the 70 outsourced live as of 9/8. Once the vendor ramp completes in the middle of October that is 187. The 33 Phase 1 MDRs take it to 220 against a full capacity target of 273."
+      "body": "Today capacity is 107 MDRs (with 30 ramping reps), which is 37 internal plus the 70 outsourced live as of 9/8. Once the vendor ramp completes in the middle of October that is 187. The 32 Phase 1 MDRs take it to 219 against a full capacity target of 273."
     },
     {
       "id": "note8",
@@ -330,7 +330,7 @@
         "id": "q1",
         "role": "Director of MDR #1 (Phase 1)",
         "person": "",
-        "notes": "Phase 1 hire. Owns the 33 net new internal MDRs across 5 managers. Coaching first: manager 1:1s, team meetings, call and email reviews.",
+        "notes": "Phase 1 hire. Owns the 32 net new internal MDRs across 5 managers. Coaching first: manager 1:1s, team meetings, call and email reviews.",
         "kind": "director",
         "phase": "p1",
         "children": [
@@ -374,16 +374,16 @@
             "id": "q1m3",
             "role": "MDR Manager 1.3",
             "person": "",
-            "notes": "Phase 1 hire. Manages a team of 7 MDRs, seeded under the 8 to 1 cap so the team can grow to 8 without adding a manager.",
+            "notes": "Phase 1 hire. Manages a team of 6 MDRs, seeded under the 8 to 1 cap so the team can grow to 8 without adding a manager.",
             "kind": "manager",
             "children": [
               {
                 "id": "q1t3",
                 "role": "MDR Team 1.3",
                 "person": "",
-                "notes": "Phase 1 hire. Represents 7 net new internal MDRs.",
+                "notes": "Phase 1 hire. Represents 6 net new internal MDRs.",
                 "kind": "team",
-                "headcount": 7,
+                "headcount": 6,
                 "children": []
               }
             ]
@@ -447,7 +447,7 @@
       "qty": 1,
       "role": "Sales Recruiter",
       "reportsTo": "People Team",
-      "trigger": "First, alongside the trainer. Not on the team today. Sits outside the Phase 1 forty because it is not an MDR org seat",
+      "trigger": "First, alongside the trainer. Not on the team today. Counted inside the Phase 1 forty",
       "status": "Open"
     },
     {
@@ -457,7 +457,7 @@
       "qty": 1,
       "role": "Director of MDR #1",
       "reportsTo": "Head of SMB Sales",
-      "trigger": "With wave one. Owns the 33 Phase 1 MDRs",
+      "trigger": "With wave one. Owns the 32 Phase 1 MDRs",
       "status": "Open"
     },
     {
@@ -487,7 +487,7 @@
       "qty": 19,
       "role": "MDR Waves 2 and 3",
       "reportsTo": "MDR Managers",
-      "trigger": "Weekly through Q4 until all 33 Phase 1 MDRs are in",
+      "trigger": "Weekly through Q4 until all 32 Phase 1 MDRs are in",
       "status": "Open"
     },
     {
@@ -527,7 +527,7 @@
       "qty": 54,
       "role": "Remaining MDRs to reach full capacity",
       "reportsTo": "MDR Managers",
-      "trigger": "No date. Takes the org from 220 to 273 MDRs to support 9,000 meetings a quarter",
+      "trigger": "No date. Takes the org from 219 to 273 MDRs to support 9,000 meetings a quarter",
       "status": "Open"
     },
     {
@@ -561,7 +561,7 @@
       "status": "Open"
     }
   ],
-  "hiringNote": "Operations (sales ops) and Content / Messaging already exist on the current team and are not new hires here. The Sales Recruiter is not on the team today, so it is in the list. Product Marketing owns messaging and content, so this org does not hire for it. Phase 1 is 40 net new MDR org hires in Q4 plus the recruiter. Phase 2 replaces outsourced headcount with internal and adds no capacity. Phase 3 takes the org to full capacity. AE timing is TBD.",
+  "hiringNote": "Operations (sales ops) and Content / Messaging already exist on the current team and are not new hires here. The Sales Recruiter is not on the team today, so it is in the list. Product Marketing owns messaging and content, so this org does not hire for it. Phase 1 is 40 net new hires in Q4, counting the New Hire Trainer and the Sales Recruiter inside the forty. Phase 2 replaces outsourced headcount with internal and adds no capacity. Phase 3 takes the org to full capacity. AE timing is TBD.",
   "endState": {
     "mdrs": 273,
     "managers": 35,

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.1",
-  "updatedAt": "2026-09-04T01:38:43.745Z",
+  "updatedAt": "2026-09-04T01:39:20.389Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -441,7 +441,7 @@
       "phase": "p1",
       "qty": 1,
       "role": "Sales Recruiter",
-      "reportsTo": "Head of SMB Sales",
+      "reportsTo": "People Team",
       "trigger": "First, alongside the trainer. Not on the team today. Sits outside the Phase 1 forty because it is not an MDR org seat",
       "status": "Open"
     },
@@ -519,7 +519,7 @@
       "id": "p3a",
       "priority": 10,
       "phase": "p3",
-      "qty": 53,
+      "qty": 54,
       "role": "Remaining MDRs to reach full capacity",
       "reportsTo": "MDR Managers",
       "trigger": "No date. Takes the org from 220 to 273 MDRs to support 9,000 meetings a quarter",

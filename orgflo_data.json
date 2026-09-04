@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.2",
-  "updatedAt": "2026-09-04T01:54:58.223Z",
+  "updatedAt": "2026-09-04T01:55:35.098Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -65,11 +65,6 @@
       "id": "note12",
       "title": "What a director owns",
       "body": "• Roughly 6 managers, which is about 48 MDRs, and their share of the meeting number.\n• Coaching the coaches: a weekly 1:1 with every manager, sitting in on team meetings and call reviews, and holding the coaching standard.\n• Ramp: accountable for time to productivity across the segment and for manager readiness ahead of each hiring wave.\n• Reporting: segment meetings booked, ramp, attrition and forecast up to the Head of SMB Sales.\n• Performance: manages out and backfills, and owns the bar across the segment."
-    },
-    {
-      "id": "note13",
-      "title": "Hiring needs for Q1",
-      "body": "• This is an estimate tied to the plan, not a commitment. It is the first thing to confirm.\n• Q1 is Phase 2 territory, which is replacing outsourced MDRs with internal headcount.\n• Replacing all 150 outsourced in one quarter is not realistic while the 40 Q4 hires are still landing.\n• Estimate: replace half the outsourced team in Q1, which is 75 internal MDRs.\n• That needs about 10 more managers at 8 to 1, since 75 divided by 8 is 9.4.\n• And 2 more directors. Phase 1 leaves us at 9 managers, so 19 managers at 6 per director is 4 directors against the 2 we have.\n• Q1 estimate is therefore 87 internal hires: 75 MDRs, 10 managers and 2 directors.\n• On a 1 month ramp those 75 are productive inside the quarter, which is what makes half realistic.\n• The vendor contract needs to wind down in step with this so we are not paying for both.\n• If the Q4 forty land slower than planned, drop Q1 to replacing a third of the outsourced team rather than half."
     }
   ],
   "roleDefinitions": [

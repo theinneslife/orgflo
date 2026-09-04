@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.2",
-  "updatedAt": "2026-09-04T01:54:07.684Z",
+  "updatedAt": "2026-09-04T01:54:37.299Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -34,7 +34,7 @@
     {
       "id": "note6",
       "title": "Phase 1, 40 hires in Q4",
-      "body": "Phase 1 is 40 hires in Q4 and it breaks down cleanly: 33 MDRs, 5 managers at one per 8, 1 director, and 1 New Hire Trainer. Teams are seeded at 7 and 6 so each can grow to 8 without adding a manager. The Sales Recruiter is a Phase 1 hire too but sits outside the forty because it is not an MDR org seat."
+      "body": "Phase 1 is 39 hires in Q4 and it breaks down cleanly: 33 MDRs, 5 managers at one per 8, 1 director, 1 New Hire Trainer and one Sales Recruiter."
     },
     {
       "id": "note7",

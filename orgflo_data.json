@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.1",
-  "updatedAt": "2026-09-04T01:39:22.922Z",
+  "updatedAt": "2026-09-04T01:40:35.028Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -573,7 +573,7 @@
   "discussion": [
     {
       "id": "d2",
-      "title": "Open questions",
+      "title": "Org Chart Open Topics",
       "items": [
         "Do you prefer an 8:1 model or a different ratio?",
         "At 8:1 the 273 MDR end state needs 35 managers.",

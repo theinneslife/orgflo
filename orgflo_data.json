@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.1",
-  "updatedAt": "2026-09-04T01:36:20.988Z",
+  "updatedAt": "2026-09-04T01:36:30.142Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -577,7 +577,6 @@
       "items": [
         "Do you prefer an 8:1 model or a different ratio?",
         "At 8:1 the 273 MDR end state needs 35 managers.",
-        "At 10:1 it needs 28 managers, which is 7 fewer leaders but less coaching time per rep.",
         "At 6:1 it needs 46 managers, which is more coaching but a heavier and more expensive layer.",
         "Second question: how many managers should a director carry?",
         "At 6 managers per director, 35 managers needs 6 directors. This is the working model.",

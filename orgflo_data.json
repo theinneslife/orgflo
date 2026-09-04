@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.2",
-  "updatedAt": "2026-09-04T01:50:32.182Z",
+  "updatedAt": "2026-09-04T01:50:33.848Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -591,7 +591,6 @@
       "title": "Org Chart Open Topics",
       "items": [
         "RATIOS: 8:1 MDRs to Manager, 35 total managers. 6:1 managers per director, 6 directors. ",
-        "At 6 managers per director, 35 managers needs 6 directors. This is the working model.",
         "Phase 1 is 40 hires in Q4: 32 MDRs, 5 managers, 1 director, 1 New Hire Trainer and one Sales Recruiter",
         "New hires ramp in 1 month. They are assumed fully productive at 11 booked meetings from month 2."
       ]

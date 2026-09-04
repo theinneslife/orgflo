@@ -787,6 +787,7 @@
       padding: 0.2rem 0.25rem;
       min-height: 104px;
       resize: vertical;
+      overflow: hidden;
     }
     .note-body:focus {
       background: var(--bg-card);
@@ -1214,7 +1215,7 @@
         <text x="80" y="28" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="20" font-weight="700" fill="url(#of-g)">Flo</text>
         <path d="M80 33Q96 28 114 33" stroke="url(#of-g)" stroke-width="2" fill="none" opacity=".8"/>
       </svg>
-      <span class="version-badge">v2.1</span>
+      <span class="version-badge">v2.2</span>
     </div>
 
 
@@ -1473,7 +1474,7 @@
 <script>
 /* ============================================================
    OrgFlo — MDR organization designer
-   v2.1
+   v2.2
 
    Persistence pattern:
    the plan lives in orgflo_data.json in the repo, and edits are
@@ -1782,14 +1783,14 @@ var OrgFlo = (function () {
                  fmt(h.outLive) + ' working today.');
     html += tile('t-existing', 'Capacity today', fmt(h.capacityNow), 'MDRs',
                  fmt(h.exMdr) + ' internal plus ' + fmt(h.outLive) + ' outsourced, which is ' +
-                 fmt(h.meetingsNow) + ' meetings a quarter. Goes to ' + fmt(h.capacityRamp) +
+                 fmt(h.meetingsNow) + ' a quarter. Goes to ' + fmt(h.capacityRamp) +
                  ' MDRs once the vendor ramp completes.');
     html += tile('t-p1', 'Phase 1, Q4 hires', fmt(h.p1Hires), 'hires',
                  fmt(h.p1Mdr) + ' MDRs, ' + fmt(h.p1Mgr) + ' managers at one per ' + fmt(e.mgrSpan) +
                  ', ' + fmt(h.p1Dir) + ' director and ' + fmt(h.p1Sup) +
                  ' New Hire Trainer. Plus 1 Sales Recruiter, outside the forty.');
     html += tile('t-p1', 'Capacity after Phase 1', fmt(h.capacityP1), 'MDRs',
-                 fmt(h.meetingsP1) + ' meetings a quarter against a goal of ' + fmt(h.target) +
+                 fmt(h.meetingsP1) + ' a quarter against a goal of ' + fmt(h.target) +
                  '. Full capacity is ' + fmt(e.mdrs) + ' MDRs.');
     html += tile('t-p2', 'Phase 2, replace outsourced', fmt(h.p2Replace), 'MDRs',
                  'Swaps the outsourced team for internal headcount, plus ' + fmt(h.p2Mgr) +
@@ -1804,14 +1805,20 @@ var OrgFlo = (function () {
                  fmt(h.endRoles) + ' roles in all.');
 
     $('hcGrid').innerHTML = html;
-    $('hcFoot').textContent =
-      'The goal is ' + fmt(h.target) + ' meetings a quarter. At ' + fmt(h.perMdr) +
-      ' booked per MDR per month that is ' + fmt(h.target / 3) + ' a month, which needs ' +
-      fmt(e.mdrs) + ' MDRs at full capacity. Capacity today is ' + fmt(h.capacityNow) +
-      ' MDRs, ' + fmt(h.capacityRamp) + ' once the vendor ramp completes, and ' + fmt(h.capacityP1) +
-      ' after the Phase 1 ' + fmt(h.p1Hires) + ' land. No show rate discount is applied. If the ' +
-      fmt(h.target) + ' has to be completed demos at a ' + Math.round(h.showRate * 100) +
-      ' percent show rate, full capacity is ' + fmt(h.altMdrs) + ' MDRs instead. AE timing is not decided.';
+    var onCompleted = (data.calculator || {}).basis === 'completed';
+    var unit = onCompleted ? 'completed demos' : 'meetings';
+    var foot =
+      'The goal is ' + fmt(h.target) + ' ' + unit + ' a quarter. At ' + fmt(h.perMdr) + ' per MDR per month ' +
+      'that is ' + fmt(h.target / 3) + ' a month, which needs ' + fmt(e.mdrs) + ' MDRs at full capacity. ' +
+      'Capacity today is ' + fmt(h.capacityNow) + ' MDRs, ' + fmt(h.capacityRamp) +
+      ' once the vendor ramp completes, and ' + fmt(h.capacityP1) + ' after the Phase 1 ' +
+      fmt(h.p1Hires) + ' land.';
+    if (!onCompleted) {
+      foot += ' No show rate discount is applied. If the ' + fmt(h.target) +
+              ' has to be completed demos at a ' + Math.round(h.showRate * 100) +
+              ' percent show rate, full capacity is ' + fmt(h.altMdrs) + ' MDRs instead.';
+    }
+    $('hcFoot').textContent = foot + ' AE timing is not decided.';
   }
 
   // ─── Discussion with Lynn ─────────────────────────────────
@@ -1939,6 +1946,8 @@ var OrgFlo = (function () {
       return h;
     }).join('');
 
+    growAllResp();
+
     if (!notes.length) {
       grid.innerHTML = '<div style="color:var(--text-muted);font-size:0.8rem;padding:0.5rem 0">' +
         'No notes yet. Use Add note to capture how this org should run.</div>';
@@ -1998,7 +2007,7 @@ var OrgFlo = (function () {
   }
 
   function growAllResp() {
-    Array.prototype.forEach.call(document.querySelectorAll('.resp-text, .disc-text'), autoGrow);
+    Array.prototype.forEach.call(document.querySelectorAll('.resp-text, .disc-text, .note-body'), autoGrow);
   }
 
   function renderRoles() {
@@ -2948,7 +2957,7 @@ var OrgFlo = (function () {
     try {
       renumber();
       data.updatedAt = new Date().toISOString();
-      data.appVersion = 'v2.1';
+      data.appVersion = 'v2.2';
 
       // Always take the current sha immediately before writing so a commit
       // from another tab or from the automation does not get clobbered.

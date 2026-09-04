@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "appVersion": "v2.1",
+  "appVersion": "v2.2",
   "updatedAt": "2026-09-04T01:42:37.956Z",
   "calculator": {
     "scheduledPerSDR": 13,
@@ -60,6 +60,21 @@
       "id": "note10",
       "title": "AEs are not decided",
       "body": "When the AEs move over is not decided. No AE org is modelled here. The 4 leads per day per sales rep implies roughly 36 receiving reps at 9,000 a quarter, but that is a sizing note, not a plan."
+    },
+    {
+      "id": "note11",
+      "title": "What a manager owns",
+      "body": "• A team of 8 MDRs and their meeting number, which is 11 booked per MDR per month.\n• Coaching cadence: a weekly team meeting, a weekly 1:1 with every rep, call and email reviews every week, and real time feedback on the floor.\n• Ramp: takes the rep from the New Hire Trainer at the end of month 1 and owns their performance from there. The rep is expected to carry the full 11 from month 2.\n• Reporting: weekly team number, meetings booked, and rep level performance up to their director.\n• Hiring: interviews and selects for their own team, and owns the bar on their own team."
+    },
+    {
+      "id": "note12",
+      "title": "What a director owns",
+      "body": "• Roughly 6 managers, which is about 48 MDRs, and their share of the meeting number.\n• Coaching the coaches: a weekly 1:1 with every manager, sitting in on team meetings and call reviews, and holding the coaching standard.\n• Ramp: accountable for time to productivity across the segment and for manager readiness ahead of each hiring wave.\n• Reporting: segment meetings booked, ramp, attrition and forecast up to the Head of SMB Sales.\n• Performance: manages out and backfills, and owns the bar across the segment."
+    },
+    {
+      "id": "note13",
+      "title": "Hiring needs for Q1",
+      "body": "• This is an estimate tied to the plan, not a commitment. It is the first thing to confirm.\n• Q1 is Phase 2 territory, which is replacing outsourced MDRs with internal headcount.\n• Replacing all 150 outsourced in one quarter is not realistic while the 40 Q4 hires are still landing.\n• Estimate: replace half the outsourced team in Q1, which is 75 internal MDRs.\n• That needs about 10 more managers at 8 to 1, since 75 divided by 8 is 9.4.\n• And 2 more directors. Phase 1 leaves us at 9 managers, so 19 managers at 6 per director is 4 directors against the 2 we have.\n• Q1 estimate is therefore 87 internal hires: 75 MDRs, 10 managers and 2 directors.\n• On a 1 month ramp those 75 are productive inside the quarter, which is what makes half realistic.\n• The vendor contract needs to wind down in step with this so we are not paying for both.\n• If the Q4 forty land slower than planned, drop Q1 to replacing a third of the outsourced team rather than half."
     }
   ],
   "roleDefinitions": [
@@ -604,44 +619,6 @@
         "Rounding up at each stage means staged manager and director counts can land one above the end state number. Those absorb as teams fill.",
         "Phase 2 and Phase 3 have no dates yet.",
         "Timing for moving the AEs over is not decided."
-      ]
-    },
-    {
-      "id": "d3",
-      "title": "What a manager owns",
-      "items": [
-        "A team of 8 MDRs and their meeting number, which is 11 booked per MDR per month.",
-        "Coaching cadence: a weekly team meeting, a weekly 1:1 with every rep, call and email reviews every week, and real time feedback on the floor.",
-        "Ramp: takes the rep from the New Hire Trainer at the end of month 1 and owns their performance from there. The rep is expected to carry the full 11 from month 2.",
-        "Reporting: weekly team number, meetings booked, and rep level performance up to their director.",
-        "Hiring: interviews and selects for their own team, and owns the bar on their own team."
-      ]
-    },
-    {
-      "id": "d4",
-      "title": "What a director owns",
-      "items": [
-        "Roughly 6 managers, which is about 48 MDRs, and their share of the meeting number.",
-        "Coaching the coaches: a weekly 1:1 with every manager, sitting in on team meetings and call reviews, and holding the coaching standard.",
-        "Ramp: accountable for time to productivity across the segment and for manager readiness ahead of each hiring wave.",
-        "Reporting: segment meetings booked, ramp, attrition and forecast up to the Head of SMB Sales.",
-        "Performance: manages out and backfills, and owns the bar across the segment."
-      ]
-    },
-    {
-      "id": "d5",
-      "title": "Hiring needs for Q1",
-      "items": [
-        "This is an estimate tied to the plan, not a commitment. It is the first thing to confirm.",
-        "Q1 is Phase 2 territory, which is replacing outsourced MDRs with internal headcount.",
-        "Replacing all 150 outsourced in one quarter is not realistic while the 40 Q4 hires are still landing.",
-        "Estimate: replace half the outsourced team in Q1, which is 75 internal MDRs.",
-        "That needs about 10 more managers at 8 to 1, since 75 divided by 8 is 9.4.",
-        "And 2 more directors. Phase 1 leaves us at 9 managers, so 19 managers at 6 per director is 4 directors against the 2 we have.",
-        "Q1 estimate is therefore 87 internal hires: 75 MDRs, 10 managers and 2 directors.",
-        "On a 1 month ramp those 75 are productive inside the quarter, which is what makes half realistic.",
-        "The vendor contract needs to wind down in step with this so we are not paying for both.",
-        "If the Q4 forty land slower than planned, drop Q1 to replacing a third of the outsourced team rather than half."
       ]
     }
   ]

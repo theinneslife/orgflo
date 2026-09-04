@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.1",
-  "updatedAt": "2026-09-04T01:37:09.073Z",
+  "updatedAt": "2026-09-04T01:37:53.768Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -588,9 +588,8 @@
         "1 manager per 8 MDRs. ",
         "Today the internal team runs 37 MDRs across 4 managers, which is about 9 per manager. The internal team is planning to remain remote but part of Lynn's org. As the team loses MDRS, that headcount moves to Austin. ",
         "Directors carry roughly 6 managers, which is about 48 MDRs each.",
-        "Each MDR books 11 meetings per month. This replaces the earlier 13 and the older 10 completed demos per month assumption.",
+        "Each MDR books 11 completed demos per month. ",
         "The goal is 9,000 meetings per quarter. At 11 booked per MDR per month that is 3,000 a month, which needs 273 MDRs at full capacity.",
-        "Show rate is the step to challenge. The model treats the 9,000 as meetings booked and applies no show rate discount.",
         "If the 9,000 has to be completed demos rather than booked, then at a 77 percent show rate full capacity is 355 MDRs rather than 273.",
         "At 8 to 1 that 273 MDR end state needs 35 managers, and at 6 managers per director it needs 6 directors.",
         "Sales reps receive 4 leads per day. At roughly 21 working days that is about 84 a month per rep, so 9,000 a quarter needs roughly 36 receiving reps.",

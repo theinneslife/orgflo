@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.2",
-  "updatedAt": "2026-09-04T01:54:37.299Z",
+  "updatedAt": "2026-09-04T01:54:58.223Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -39,7 +39,7 @@
     {
       "id": "note7",
       "title": "Where capacity lands",
-      "body": "Today capacity is 107 MDRs, which is 37 internal plus the 70 outsourced live as of 9/8. Once the vendor ramp completes in the middle of October that is 187. The 33 Phase 1 MDRs take it to 220 against a full capacity target of 273."
+      "body": "Today capacity is 107 MDRs (with 30 ramping reps), which is 37 internal plus the 70 outsourced live as of 9/8. Once the vendor ramp completes in the middle of October that is 187. The 33 Phase 1 MDRs take it to 220 against a full capacity target of 273."
     },
     {
       "id": "note8",

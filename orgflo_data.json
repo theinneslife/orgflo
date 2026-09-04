@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.1",
-  "updatedAt": "2026-09-04T01:36:00.314Z",
+  "updatedAt": "2026-09-04T01:36:20.988Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -572,6 +572,21 @@
   },
   "discussion": [
     {
+      "id": "d2",
+      "title": "Open questions",
+      "items": [
+        "Do you prefer an 8:1 model or a different ratio?",
+        "At 8:1 the 273 MDR end state needs 35 managers.",
+        "At 10:1 it needs 28 managers, which is 7 fewer leaders but less coaching time per rep.",
+        "At 6:1 it needs 46 managers, which is more coaching but a heavier and more expensive layer.",
+        "Second question: how many managers should a director carry?",
+        "At 6 managers per director, 35 managers needs 6 directors. This is the working model.",
+        "At 8 managers per director it needs 5 directors, which is one fewer leader but thinner coach the coach time.",
+        "At 4 managers per director it needs 9 directors, which is much closer coaching of managers and three more leaders to pay for.",
+        "Both ratios drive the Phase 1 breakdown, the Q1 hiring plan and the cost of the whole build, so they are worth settling first."
+      ]
+    },
+    {
       "id": "d1",
       "title": "Assumptions",
       "items": [
@@ -594,21 +609,6 @@
         "Rounding up at each stage means staged manager and director counts can land one above the end state number. Those absorb as teams fill.",
         "Phase 2 and Phase 3 have no dates yet.",
         "Timing for moving the AEs over is not decided."
-      ]
-    },
-    {
-      "id": "d2",
-      "title": "Open questions",
-      "items": [
-        "Do you prefer an 8:1 model or a different ratio?",
-        "At 8:1 the 273 MDR end state needs 35 managers.",
-        "At 10:1 it needs 28 managers, which is 7 fewer leaders but less coaching time per rep.",
-        "At 6:1 it needs 46 managers, which is more coaching but a heavier and more expensive layer.",
-        "Second question: how many managers should a director carry?",
-        "At 6 managers per director, 35 managers needs 6 directors. This is the working model.",
-        "At 8 managers per director it needs 5 directors, which is one fewer leader but thinner coach the coach time.",
-        "At 4 managers per director it needs 9 directors, which is much closer coaching of managers and three more leaders to pay for.",
-        "Both ratios drive the Phase 1 breakdown, the Q1 hiring plan and the cost of the whole build, so they are worth settling first."
       ]
     },
     {

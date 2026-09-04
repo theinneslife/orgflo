@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.2",
-  "updatedAt": "2026-09-04T01:51:33.442Z",
+  "updatedAt": "2026-09-04T01:51:58.715Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -616,7 +616,8 @@
         "The Sales Recruiter is not on the team today. It is in the hiring list, not in the current headcount.",
         "Rounding up at each stage means staged manager and director counts can land one above the end state number. Those absorb as teams fill.",
         "Phase 2 and Phase 3 have no dates yet.",
-        "Timing for moving the AEs over is not decided."
+        "Timing for moving the AEs over is not decided.",
+        ""
       ]
     }
   ]

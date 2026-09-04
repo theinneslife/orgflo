@@ -1,7 +1,7 @@
 {
   "schemaVersion": 7,
   "appVersion": "v1.8",
-  "updatedAt": "2026-09-04T01:03:36.336Z",
+  "updatedAt": "2026-09-04T01:04:18.932Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -571,7 +571,7 @@
       "title": "Assumptions",
       "items": [
         "Span of control is 1 manager per 8 MDRs. ",
-        "Today the internal team runs 37 MDRs across 4 managers, which is about 9 per manager, so we are already running above the model.",
+        "Today the internal team runs 37 MDRs across 4 managers, which is about 9 per manager. The internal team is planning to remain remote but part of Lynn's org. As the team loses MDRS, that headcount moves to Austin. ",
         "Directors carry roughly 6 managers, which is about 48 MDRs each.",
         "The goal is 9,000 completed demos per quarter. At 10 completed demos per MDR per month that is 3,000 a month, which needs 300 MDRs at full capacity.",
         "MDRs are held to 13 scheduled and 10 completed demos per month. Completed is the number that counts.",

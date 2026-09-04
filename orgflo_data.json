@@ -1,14 +1,14 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.1",
-  "updatedAt": "2026-09-04T00:00:00Z",
+  "updatedAt": "2026-09-04T01:36:00.314Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
     "meetingsPerMDR": 11,
     "showRate": 0.77,
     "quarterlyTarget": 9000,
-    "basis": "booked"
+    "basis": "completed"
   },
   "notes": [
     {
@@ -575,7 +575,7 @@
       "id": "d1",
       "title": "Assumptions",
       "items": [
-        "Span of control is 1 manager per 8 MDRs. ",
+        "1 manager per 8 MDRs. ",
         "Today the internal team runs 37 MDRs across 4 managers, which is about 9 per manager. The internal team is planning to remain remote but part of Lynn's org. As the team loses MDRS, that headcount moves to Austin. ",
         "Directors carry roughly 6 managers, which is about 48 MDRs each.",
         "Each MDR books 11 meetings per month. This replaces the earlier 13 and the older 10 completed demos per month assumption.",

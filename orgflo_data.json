@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.2",
-  "updatedAt": "2026-09-04T01:51:58.715Z",
+  "updatedAt": "2026-09-04T01:52:52.008Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -617,7 +617,7 @@
         "Rounding up at each stage means staged manager and director counts can land one above the end state number. Those absorb as teams fill.",
         "Phase 2 and Phase 3 have no dates yet.",
         "Timing for moving the AEs over is not decided.",
-        ""
+        "RATIOS: 8:1 MDRs to Manager, 35 total managers. 6:1 managers per director, 6 directors. "
       ]
     }
   ]

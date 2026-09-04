@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.1",
-  "updatedAt": "2026-09-04T01:39:20.389Z",
+  "updatedAt": "2026-09-04T01:39:22.922Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -479,7 +479,7 @@
       "id": "p1f",
       "priority": 6,
       "phase": "p1",
-      "qty": 20,
+      "qty": 19,
       "role": "MDR Waves 2 and 3",
       "reportsTo": "MDR Managers",
       "trigger": "Weekly through Q4 until all 33 Phase 1 MDRs are in",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 9,
   "appVersion": "v2.2",
-  "updatedAt": "2026-09-04T01:53:38.294Z",
+  "updatedAt": "2026-09-04T01:54:07.684Z",
   "calculator": {
     "scheduledPerSDR": 13,
     "completedPerSDR": 10,
@@ -29,7 +29,7 @@
     {
       "id": "note5",
       "title": "Existing shared functions",
-      "body": "Operations (rev ops within Richards org) and Content / Messaging already exist on the current team. The Sales Recruiter is not on the team today, so it sits in the hiring list rather than here."
+      "body": "Operations (rev ops within Richards org) and Content / Messaging (Product Marketing) already exist on the current team. "
     },
     {
       "id": "note6",

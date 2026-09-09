@@ -83,6 +83,17 @@ h1{font-size:1.45rem; font-weight:700; letter-spacing:-.01em; margin:0 0 4px}
 }
 .seg button.on{background:var(--accent); color:#fff}
 
+.panel-head{display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap; margin-bottom:12px}
+.panel-head h2{margin:0}
+.metric-note{font-size:.75rem; color:var(--muted); margin-top:3px}
+.toggles{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.seg.inline{width:auto}
+.pill-btn{
+  background:var(--panel-2); color:var(--muted); border:1px solid var(--line); border-radius:6px;
+  padding:6px 11px; font-family:inherit; font-size:.75rem; font-weight:600; cursor:pointer; white-space:nowrap;
+}
+.pill-btn:hover{border-color:var(--accent)}
+.pill-btn.on{background:var(--accent); border-color:var(--accent); color:#fff}
 .legend{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:12px}
 .legend .item{display:flex; align-items:center; gap:6px; font-size:.79rem; cursor:pointer; user-select:none}
 .legend .item.off{opacity:.38}
@@ -214,13 +225,25 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
 
   <div>
     <div class="panel">
-      <h2>Demos scheduled per month</h2>
+      <div class="panel-head">
+        <div>
+          <h2 id="chartTitle">Demos scheduled per month</h2>
+          <div class="metric-note" id="metricNote"></div>
+        </div>
+        <div class="toggles">
+          <div class="seg inline" id="metric">
+            <button type="button" data-metric="scheduled" class="on">Scheduled</button>
+            <button type="button" data-metric="completed">Completed</button>
+          </div>
+          <button type="button" class="pill-btn" id="discount">Discount outsourced 30%</button>
+        </div>
+      </div>
       <div class="legend" id="legend"></div>
       <div class="chart-box"><canvas id="chart"></canvas></div>
     </div>
 
     <div class="panel">
-      <h2>Results</h2>
+      <h2 id="resultsTitle">Results</h2>
       <div class="table-scroll">
         <table id="results">
           <thead><tr><th>Source</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th><th>Total</th></tr></thead>
@@ -263,6 +286,8 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
   // own control now, so the two no longer share a week index.
   var OV_WAVE_WK = Math.round(daysBetween(WEEK0, new Date(2026,10,6)) / 7);   // week of 11/6
   var VS_HEADS   = 30;                                                        // flat, for the plan rate mode
+  var COMPLETED_F = 0.90;   // completed demos as a share of scheduled
+  var DISCOUNT_F  = 0.70;   // haircut applied to the outsourced sources only
 
   function weekOfDate(iso){
     var p = String(iso).split('-');
@@ -344,8 +369,17 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       m.vs += vsWeekly(w, p) ;
     }
 
+    // Discount lands on the outsourced sources only, then the completed factor
+    // applies to everything including internal. Headcount is left alone, it is
+    // people rather than demos.
+    var disc = p.discount ? DISCOUNT_F : 1;
+    var comp = p.metric === 'completed' ? COMPLETED_F : 1;
+
     months.forEach(function(m){
-      m.internal = p.internal;
+      m.internal = p.internal * comp;
+      m.ov = m.ov * disc * comp;
+      m.sh = m.sh * disc * comp;
+      m.vs = m.vs * disc * comp;
       m.total = m.internal + m.ov + m.sh + m.vs;
     });
     return months;
@@ -361,10 +395,13 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     ramp:2
   };
   var RANGES = ['internal','ov_rate','ov_start','ov_add','ov_cap','sh_rate','sh_start','sh_add','sh_cap','vs_rate','vs_target','vs_ramp_wk','ramp'];
-  var vsMode = DEFAULTS.vs_mode;
+  var vsMode     = DEFAULTS.vs_mode;
+  var metric     = 'scheduled';   // or 'completed'
+  var discountOn = false;
 
   function readParams(){
-    var p = { vs_mode: vsMode, ov_waves: document.getElementById('ov_waves').checked };
+    var p = { vs_mode: vsMode, metric: metric, discount: discountOn,
+              ov_waves: document.getElementById('ov_waves').checked };
     RANGES.forEach(function(id){ p[id] = Number(document.getElementById(id).value); });
     p.vs_start  = DEFAULTS.vs_start;
     p.vs_end    = document.getElementById('vs_end').value || DEFAULTS.vs_end;
@@ -431,6 +468,17 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       chart.update();
     }
 
+    var isCompleted = p.metric === 'completed';
+    var metricWord  = isCompleted ? 'completed' : 'scheduled';
+    document.getElementById('chartTitle').textContent   = 'Demos ' + metricWord + ' per month';
+    document.getElementById('resultsTitle').textContent = 'Results, demos ' + metricWord;
+    document.getElementById('metricNote').textContent =
+      (isCompleted ? 'Completed, ' + Math.round(COMPLETED_F*100) + ' percent of scheduled. '
+                   : 'Scheduled, no completion factor applied. ')
+      + (p.discount ? 'Outsourced sources cut by ' + Math.round((1-DISCOUNT_F)*100)
+                      + ' percent. Internal is never discounted.'
+                    : 'No discount on the outsourced sources.');
+
     var isPlan = p.vs_mode === 'plan';
     document.getElementById('vs_actual_ctls').style.display = isPlan ? 'none' : '';
     document.getElementById('vs_rampwk_ctl').style.display  = isPlan ? 'none' : '';
@@ -451,7 +499,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       + 'A per rep monthly rate is divided by ' + PER_MO + ' to get a weekly rate. A group that joins in a given week '
       + 'starts producing ' + p.ramp + ' week' + (p.ramp === 1 ? '' : 's') + ' later. '
       + 'VSynergize stops from the week of ' + p.vs_end + ', which is week ' + p.vs_end_wk + '. '
-      + 'Four month total ' + fmt(grand) + ' demos scheduled.';
+      + 'Four month total ' + fmt(grand) + ' demos ' + (p.metric === 'completed' ? 'completed' : 'scheduled') + '.';
   }
 
   function renderLegend(months){
@@ -475,7 +523,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     });
     var totCells = months.map(function(m){ return '<td class="num">' + fmt(m.total) + '</td>'; }).join('');
     var grand = months.reduce(function(a,m){ return a + m.total; }, 0);
-    rows.push('<tr class="total"><td>Total scheduled</td>' + totCells
+    rows.push('<tr class="total"><td>Total ' + (metric === 'completed' ? 'completed' : 'scheduled') + '</td>' + totCells
             + '<td class="num">' + fmt(grand) + '</td></tr>');
     body.innerHTML = rows.join('');
   }
@@ -511,6 +559,27 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     render();
   });
 
+  function syncMetricUI(){
+    [].forEach.call(document.querySelectorAll('#metric button'), function(b){
+      b.classList.toggle('on', b.getAttribute('data-metric') === metric);
+    });
+    document.getElementById('discount').classList.toggle('on', discountOn);
+  }
+
+  document.getElementById('metric').addEventListener('click', function(e){
+    var b = e.target.closest('button');
+    if (!b) return;
+    metric = b.getAttribute('data-metric');
+    syncMetricUI();
+    render();
+  });
+
+  document.getElementById('discount').addEventListener('click', function(){
+    discountOn = !discountOn;
+    syncMetricUI();
+    render();
+  });
+
   document.getElementById('legend').addEventListener('click', function(e){
     var item = e.target.closest('.item');
     if (!item) return;
@@ -527,11 +596,16 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     [].forEach.call(document.querySelectorAll('#vs_mode button'), function(x){
       x.classList.toggle('on', x.getAttribute('data-mode') === vsMode);
     });
+    metric = 'scheduled'; discountOn = false;
+    syncMetricUI();
     hidden = {};
     render();
   });
 
+  syncMetricUI();
   window.MDRForecast = { compute:compute, readParams:readParams, DEFAULTS:DEFAULTS,
+                         setMetric:function(m){ metric=m; syncMetricUI(); render(); },
+                         setDiscount:function(d){ discountOn=!!d; syncMetricUI(); render(); },
                          OV_WAVE_WK:OV_WAVE_WK, weekOfDate:weekOfDate, vsWeekly:vsWeekly };
   render();
 })();

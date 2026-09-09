@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>/* flo-gate */try{var _g=JSON.parse(localStorage.getItem('flo_gate_v1')||'{}');if(!_g.token||Date.now()>_g.expires)document.documentElement.style.visibility='hidden';}catch(e){document.documentElement.style.visibility='hidden';}</script>
+<script src="../gate.js"></script>
+<title>MDR Scheduled Demos Forecast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html{color-scheme:light}
+  body{margin:0}
+  [hidden]{display:none !important}
+:root{
+  color-scheme: light;
+  --bg:#f7f9fb; --panel:#ffffff; --panel-2:#eef2f7;
+  --ink:#111820; --muted:#5b6875; --line:#dde4ec;
+  --accent:#2a78d6; --accent-soft:#e7f0fc;
+  --c-int:#2a78d6; --c-ov:#128059; --c-sh:#b8790a; --c-vs:#7a5cd0;
+  --shadow:0 1px 2px rgba(16,24,40,.05), 0 1px 3px rgba(16,24,40,.06);
+  --r:7px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: dark;
+    --bg:#12161b; --panel:#191e25; --panel-2:#212832;
+    --ink:#eef2f7; --muted:#98a5b3; --line:#29313b;
+    --accent:#3987e5; --accent-soft:#17293e;
+    --c-int:#5b9ded; --c-ov:#1baf7a; --c-sh:#eda100; --c-vs:#9c85e8;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 1px 3px rgba(0,0,0,.35);
+  }
+}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size:14px; line-height:1.5;
+}
+.wrap{max-width:1180px; margin:0 auto; padding:22px 18px 60px}
+header{margin-bottom:20px}
+h1{font-size:1.45rem; font-weight:700; letter-spacing:-.01em; margin:0 0 4px}
+.sub{color:var(--muted); font-size:.83rem}
+.mono{font-family:'IBM Plex Mono', ui-monospace, Menlo, monospace; font-variant-numeric:tabular-nums}
+
+.panel{
+  background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:16px; margin-bottom:16px;
+}
+.panel h2{font-size:.72rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); margin:0 0 12px}
+
+.layout{display:grid; grid-template-columns:300px 1fr; gap:16px; align-items:start}
+/* Grid items default to min-width auto, so a wide table stretches the track and
+   pushes the whole page sideways. Let the track shrink so .table-scroll scrolls. */
+.layout > *{min-width:0}
+@media (max-width:900px){ .layout{grid-template-columns:1fr} }
+
+.group{border-top:1px solid var(--line); padding-top:12px; margin-top:12px}
+.group:first-of-type{border-top:none; padding-top:0; margin-top:0}
+.group-name{display:flex; align-items:center; gap:7px; font-weight:600; font-size:.82rem; margin-bottom:9px}
+.dot{width:10px; height:10px; border-radius:3px; flex:none}
+
+.ctl{margin-bottom:10px}
+.ctl label{display:flex; justify-content:space-between; align-items:baseline; font-size:.76rem; color:var(--muted); margin-bottom:3px; gap:8px}
+.ctl label b{color:var(--ink); font-weight:600; font-family:'IBM Plex Mono', monospace; font-variant-numeric:tabular-nums}
+.ctl input[type=range]{width:100%; accent-color:var(--accent); margin:0}
+.ctl input[type=number]{
+  width:100%; box-sizing:border-box; background:var(--panel-2); color:var(--ink);
+  border:1px solid var(--line); border-radius:5px; padding:5px 7px;
+  font-family:'IBM Plex Mono', monospace; font-size:.82rem;
+}
+.switch{display:flex; gap:6px; align-items:center; font-size:.78rem; color:var(--ink); cursor:pointer; padding:4px 0}
+.switch input{accent-color:var(--accent); margin:0}
+.seg{display:inline-flex; background:var(--panel-2); border:1px solid var(--line); border-radius:6px; padding:2px; gap:2px; width:100%}
+.seg button{
+  flex:1; background:none; border:none; border-radius:4px; cursor:pointer;
+  font-family:inherit; font-size:.75rem; font-weight:600; color:var(--muted); padding:5px 6px;
+}
+.seg button.on{background:var(--accent); color:#fff}
+
+.legend{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:12px}
+.legend .item{display:flex; align-items:center; gap:6px; font-size:.79rem; cursor:pointer; user-select:none}
+.legend .item.off{opacity:.38}
+.legend .swatch{width:12px; height:12px; border-radius:3px; flex:none}
+.legend .val{color:var(--muted); font-family:'IBM Plex Mono', monospace}
+
+.chart-box{position:relative; height:340px}
+@media (max-width:600px){ .chart-box{height:280px} }
+
+table{width:100%; border-collapse:collapse; font-size:.83rem}
+th,td{padding:7px 9px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap}
+th:first-child, td:first-child{text-align:left}
+thead th{font-size:.68rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:700}
+td.num{font-family:'IBM Plex Mono', monospace; font-variant-numeric:tabular-nums}
+tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:700; padding-top:9px}
+.src{display:flex; align-items:center; gap:7px}
+.table-scroll{overflow-x:auto}
+
+.heads{margin-top:14px; font-size:.76rem; color:var(--muted)}
+.heads table{font-size:.76rem}
+.heads td.num{color:var(--ink)}
+.foot{color:var(--muted); font-size:.76rem; margin-top:6px; line-height:1.6}
+.reset{
+  background:var(--panel-2); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  padding:6px 11px; font-family:inherit; font-size:.76rem; font-weight:600; cursor:pointer; margin-top:6px;
+}
+.reset:hover{border-color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>MDR Scheduled Demos Forecast</h1>
+  <div class="sub">Monthly demos scheduled by source, September through December 2026. Move any control to recompute.</div>
+</header>
+
+<div class="layout">
+
+  <div class="panel" id="controls">
+    <h2>Controls</h2>
+
+    <div class="group">
+      <div class="group-name"><span class="dot" style="background:var(--c-int)"></span>Internal</div>
+      <div class="ctl">
+        <label for="internal">Monthly baseline <b id="internal_v">190</b></label>
+        <input type="range" id="internal" min="0" max="600" step="5" value="190">
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-name"><span class="dot" style="background:var(--c-ov)"></span>OutboundView</div>
+      <div class="ctl">
+        <label for="ov_rate">Per rep per month <b id="ov_rate_v">16</b></label>
+        <input type="range" id="ov_rate" min="0" max="40" step="1" value="16">
+      </div>
+      <div class="ctl">
+        <label for="ov_start">Starting heads <b id="ov_start_v">10</b></label>
+        <input type="range" id="ov_start" min="0" max="100" step="1" value="10">
+      </div>
+      <div class="ctl">
+        <label for="ov_add">Adds per week <b id="ov_add_v">10</b></label>
+        <input type="range" id="ov_add" min="0" max="30" step="1" value="10">
+      </div>
+      <div class="ctl">
+        <label for="ov_cap">Headcount cap <b id="ov_cap_v">65</b></label>
+        <input type="range" id="ov_cap" min="0" max="200" step="5" value="65">
+      </div>
+      <label class="switch"><input type="checkbox" id="ov_waves" checked> Add the two 11/6 waves, plus 15 and plus 15</label>
+    </div>
+
+    <div class="group">
+      <div class="group-name"><span class="dot" style="background:var(--c-sh)"></span>SalesHive</div>
+      <div class="ctl">
+        <label for="sh_rate">Per rep per month <b id="sh_rate_v">10</b></label>
+        <input type="range" id="sh_rate" min="0" max="40" step="1" value="10">
+      </div>
+      <div class="ctl">
+        <label for="sh_start">Starting heads <b id="sh_start_v">16</b></label>
+        <input type="range" id="sh_start" min="0" max="100" step="1" value="16">
+      </div>
+      <div class="ctl">
+        <label for="sh_add">Adds per week <b id="sh_add_v">10</b></label>
+        <input type="range" id="sh_add" min="0" max="30" step="1" value="10">
+      </div>
+      <div class="ctl">
+        <label for="sh_cap">Headcount cap <b id="sh_cap_v">65</b></label>
+        <input type="range" id="sh_cap" min="0" max="200" step="5" value="65">
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-name"><span class="dot" style="background:var(--c-vs)"></span>VSynergize</div>
+      <div class="ctl">
+        <label>Mode</label>
+        <div class="seg" id="vs_mode">
+          <button type="button" data-mode="actual" class="on">Actual, 3 a month</button>
+          <button type="button" data-mode="plan">Plan rate</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label for="vs_rate">Per rep per month <b id="vs_rate_v">10</b></label>
+        <input type="range" id="vs_rate" min="0" max="40" step="1" value="10">
+      </div>
+      <div class="foot">30 heads, flat. Program ends the week of 11/6.</div>
+    </div>
+
+    <div class="group">
+      <div class="group-name">Shared</div>
+      <div class="ctl">
+        <label for="ramp">Ramp weeks <b id="ramp_v">2</b></label>
+        <input type="range" id="ramp" min="0" max="8" step="1" value="2">
+      </div>
+      <button class="reset" id="reset" type="button">Reset to defaults</button>
+    </div>
+  </div>
+
+  <div>
+    <div class="panel">
+      <h2>Demos scheduled per month</h2>
+      <div class="legend" id="legend"></div>
+      <div class="chart-box"><canvas id="chart"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <h2>Results</h2>
+      <div class="table-scroll">
+        <table id="results">
+          <thead><tr><th>Source</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th><th>Total</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="heads">
+        <h2 style="margin:16px 0 8px">Productive heads, average per month</h2>
+        <div class="table-scroll">
+          <table id="headcount">
+            <thead><tr><th>Vendor</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="foot" id="notes"></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  // ---- model ---------------------------------------------------------------
+  var WEEK0   = new Date(2026, 8, 8);          // Monday 8 Sep 2026
+  var WEEKS   = 17;                            // W0 through W16, end of December
+  var PER_MO  = 4.345;                         // weeks in an average month
+  function mondayOf(w){ return new Date(2026, 8, 8 + w*7); }   // DST safe, stays at local midnight
+  function daysBetween(a, b){
+    return Math.round((Date.UTC(b.getFullYear(), b.getMonth(), b.getDate())
+                     - Date.UTC(a.getFullYear(), a.getMonth(), a.getDate())) / 86400000);
+  }
+  var END_WK  = Math.round(daysBetween(WEEK0, new Date(2026,10,6)) / 7);   // week of 11/6
+
+  var SOURCES = [
+    { key:'internal', name:'Internal',     color:getVar('--c-int') },
+    { key:'ov',       name:'OutboundView', color:getVar('--c-ov')  },
+    { key:'sh',       name:'SalesHive',    color:getVar('--c-sh')  },
+    { key:'vs',       name:'VSynergize',   color:getVar('--c-vs')  }
+  ];
+  var MONTH_LABELS = ['Sep','Oct','Nov','Dec'];
+
+  function getVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function weekMonth(w){ return mondayOf(w).getMonth(); }   // 8 = September through 11 = December
+
+  // Heads that join in each week, walking up by addPerWeek until the cap.
+  function joinSchedule(start, addPerWeek, cap){
+    var joins = {}, total = 0;
+    for (var w = 0; w < WEEKS; w++){
+      var want = Math.min(start + addPerWeek*w, cap);
+      var inc  = want - total;
+      if (inc > 0){ joins[w] = (joins[w]||0) + inc; total = want; }
+    }
+    return joins;
+  }
+
+  // A class that joins in week w is productive from week w + ramp.
+  function productiveByWeek(joins, ramp){
+    var out = [];
+    for (var w = 0; w < WEEKS; w++){
+      var n = 0;
+      for (var j in joins){ if (Number(j) + ramp <= w) n += joins[j]; }
+      out.push(n);
+    }
+    return out;
+  }
+
+  function compute(p){
+    var ovJoins = joinSchedule(p.ov_start, p.ov_add, p.ov_cap);
+    if (p.ov_waves){
+      ovJoins[END_WK]     = (ovJoins[END_WK]||0)     + 15;
+      ovJoins[END_WK + 1] = (ovJoins[END_WK + 1]||0) + 15;
+    }
+    var shJoins = joinSchedule(p.sh_start, p.sh_add, p.sh_cap);
+
+    var ovProd = productiveByWeek(ovJoins, p.ramp);
+    var shProd = productiveByWeek(shJoins, p.ramp);
+
+    var months = MONTH_LABELS.map(function(){
+      return { internal:0, ov:0, sh:0, vs:0, ovHeads:[], shHeads:[], weeks:0 };
+    });
+
+    for (var w = 0; w < WEEKS; w++){
+      var mi = weekMonth(w) - 8;                 // September is index 0
+      if (mi < 0 || mi > 3) continue;
+      var m = months[mi];
+      m.weeks += 1;
+      m.ov += ovProd[w] * p.ov_rate / PER_MO;
+      m.sh += shProd[w] * p.sh_rate / PER_MO;
+      m.ovHeads.push(ovProd[w]);
+      m.shHeads.push(shProd[w]);
+      // VSynergize on its plan rate runs weekly until the program ends.
+      if (p.vs_mode === 'plan' && w < END_WK) m.vs += 30 * p.vs_rate / PER_MO;
+    }
+
+    months.forEach(function(m, mi){
+      m.internal = p.internal;
+      if (p.vs_mode === 'actual'){
+        // Actual is a flat 3 a month for as long as the program is running.
+        var live = false;
+        for (var w = 0; w < WEEKS; w++){
+          if (weekMonth(w) - 8 === mi && w < END_WK) live = true;
+        }
+        m.vs = live ? 3 : 0;
+      }
+      m.total = m.internal + m.ov + m.sh + m.vs;
+    });
+    return months;
+  }
+
+  // ---- inputs --------------------------------------------------------------
+  var DEFAULTS = {
+    internal:190,
+    ov_rate:16, ov_start:10, ov_add:10, ov_cap:65, ov_waves:true,
+    sh_rate:10, sh_start:16, sh_add:10, sh_cap:65,
+    vs_mode:'actual', vs_rate:10,
+    ramp:2
+  };
+  var RANGES = ['internal','ov_rate','ov_start','ov_add','ov_cap','sh_rate','sh_start','sh_add','sh_cap','vs_rate','ramp'];
+  var vsMode = DEFAULTS.vs_mode;
+
+  function readParams(){
+    var p = { vs_mode: vsMode, ov_waves: document.getElementById('ov_waves').checked };
+    RANGES.forEach(function(id){ p[id] = Number(document.getElementById(id).value); });
+    return p;
+  }
+
+  function syncLabels(p){
+    RANGES.forEach(function(id){
+      var el = document.getElementById(id + '_v');
+      if (el) el.textContent = p[id];
+    });
+  }
+
+  // ---- rendering -----------------------------------------------------------
+  var hidden = {};
+  var chart = null;
+  var fmt = function(n){ return Math.round(n).toLocaleString('en-US'); };
+
+  function render(){
+    var p = readParams();
+    syncLabels(p);
+    var months = compute(p);
+
+    var datasets = SOURCES.filter(function(s){ return !hidden[s.key]; }).map(function(s){
+      return {
+        label: s.name,
+        data: months.map(function(m){ return Math.round(m[s.key]); }),
+        backgroundColor: s.color,
+        borderWidth: 0,
+        borderRadius: 3
+      };
+    });
+
+    if (!chart){
+      chart = new Chart(document.getElementById('chart'), {
+        type:'bar',
+        data:{ labels: MONTH_LABELS, datasets: datasets },
+        options:{
+          responsive:true, maintainAspectRatio:false,
+          animation:{ duration:220 },
+          plugins:{
+            legend:{ display:false },
+            tooltip:{
+              callbacks:{
+                label:function(c){ return c.dataset.label + ': ' + fmt(c.parsed.y); },
+                footer:function(items){
+                  var t = items.reduce(function(a,i){ return a + i.parsed.y; }, 0);
+                  return 'Total: ' + fmt(t);
+                }
+              }
+            }
+          },
+          scales:{
+            x:{ stacked:true, grid:{ display:false }, ticks:{ color:getVar('--muted') } },
+            y:{ stacked:true, beginAtZero:true,
+                grid:{ color:getVar('--line') },
+                ticks:{ color:getVar('--muted'), callback:function(v){ return fmt(v); } } }
+          }
+        }
+      });
+    } else {
+      chart.data.datasets = datasets;
+      chart.update();
+    }
+
+    renderLegend(months);
+    renderTable(months);
+    renderHeads(months);
+
+    var grand = months.reduce(function(a,m){ return a + m.total; }, 0);
+    document.getElementById('notes').textContent =
+      'Weeks run from Monday 8 September 2026 and are assigned to a month by the date of their Monday. '
+      + 'A per rep monthly rate is divided by ' + PER_MO + ' to get a weekly rate. A group that joins in a given week '
+      + 'starts producing ' + p.ramp + ' week' + (p.ramp === 1 ? '' : 's') + ' later. '
+      + 'Four month total ' + fmt(grand) + ' demos scheduled.';
+  }
+
+  function renderLegend(months){
+    var el = document.getElementById('legend');
+    el.innerHTML = SOURCES.map(function(s){
+      var tot = months.reduce(function(a,m){ return a + m[s.key]; }, 0);
+      return '<div class="item' + (hidden[s.key] ? ' off' : '') + '" data-key="' + s.key + '">'
+        + '<span class="swatch" style="background:' + s.color + '"></span>'
+        + '<span>' + s.name + '</span>'
+        + '<span class="val">' + fmt(tot) + '</span></div>';
+    }).join('');
+  }
+
+  function renderTable(months){
+    var body = document.querySelector('#results tbody');
+    var rows = SOURCES.map(function(s){
+      var cells = months.map(function(m){ return '<td class="num">' + fmt(m[s.key]) + '</td>'; }).join('');
+      var tot = months.reduce(function(a,m){ return a + m[s.key]; }, 0);
+      return '<tr><td><span class="src"><span class="dot" style="background:' + s.color + '"></span>'
+           + s.name + '</span></td>' + cells + '<td class="num">' + fmt(tot) + '</td></tr>';
+    });
+    var totCells = months.map(function(m){ return '<td class="num">' + fmt(m.total) + '</td>'; }).join('');
+    var grand = months.reduce(function(a,m){ return a + m.total; }, 0);
+    rows.push('<tr class="total"><td>Total scheduled</td>' + totCells
+            + '<td class="num">' + fmt(grand) + '</td></tr>');
+    body.innerHTML = rows.join('');
+  }
+
+  function renderHeads(months){
+    var body = document.querySelector('#headcount tbody');
+    function avg(a){ return a.length ? a.reduce(function(x,y){ return x+y; },0) / a.length : 0; }
+    var rows = [
+      ['OutboundView', getVar('--c-ov'), months.map(function(m){ return avg(m.ovHeads); })],
+      ['SalesHive',    getVar('--c-sh'), months.map(function(m){ return avg(m.shHeads); })]
+    ].map(function(r){
+      return '<tr><td><span class="src"><span class="dot" style="background:' + r[1] + '"></span>'
+           + r[0] + '</span></td>'
+           + r[2].map(function(v){ return '<td class="num">' + fmt(v) + '</td>'; }).join('') + '</tr>';
+    });
+    body.innerHTML = rows.join('');
+  }
+
+  // ---- wiring --------------------------------------------------------------
+  RANGES.forEach(function(id){
+    document.getElementById(id).addEventListener('input', render);
+  });
+  document.getElementById('ov_waves').addEventListener('change', render);
+
+  document.getElementById('vs_mode').addEventListener('click', function(e){
+    var b = e.target.closest('button');
+    if (!b) return;
+    vsMode = b.getAttribute('data-mode');
+    [].forEach.call(this.querySelectorAll('button'), function(x){
+      x.classList.toggle('on', x === b);
+    });
+    render();
+  });
+
+  document.getElementById('legend').addEventListener('click', function(e){
+    var item = e.target.closest('.item');
+    if (!item) return;
+    var k = item.getAttribute('data-key');
+    hidden[k] = !hidden[k];
+    render();
+  });
+
+  document.getElementById('reset').addEventListener('click', function(){
+    RANGES.forEach(function(id){ document.getElementById(id).value = DEFAULTS[id]; });
+    document.getElementById('ov_waves').checked = DEFAULTS.ov_waves;
+    vsMode = DEFAULTS.vs_mode;
+    [].forEach.call(document.querySelectorAll('#vs_mode button'), function(x){
+      x.classList.toggle('on', x.getAttribute('data-mode') === vsMode);
+    });
+    hidden = {};
+    render();
+  });
+
+  window.MDRForecast = { compute:compute, readParams:readParams, DEFAULTS:DEFAULTS, END_WK:END_WK };
+  render();
+})();
+</script>
+</body>
+</html>

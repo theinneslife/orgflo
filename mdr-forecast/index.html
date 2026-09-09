@@ -337,7 +337,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
 
   // Internal team, demos scheduled. Jun, Jul, Aug are closed months and the
   // fourth column is September to date, so it is not the full month.
-  var REP_MONTHS = ['Jun','Jul','Aug','Sep so far'];
+  var REP_MONTHS = ['Jun','Jul','Aug','Sep so far'];   // reported, the last one is month to date
   var PODS = [
     { pod:'Agency', reps:[
       ['Mary Kate Gray',[5,5,9,8]], ['Benjamin Rivera',[2,8,9,4]], ['Collin Hopkins',[7,8,12,4]],
@@ -683,37 +683,80 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     render();
   });
 
+  // Split a target across weights so the whole numbers add up to it exactly.
+  function apportion(weights, target){
+    var T = Math.round(target);
+    var sw = weights.reduce(function(a,b){ return a + b; }, 0);
+    if (sw <= 0 || T <= 0) return weights.map(function(){ return 0; });
+    var raw = weights.map(function(w){ return w / sw * T; });
+    var out = raw.map(function(v){ return Math.floor(v); });
+    var rem = T - out.reduce(function(a,b){ return a + b; }, 0);
+    var order = raw.map(function(v, i){ return [v - Math.floor(v), i]; })
+                   .sort(function(a, b){ return b[0] - a[0]; });
+    for (var k = 0; k < rem; k++) out[order[k % order.length][1]] += 1;
+    return out;
+  }
+
   function renderReps(p){
     var comp = p.metric === 'completed' ? COMPLETED_F : 1;
+    var SEP_IDX = 3;   // the Sep so far column
+
+    // Share the internal September forecast across the reps in proportion to
+    // their month to date, so the column follows the internal baseline control.
+    // Departed reps are excluded, they are gone.
+    //
+    // Largest remainder rather than rounding each rep on its own. Rounding 23
+    // reps independently loses a demo to rounding and the column stops adding
+    // up to its own total, which is worse in a table people will check by eye.
+    var internalSep = Number(p.internal) || 0;
+    var weights = [];
+    PODS.forEach(function(g){ g.reps.forEach(function(r){ weights.push(r[1][SEP_IDX]); }); });
+    var fcList = apportion(weights, internalSep * comp);
+    var fcAt = 0;
+
     document.getElementById('repsHead').innerHTML =
       '<tr><th>Rep</th>' + REP_MONTHS.map(function(l){ return '<th>' + l + '</th>'; }).join('')
-      + '<th>Total</th></tr>';
+      + '<th class="fc">Sep forecast</th><th>Jun to Sep</th></tr>';
 
-    function cells(v){
-      return v.map(function(x){ return '<td class="num">' + fmt(x * comp) + '</td>'; }).join('')
-           + '<td class="num">' + fmt(v.reduce(function(a,b){ return a+b; },0) * comp) + '</td>';
+    // vals are the reported months, fc is the September forecast, and the last
+    // column totals the reported months only so the forecast is not double
+    // counted against Sep so far.
+    function cells(vals, fc){
+      return vals.map(function(x){ return '<td class="num">' + fmt(x * comp) + '</td>'; }).join('')
+           + '<td class="num fc">' + fmt(fc) + '</td>'
+           + '<td class="num">' + fmt(vals.reduce(function(a,b){ return a+b; },0) * comp) + '</td>';
     }
 
-    var grand = [0,0,0,0], rows = [], active = 0;
+    var grand = [0,0,0,0], grandFc = 0, rows = [], active = 0;
 
     PODS.forEach(function(g){
-      var sub = [0,0,0,0];
-      g.reps.forEach(function(r){ r[1].forEach(function(v,i){ sub[i] += v; }); active += 1; });
-      sub.forEach(function(v,i){ grand[i] += v; });
-      rows.push('<tr class="pod"><td>' + esc(g.pod) + '</td>' + cells(sub) + '</tr>');
+      var sub = [0,0,0,0], subFc = 0;
       g.reps.forEach(function(r){
-        rows.push('<tr class="rep"><td>' + esc(r[0]) + '</td>' + cells(r[1]) + '</tr>');
+        r[1].forEach(function(v,i){ sub[i] += v; });
+        subFc += fcList[fcAt + g.reps.indexOf(r)];
+        active += 1;
       });
+      sub.forEach(function(v,i){ grand[i] += v; });
+      grandFc += subFc;
+
+      rows.push('<tr class="pod"><td>' + esc(g.pod) + '</td>' + cells(sub, subFc) + '</tr>');
+      g.reps.forEach(function(r, ri){
+        rows.push('<tr class="rep"><td>' + esc(r[0]) + '</td>'
+          + cells(r[1], fcList[fcAt + ri]) + '</tr>');
+      });
+      fcAt += g.reps.length;
     });
 
     DEPARTED.forEach(function(v,i){ grand[i] += v; });
-    rows.push('<tr class="departed"><td>Departed reps, aggregate</td>' + cells(DEPARTED) + '</tr>');
-    rows.push('<tr class="total"><td>Internal total</td>' + cells(grand) + '</tr>');
+    rows.push('<tr class="departed"><td>Departed reps, aggregate</td>' + cells(DEPARTED, 0) + '</tr>');
+    rows.push('<tr class="total"><td>Internal total</td>' + cells(grand, grandFc) + '</tr>');
 
     document.querySelector('#reps tbody').innerHTML = rows.join('');
     document.getElementById('repsNote').textContent =
       active + ' active reps across ' + PODS.length + ' pods, plus the departed aggregate. '
-      + 'June, July and August are closed months. The last column is September to date, so it is not a full month. '
+      + 'June, July and August are closed months. Sep so far is September to date, not a full month. '
+      + 'Sep forecast scales each rep up to the internal September forecast of ' + fmt(internalSep)
+      + ', which follows the internal baseline control. Departed reps forecast zero. '
       + (comp === 1 ? 'Showing scheduled.'
                     : 'Showing completed at ' + Math.round(COMPLETED_F*100) + ' percent of scheduled.')
       + ' The outsourced discount never applies to internal.';

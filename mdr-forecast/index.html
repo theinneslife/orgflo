@@ -64,6 +64,11 @@ h1{font-size:1.45rem; font-weight:700; letter-spacing:-.01em; margin:0 0 4px}
 .ctl label{display:flex; justify-content:space-between; align-items:baseline; font-size:.76rem; color:var(--muted); margin-bottom:3px; gap:8px}
 .ctl label b{color:var(--ink); font-weight:600; font-family:'IBM Plex Mono', monospace; font-variant-numeric:tabular-nums}
 .ctl input[type=range]{width:100%; accent-color:var(--accent); margin:0}
+.ctl input[type=date]{
+  width:100%; box-sizing:border-box; background:var(--panel-2); color:var(--ink);
+  border:1px solid var(--line); border-radius:5px; padding:5px 7px;
+  font-family:'IBM Plex Mono', monospace; font-size:.82rem;
+}
 .ctl input[type=number]{
   width:100%; box-sizing:border-box; background:var(--panel-2); color:var(--ink);
   border:1px solid var(--line); border-radius:5px; padding:5px 7px;
@@ -174,15 +179,27 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       <div class="ctl">
         <label>Mode</label>
         <div class="seg" id="vs_mode">
-          <button type="button" data-mode="actual" class="on">Actual, 3 a month</button>
+          <button type="button" data-mode="actual" class="on">Actual, ramp up</button>
           <button type="button" data-mode="plan">Plan rate</button>
         </div>
       </div>
-      <div class="ctl">
+      <div class="ctl" id="vs_actual_ctls">
+        <label for="vs_target">Ramp up to, per month <b id="vs_target_v">30</b></label>
+        <input type="range" id="vs_target" min="0" max="120" step="1" value="30">
+      </div>
+      <div class="ctl" id="vs_rampwk_ctl">
+        <label for="vs_ramp_wk">Weeks to reach it <b id="vs_ramp_wk_v">7</b></label>
+        <input type="range" id="vs_ramp_wk" min="1" max="16" step="1" value="7">
+      </div>
+      <div class="ctl" id="vs_rate_ctl">
         <label for="vs_rate">Per rep per month <b id="vs_rate_v">10</b></label>
         <input type="range" id="vs_rate" min="0" max="40" step="1" value="10">
       </div>
-      <div class="foot">30 heads, flat. Program ends the week of 11/6.</div>
+      <div class="ctl">
+        <label for="vs_end">Program end date</label>
+        <input type="date" id="vs_end" value="2026-11-03">
+      </div>
+      <div class="foot" id="vs_note"></div>
     </div>
 
     <div class="group">
@@ -242,7 +259,16 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     return Math.round((Date.UTC(b.getFullYear(), b.getMonth(), b.getDate())
                      - Date.UTC(a.getFullYear(), a.getMonth(), a.getDate())) / 86400000);
   }
-  var END_WK  = Math.round(daysBetween(WEEK0, new Date(2026,10,6)) / 7);   // week of 11/6
+  // OutboundView's two waves stay pinned to 11/6. VSynergize's end date is its
+  // own control now, so the two no longer share a week index.
+  var OV_WAVE_WK = Math.round(daysBetween(WEEK0, new Date(2026,10,6)) / 7);   // week of 11/6
+  var VS_HEADS   = 30;                                                        // flat, for the plan rate mode
+
+  function weekOfDate(iso){
+    var p = String(iso).split('-');
+    var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+    return Math.max(0, Math.floor(daysBetween(WEEK0, d) / 7));
+  }
 
   var SOURCES = [
     { key:'internal', name:'Internal',     color:getVar('--c-int') },
@@ -277,11 +303,23 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     return out;
   }
 
+  // VSynergize weekly output. Actual walks the whole team monthly total up from
+  // its starting 3 to the target over the ramp weeks, then holds. Plan rate runs
+  // 30 heads at the per rep rate. Either way nothing is produced from the end
+  // week onward.
+  function vsWeekly(w, p){
+    if (w >= p.vs_end_wk) return 0;
+    if (p.vs_mode === 'plan') return VS_HEADS * p.vs_rate / PER_MO;
+    var f = p.vs_ramp_wk > 0 ? Math.min(w, p.vs_ramp_wk) / p.vs_ramp_wk : 1;
+    var monthlyTotal = p.vs_start + (p.vs_target - p.vs_start) * f;
+    return monthlyTotal / PER_MO;
+  }
+
   function compute(p){
     var ovJoins = joinSchedule(p.ov_start, p.ov_add, p.ov_cap);
     if (p.ov_waves){
-      ovJoins[END_WK]     = (ovJoins[END_WK]||0)     + 15;
-      ovJoins[END_WK + 1] = (ovJoins[END_WK + 1]||0) + 15;
+      ovJoins[OV_WAVE_WK]     = (ovJoins[OV_WAVE_WK]||0)     + 15;
+      ovJoins[OV_WAVE_WK + 1] = (ovJoins[OV_WAVE_WK + 1]||0) + 15;
     }
     var shJoins = joinSchedule(p.sh_start, p.sh_add, p.sh_cap);
 
@@ -301,20 +339,13 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       m.sh += shProd[w] * p.sh_rate / PER_MO;
       m.ovHeads.push(ovProd[w]);
       m.shHeads.push(shProd[w]);
-      // VSynergize on its plan rate runs weekly until the program ends.
-      if (p.vs_mode === 'plan' && w < END_WK) m.vs += 30 * p.vs_rate / PER_MO;
+      // VSynergize either ramps its whole team total up to the target, or runs at
+      // the plan rate of 30 heads. Both stop dead at the end week.
+      m.vs += vsWeekly(w, p) ;
     }
 
-    months.forEach(function(m, mi){
+    months.forEach(function(m){
       m.internal = p.internal;
-      if (p.vs_mode === 'actual'){
-        // Actual is a flat 3 a month for as long as the program is running.
-        var live = false;
-        for (var w = 0; w < WEEKS; w++){
-          if (weekMonth(w) - 8 === mi && w < END_WK) live = true;
-        }
-        m.vs = live ? 3 : 0;
-      }
       m.total = m.internal + m.ov + m.sh + m.vs;
     });
     return months;
@@ -325,15 +356,19 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     internal:190,
     ov_rate:16, ov_start:10, ov_add:10, ov_cap:65, ov_waves:true,
     sh_rate:10, sh_start:16, sh_add:10, sh_cap:65,
-    vs_mode:'actual', vs_rate:10,
+    vs_mode:'actual', vs_rate:10, vs_target:30, vs_ramp_wk:7, vs_start:3,
+    vs_end:'2026-11-03',
     ramp:2
   };
-  var RANGES = ['internal','ov_rate','ov_start','ov_add','ov_cap','sh_rate','sh_start','sh_add','sh_cap','vs_rate','ramp'];
+  var RANGES = ['internal','ov_rate','ov_start','ov_add','ov_cap','sh_rate','sh_start','sh_add','sh_cap','vs_rate','vs_target','vs_ramp_wk','ramp'];
   var vsMode = DEFAULTS.vs_mode;
 
   function readParams(){
     var p = { vs_mode: vsMode, ov_waves: document.getElementById('ov_waves').checked };
     RANGES.forEach(function(id){ p[id] = Number(document.getElementById(id).value); });
+    p.vs_start  = DEFAULTS.vs_start;
+    p.vs_end    = document.getElementById('vs_end').value || DEFAULTS.vs_end;
+    p.vs_end_wk = weekOfDate(p.vs_end);
     return p;
   }
 
@@ -396,6 +431,16 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       chart.update();
     }
 
+    var isPlan = p.vs_mode === 'plan';
+    document.getElementById('vs_actual_ctls').style.display = isPlan ? 'none' : '';
+    document.getElementById('vs_rampwk_ctl').style.display  = isPlan ? 'none' : '';
+    document.getElementById('vs_rate_ctl').style.display    = isPlan ? '' : 'none';
+    document.getElementById('vs_note').textContent = isPlan
+      ? VS_HEADS + ' heads at the per rep rate, which is '
+        + fmt(VS_HEADS * p.vs_rate / PER_MO * PER_MO) + ' a month while the program runs.'
+      : 'Whole team total, not per rep. Ramps from ' + p.vs_start + ' a month at the first week up to '
+        + p.vs_target + ' a month by week ' + p.vs_ramp_wk + ', then holds until the end date.';
+
     renderLegend(months);
     renderTable(months);
     renderHeads(months);
@@ -405,6 +450,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       'Weeks run from Monday 8 September 2026 and are assigned to a month by the date of their Monday. '
       + 'A per rep monthly rate is divided by ' + PER_MO + ' to get a weekly rate. A group that joins in a given week '
       + 'starts producing ' + p.ramp + ' week' + (p.ramp === 1 ? '' : 's') + ' later. '
+      + 'VSynergize stops from the week of ' + p.vs_end + ', which is week ' + p.vs_end_wk + '. '
       + 'Four month total ' + fmt(grand) + ' demos scheduled.';
   }
 
@@ -453,6 +499,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     document.getElementById(id).addEventListener('input', render);
   });
   document.getElementById('ov_waves').addEventListener('change', render);
+  document.getElementById('vs_end').addEventListener('change', render);
 
   document.getElementById('vs_mode').addEventListener('click', function(e){
     var b = e.target.closest('button');
@@ -475,6 +522,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
   document.getElementById('reset').addEventListener('click', function(){
     RANGES.forEach(function(id){ document.getElementById(id).value = DEFAULTS[id]; });
     document.getElementById('ov_waves').checked = DEFAULTS.ov_waves;
+    document.getElementById('vs_end').value = DEFAULTS.vs_end;
     vsMode = DEFAULTS.vs_mode;
     [].forEach.call(document.querySelectorAll('#vs_mode button'), function(x){
       x.classList.toggle('on', x.getAttribute('data-mode') === vsMode);
@@ -483,7 +531,8 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     render();
   });
 
-  window.MDRForecast = { compute:compute, readParams:readParams, DEFAULTS:DEFAULTS, END_WK:END_WK };
+  window.MDRForecast = { compute:compute, readParams:readParams, DEFAULTS:DEFAULTS,
+                         OV_WAVE_WK:OV_WAVE_WK, weekOfDate:weekOfDate, vsWeekly:vsWeekly };
   render();
 })();
 </script>

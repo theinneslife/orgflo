@@ -243,6 +243,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
             <button type="button" data-metric="completed">Completed</button>
           </div>
           <button type="button" class="pill-btn" id="discount">Discount outsourced 30%</button>
+          <button type="button" class="pill-btn" id="capHolidays">Cap holidays</button>
         </div>
       </div>
       <div class="legend" id="legend"></div>
@@ -443,6 +444,18 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
                ovHeads:[0], shHeads:[0], weeks:0, actual:true };
     }).concat(months);
 
+    // Holiday cap comes first, on the base values, so the discount and the
+    // completed factor land on the capped December rather than the other way
+    // round. Nothing gets scaled twice.
+    if (p.capHolidays){
+      var iNov = MONTH_LABELS.indexOf('Nov'), iDec = MONTH_LABELS.indexOf('Dec');
+      if (iNov >= 0 && iDec >= 0){
+        ['internal','ov','sh','vs'].forEach(function(k){
+          all[iDec][k] = Math.min(all[iDec][k], all[iNov][k]);
+        });
+      }
+    }
+
     // Discount lands on the outsourced sources only, then the completed factor
     // applies to everything including internal. Headcount is left alone, it is
     // people rather than demos.
@@ -472,9 +485,10 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
   var vsMode     = DEFAULTS.vs_mode;
   var metric     = 'scheduled';   // or 'completed'
   var discountOn = false;
+  var capHolidays = false;
 
   function readParams(){
-    var p = { vs_mode: vsMode, metric: metric, discount: discountOn,
+    var p = { vs_mode: vsMode, metric: metric, discount: discountOn, capHolidays: capHolidays,
               ov_waves: document.getElementById('ov_waves').checked };
     RANGES.forEach(function(id){ p[id] = Number(document.getElementById(id).value); });
     p.vs_start  = DEFAULTS.vs_start;
@@ -556,7 +570,8 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
                    : 'Scheduled, no completion factor applied. ')
       + (p.discount ? 'Outsourced sources cut by ' + Math.round((1-DISCOUNT_F)*100)
                       + ' percent. Internal is never discounted.'
-                    : 'No discount on the outsourced sources.');
+                    : 'No discount on the outsourced sources.')
+      + (p.capHolidays ? ' December capped at November because of the holidays.' : '');
 
     var isPlan = p.vs_mode === 'plan';
     document.getElementById('vs_actual_ctls').style.display = isPlan ? 'none' : '';
@@ -579,6 +594,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       + 'A per rep monthly rate is divided by ' + PER_MO + ' to get a weekly rate. A group that joins in a given week '
       + 'starts producing ' + p.ramp + ' week' + (p.ramp === 1 ? '' : 's') + ' later. '
       + 'VSynergize stops from the week of ' + p.vs_end + ', which is week ' + p.vs_end_wk + '. '
+      + (p.capHolidays ? 'December is capped at the November level for every source. ' : '')
       + 'Four month total ' + fmt(grand) + ' demos ' + (p.metric === 'completed' ? 'completed' : 'scheduled') + '.';
   }
 
@@ -767,6 +783,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       b.classList.toggle('on', b.getAttribute('data-metric') === metric);
     });
     document.getElementById('discount').classList.toggle('on', discountOn);
+    document.getElementById('capHolidays').classList.toggle('on', capHolidays);
   }
 
   document.getElementById('metric').addEventListener('click', function(e){
@@ -779,6 +796,12 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
 
   document.getElementById('discount').addEventListener('click', function(){
     discountOn = !discountOn;
+    syncMetricUI();
+    render();
+  });
+
+  document.getElementById('capHolidays').addEventListener('click', function(){
+    capHolidays = !capHolidays;
     syncMetricUI();
     render();
   });
@@ -806,7 +829,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     [].forEach.call(document.querySelectorAll('#vs_mode button'), function(x){
       x.classList.toggle('on', x.getAttribute('data-mode') === vsMode);
     });
-    metric = 'scheduled'; discountOn = false;
+    metric = 'scheduled'; discountOn = false; capHolidays = false;
     syncMetricUI();
     hidden = {};
     render();

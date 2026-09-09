@@ -108,6 +108,13 @@ th,td{padding:7px 9px; text-align:right; border-bottom:1px solid var(--line); wh
 th:first-child, td:first-child{text-align:left}
 thead th{font-size:.68rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); font-weight:700}
 td.num{font-family:'IBM Plex Mono', monospace; font-variant-numeric:tabular-nums}
+th.fc, td.fc{opacity:.72}
+tr.pod td{
+  background:var(--panel-2); font-weight:700; font-size:.75rem;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--muted);
+}
+tr.rep td:first-child{padding-left:20px}
+tr.departed td{color:var(--muted); font-style:italic}
 tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:700; padding-top:9px}
 .src{display:flex; align-items:center; gap:7px}
 .table-scroll{overflow-x:auto}
@@ -128,7 +135,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
 
 <header>
   <h1>MDR Scheduled Demos Forecast</h1>
-  <div class="sub">Monthly demos scheduled by source, September through December 2026. Move any control to recompute.</div>
+  <div class="sub">Monthly demos by source, June through December 2026. June to August are reported actuals, September onward is forecast. Move any control to recompute.</div>
 </header>
 
 <div class="layout">
@@ -246,7 +253,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       <h2 id="resultsTitle">Results</h2>
       <div class="table-scroll">
         <table id="results">
-          <thead><tr><th>Source</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th><th>Total</th></tr></thead>
+          <thead id="resultsHead"></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -255,13 +262,29 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
         <h2 style="margin:16px 0 8px">Productive heads, average per month</h2>
         <div class="table-scroll">
           <table id="headcount">
-            <thead><tr><th>Vendor</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th></tr></thead>
+            <thead id="headcountHead"></thead>
             <tbody></tbody>
           </table>
         </div>
       </div>
 
       <div class="foot" id="notes"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="repsTitle">Internal team by rep</h2>
+          <div class="metric-note" id="repsNote"></div>
+        </div>
+        <button type="button" class="pill-btn" id="repsToggle">Hide</button>
+      </div>
+      <div class="table-scroll" id="repsWrap">
+        <table id="reps">
+          <thead id="repsHead"></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -301,9 +324,52 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     { key:'sh',       name:'SalesHive',    color:getVar('--c-sh')  },
     { key:'vs',       name:'VSynergize',   color:getVar('--c-vs')  }
   ];
-  var MONTH_LABELS = ['Sep','Oct','Nov','Dec'];
+  // June through August are reported actuals, not modelled. September onward is
+  // the forecast the controls drive.
+  var ACTUALS = [
+    { label:'Jun', internal:198, ov:0, sh:0, vs:0 },
+    { label:'Jul', internal:173, ov:0, sh:0, vs:0 },
+    { label:'Aug', internal:189, ov:0, sh:0, vs:5 }
+  ];
+  var FORECAST_LABELS = ['Sep','Oct','Nov','Dec'];
+  var MONTH_LABELS = ACTUALS.map(function(a){ return a.label; }).concat(FORECAST_LABELS);
+  var FORECAST_FROM = ACTUALS.length;
+
+  // Internal team, demos scheduled. Jun, Jul, Aug are closed months and the
+  // fourth column is September to date, so it is not the full month.
+  var REP_MONTHS = ['Jun','Jul','Aug','Sep so far'];
+  var PODS = [
+    { pod:'Agency', reps:[
+      ['Mary Kate Gray',[5,5,9,8]], ['Benjamin Rivera',[2,8,9,4]], ['Collin Hopkins',[7,8,12,4]],
+      ['Claire Chapey',[0,1,1,4]], ['Jack Glikbarg',[5,4,4,1]] ]},
+    { pod:'Inbound', reps:[
+      ['Kacey Krawic',[8,12,22,10]], ['Monse Sahagun',[8,9,15,8]], ['Cheyanne Yang',[0,9,17,4]] ]},
+    { pod:'Rust', reps:[
+      ['Katie Penn',[9,12,5,6]], ['Alondra Bonilla',[9,7,12,5]], ['Gavin Lataille',[9,1,4,2]],
+      ['Jack Kron',[9,3,11,2]] ]},
+    { pod:'Sage', reps:[
+      ['Chris Giacino',[7,10,9,8]], ['Daniel Lee',[10,12,7,7]], ['Emma Rembert',[10,7,5,3]],
+      ['Molly Allison',[6,3,8,2]] ]},
+    { pod:'Slate', reps:[
+      ['Mackay Brown',[8,11,8,9]], ['Kelli Courtney',[0,5,9,7]], ['Millie Slaughter',[6,4,3,4]],
+      ['Chara Edmondson',[9,6,7,3]], ['Kyle Talley',[5,2,6,2]], ['Darrion Pyos',[1,3,3,1]],
+      ['Samantha Madsen',[0,0,0,1]] ]}
+  ];
+  var DEPARTED = [65,31,3,0];
+
+  function hexToRgba(hex, a){
+    var h = String(hex).replace('#','').trim();
+    if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    var n = parseInt(h,16);
+    return 'rgba(' + ((n>>16)&255) + ',' + ((n>>8)&255) + ',' + (n&255) + ',' + a + ')';
+  }
 
   function getVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function esc(v){
+    return String(v == null ? '' : v)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
   function weekMonth(w){ return mondayOf(w).getMonth(); }   // 8 = September through 11 = December
 
   // Heads that join in each week, walking up by addPerWeek until the cap.
@@ -351,12 +417,12 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     var ovProd = productiveByWeek(ovJoins, p.ramp);
     var shProd = productiveByWeek(shJoins, p.ramp);
 
-    var months = MONTH_LABELS.map(function(){
-      return { internal:0, ov:0, sh:0, vs:0, ovHeads:[], shHeads:[], weeks:0 };
+    var months = FORECAST_LABELS.map(function(){
+      return { internal:0, ov:0, sh:0, vs:0, ovHeads:[], shHeads:[], weeks:0, actual:false };
     });
 
     for (var w = 0; w < WEEKS; w++){
-      var mi = weekMonth(w) - 8;                 // September is index 0
+      var mi = weekMonth(w) - 8;                 // September is index 0 of the forecast
       if (mi < 0 || mi > 3) continue;
       var m = months[mi];
       m.weeks += 1;
@@ -369,20 +435,28 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       m.vs += vsWeekly(w, p) ;
     }
 
+    months.forEach(function(m){ m.internal = p.internal; });
+
+    // Reported months sit in front of the forecast and take the same toggles.
+    var all = ACTUALS.map(function(a){
+      return { internal:a.internal, ov:a.ov, sh:a.sh, vs:a.vs,
+               ovHeads:[0], shHeads:[0], weeks:0, actual:true };
+    }).concat(months);
+
     // Discount lands on the outsourced sources only, then the completed factor
     // applies to everything including internal. Headcount is left alone, it is
     // people rather than demos.
     var disc = p.discount ? DISCOUNT_F : 1;
     var comp = p.metric === 'completed' ? COMPLETED_F : 1;
 
-    months.forEach(function(m){
-      m.internal = p.internal * comp;
+    all.forEach(function(m){
+      m.internal = m.internal * comp;
       m.ov = m.ov * disc * comp;
       m.sh = m.sh * disc * comp;
       m.vs = m.vs * disc * comp;
       m.total = m.internal + m.ov + m.sh + m.vs;
     });
-    return months;
+    return all;
   }
 
   // ---- inputs --------------------------------------------------------------
@@ -426,11 +500,15 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     syncLabels(p);
     var months = compute(p);
 
+    // Reported months sit at full strength, the forecast is lighter so the two
+    // read apart at a glance.
     var datasets = SOURCES.filter(function(s){ return !hidden[s.key]; }).map(function(s){
       return {
         label: s.name,
         data: months.map(function(m){ return Math.round(m[s.key]); }),
-        backgroundColor: s.color,
+        backgroundColor: months.map(function(m){
+          return m.actual ? s.color : hexToRgba(s.color, 0.55);
+        }),
         borderWidth: 0,
         borderRadius: 3
       };
@@ -440,6 +518,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       chart = new Chart(document.getElementById('chart'), {
         type:'bar',
         data:{ labels: MONTH_LABELS, datasets: datasets },
+        plugins:[dividerPlugin],
         options:{
           responsive:true, maintainAspectRatio:false,
           animation:{ duration:220 },
@@ -492,6 +571,7 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     renderLegend(months);
     renderTable(months);
     renderHeads(months);
+    renderReps(p);
 
     var grand = months.reduce(function(a,m){ return a + m.total; }, 0);
     document.getElementById('notes').textContent =
@@ -501,6 +581,33 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
       + 'VSynergize stops from the week of ' + p.vs_end + ', which is week ' + p.vs_end_wk + '. '
       + 'Four month total ' + fmt(grand) + ' demos ' + (p.metric === 'completed' ? 'completed' : 'scheduled') + '.';
   }
+
+  // Dashed rule between the last reported month and the first forecast month.
+  var dividerPlugin = {
+    id: 'actualDivider',
+    afterDatasetsDraw: function(c){
+      var xs = c.scales.x;
+      if (!xs || FORECAST_FROM <= 0 || FORECAST_FROM >= MONTH_LABELS.length) return;
+      var a = xs.getPixelForValue(FORECAST_FROM - 1);
+      var b = xs.getPixelForValue(FORECAST_FROM);
+      var px = (a + b) / 2;
+      var ctx = c.ctx, top = c.chartArea.top, bottom = c.chartArea.bottom;
+      ctx.save();
+      ctx.strokeStyle = getVar('--muted');
+      ctx.globalAlpha = 0.65;
+      ctx.setLineDash([4,4]);
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(px, top); ctx.lineTo(px, bottom); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 0.85;
+      ctx.fillStyle = getVar('--muted');
+      ctx.font = '600 10px Archivo, sans-serif';
+      ctx.textBaseline = 'top';
+      ctx.textAlign = 'right'; ctx.fillText('actual', px - 6, top + 2);
+      ctx.textAlign = 'left';  ctx.fillText('forecast', px + 6, top + 2);
+      ctx.restore();
+    }
+  };
 
   function renderLegend(months){
     var el = document.getElementById('legend');
@@ -513,15 +620,28 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     }).join('');
   }
 
+  function monthHead(first){
+    return '<tr><th>' + first + '</th>'
+      + MONTH_LABELS.map(function(l, i){
+          return '<th' + (i >= FORECAST_FROM ? ' class="fc"' : '') + '>' + l + '</th>';
+        }).join('')
+      + '<th>Total</th></tr>';
+  }
+
   function renderTable(months){
+    document.getElementById('resultsHead').innerHTML = monthHead('Source');
     var body = document.querySelector('#results tbody');
     var rows = SOURCES.map(function(s){
-      var cells = months.map(function(m){ return '<td class="num">' + fmt(m[s.key]) + '</td>'; }).join('');
+      var cells = months.map(function(m, i){
+        return '<td class="num' + (i >= FORECAST_FROM ? ' fc' : '') + '">' + fmt(m[s.key]) + '</td>';
+      }).join('');
       var tot = months.reduce(function(a,m){ return a + m[s.key]; }, 0);
       return '<tr><td><span class="src"><span class="dot" style="background:' + s.color + '"></span>'
            + s.name + '</span></td>' + cells + '<td class="num">' + fmt(tot) + '</td></tr>';
     });
-    var totCells = months.map(function(m){ return '<td class="num">' + fmt(m.total) + '</td>'; }).join('');
+    var totCells = months.map(function(m, i){
+      return '<td class="num' + (i >= FORECAST_FROM ? ' fc' : '') + '">' + fmt(m.total) + '</td>';
+    }).join('');
     var grand = months.reduce(function(a,m){ return a + m.total; }, 0);
     rows.push('<tr class="total"><td>Total ' + (metric === 'completed' ? 'completed' : 'scheduled') + '</td>' + totCells
             + '<td class="num">' + fmt(grand) + '</td></tr>');
@@ -529,6 +649,8 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
   }
 
   function renderHeads(months){
+    document.getElementById('headcountHead').innerHTML =
+      monthHead('Vendor').replace('<th>Total</th>', '');
     var body = document.querySelector('#headcount tbody');
     function avg(a){ return a.length ? a.reduce(function(x,y){ return x+y; },0) / a.length : 0; }
     var rows = [
@@ -537,7 +659,9 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     ].map(function(r){
       return '<tr><td><span class="src"><span class="dot" style="background:' + r[1] + '"></span>'
            + r[0] + '</span></td>'
-           + r[2].map(function(v){ return '<td class="num">' + fmt(v) + '</td>'; }).join('') + '</tr>';
+           + r[2].map(function(v, i){
+               return '<td class="num' + (i >= FORECAST_FROM ? ' fc' : '') + '">' + fmt(v) + '</td>';
+             }).join('') + '</tr>';
     });
     body.innerHTML = rows.join('');
   }
@@ -559,6 +683,42 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     render();
   });
 
+  function renderReps(p){
+    var comp = p.metric === 'completed' ? COMPLETED_F : 1;
+    document.getElementById('repsHead').innerHTML =
+      '<tr><th>Rep</th>' + REP_MONTHS.map(function(l){ return '<th>' + l + '</th>'; }).join('')
+      + '<th>Total</th></tr>';
+
+    function cells(v){
+      return v.map(function(x){ return '<td class="num">' + fmt(x * comp) + '</td>'; }).join('')
+           + '<td class="num">' + fmt(v.reduce(function(a,b){ return a+b; },0) * comp) + '</td>';
+    }
+
+    var grand = [0,0,0,0], rows = [], active = 0;
+
+    PODS.forEach(function(g){
+      var sub = [0,0,0,0];
+      g.reps.forEach(function(r){ r[1].forEach(function(v,i){ sub[i] += v; }); active += 1; });
+      sub.forEach(function(v,i){ grand[i] += v; });
+      rows.push('<tr class="pod"><td>' + esc(g.pod) + '</td>' + cells(sub) + '</tr>');
+      g.reps.forEach(function(r){
+        rows.push('<tr class="rep"><td>' + esc(r[0]) + '</td>' + cells(r[1]) + '</tr>');
+      });
+    });
+
+    DEPARTED.forEach(function(v,i){ grand[i] += v; });
+    rows.push('<tr class="departed"><td>Departed reps, aggregate</td>' + cells(DEPARTED) + '</tr>');
+    rows.push('<tr class="total"><td>Internal total</td>' + cells(grand) + '</tr>');
+
+    document.querySelector('#reps tbody').innerHTML = rows.join('');
+    document.getElementById('repsNote').textContent =
+      active + ' active reps across ' + PODS.length + ' pods, plus the departed aggregate. '
+      + 'June, July and August are closed months. The last column is September to date, so it is not a full month. '
+      + (comp === 1 ? 'Showing scheduled.'
+                    : 'Showing completed at ' + Math.round(COMPLETED_F*100) + ' percent of scheduled.')
+      + ' The outsourced discount never applies to internal.';
+  }
+
   function syncMetricUI(){
     [].forEach.call(document.querySelectorAll('#metric button'), function(b){
       b.classList.toggle('on', b.getAttribute('data-metric') === metric);
@@ -578,6 +738,13 @@ tr.total td{border-top:2px solid var(--line); border-bottom:none; font-weight:70
     discountOn = !discountOn;
     syncMetricUI();
     render();
+  });
+
+  document.getElementById('repsToggle').addEventListener('click', function(){
+    var w = document.getElementById('repsWrap');
+    var open = w.style.display !== 'none';
+    w.style.display = open ? 'none' : '';
+    this.textContent = open ? 'Show' : 'Hide';
   });
 
   document.getElementById('legend').addEventListener('click', function(e){
